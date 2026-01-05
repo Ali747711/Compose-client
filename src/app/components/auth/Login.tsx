@@ -1,7 +1,16 @@
 import { useRef, useState } from "react";
-import type { UserInput, UserLoginInput } from "../../../libs/data/types/user";
+import type { UserLoginInput } from "../../../libs/data/types/user";
 import UserService from "../../services/user.service";
 import { useGlobals } from "../../hooks/useGlobal";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  UserCircleIcon,
+  PhoneCheckIcon,
+  MailReceive02Icon,
+  CirclePasswordIcon,
+  ImageUploadIcon,
+  ScanImageIcon,
+} from "@hugeicons/core-free-icons";
 
 interface LoginProps {
   setShowUserLogin: (input: boolean) => void;
@@ -102,16 +111,17 @@ const Login = (props: LoginProps) => {
       <form
         onSubmit={state === "login" ? handleSubmitLogin : handleSubmitSignup}
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col gap-4 m-auto items-start sm:w-87.5 w-80 shadow-xl   bg-white/6 border border-white/10 rounded-2xl px-8 "
+        className="flex flex-col gap-4 m-auto items-start sm:w-87.5 w-80 shadow-xl   bg-white border border-white/10 rounded-2xl px-8 "
       >
-        <h1 className="text-white text-3xl mt-10 font-medium">
-          {state === "login" ? "Login" : "Sign up"}
+        <h1 className="text-main-text text-3xl mt-5 font-medium">
+          <span className="text-main-duller">User</span>
+          {state === "login" ? " Login" : " Sign up"}
         </h1>
 
         <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
         {/* Profile Image Upload - Only in Signup */}
         {state !== "login" && (
-          <div className="mt-6 w-full flex justify-center">
+          <div className="mt-3 w-full flex justify-center">
             <div className="relative">
               {/* Hidden file input */}
               <input
@@ -119,13 +129,13 @@ const Login = (props: LoginProps) => {
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                className="hidden"
+                className="hidden "
               />
 
               {/* Clickable preview or placeholder */}
               <div
                 onClick={handleImageClick}
-                className="w-24 h-24 rounded-full border-4 border-dashed border-white/30 cursor-pointer overflow-hidden bg-white/10 hover:border-main-text transition-all"
+                className="w-20 h-20 rounded-full border-4 border-dashed border-border cursor-pointer overflow-hidden bg-white/10 hover:border-main-text transition-all"
               >
                 {imagePreview ? (
                   <img
@@ -135,21 +145,11 @@ const Login = (props: LoginProps) => {
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-white/50"
-                    >
-                      <path d="M5 12h14" />
-                      <path d="M12 5v14" />
-                    </svg>
+                    <HugeiconsIcon
+                      icon={ScanImageIcon}
+                      color="#c4c6d4"
+                      size={32}
+                    />
                   </div>
                 )}
               </div>
@@ -162,31 +162,13 @@ const Login = (props: LoginProps) => {
           </div>
         )}
 
-        <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="text-white/60"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {" "}
-            <circle
-              cx="12"
-              cy="8"
-              r="5"
-            /> <path d="M20 21a8 8 0 0 0-16 0" />{" "}
-          </svg>
+        <div className="flex items-center mt-3 w-full border-2  border-border focus-within:border-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+          <HugeiconsIcon icon={UserCircleIcon} size={18} color="#c4c6d4" />
           <input
             type="text"
             name="userNick"
             placeholder="User Nick"
-            className="w-full bg-transparent text-main-text placeholder-white/60 border-none outline-none "
+            className="w-full bg-transparent text-main-text placeholder-border  outline-none "
             value={formData.userNick}
             onChange={handleChange}
             required
@@ -194,28 +176,13 @@ const Login = (props: LoginProps) => {
         </div>
 
         {state !== "login" && (
-          <div className="flex items-center w-full mt-4 bg-white/5 ring-2 ring-white/10 focus-within:ring-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-white/75"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {" "}
-              <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />{" "}
-              <rect x="2" y="4" width="20" height="16" rx="2" />{" "}
-            </svg>
+          <div className="flex items-center w-full mt-4 bg-white/5 border-2  border-border focus-within:border-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+            <HugeiconsIcon icon={PhoneCheckIcon} color="#c4c6d4" size={18} />
             <input
               type="text"
               name="userPhone"
               placeholder="Phone number"
-              className="w-full bg-transparent text-main-text placeholder-white/60 border-none outline-none "
+              className="w-full bg-transparent text-main-text placeholder-border outline-none "
               value={formData.userPhone}
               onChange={handleChange}
               required
@@ -223,28 +190,13 @@ const Login = (props: LoginProps) => {
           </div>
         )}
         {state !== "login" && (
-          <div className="flex items-center w-full mt-4 bg-white/5 ring-2 ring-white/10 focus-within:ring-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-white/75"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {" "}
-              <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />{" "}
-              <rect x="2" y="4" width="20" height="16" rx="2" />{" "}
-            </svg>
+          <div className="flex items-center w-full mt-4 bg-white/5 border-2  border-border focus-within:border-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+            <HugeiconsIcon icon={MailReceive02Icon} color="#c4c6d4" size={18} />
             <input
               type="email"
               name="userEmail"
               placeholder="Email"
-              className="w-full bg-transparent text-main-text placeholder-white/60 border-none outline-none "
+              className="w-full bg-transparent text-main-text placeholder-border outline-none "
               value={formData.userEmail}
               onChange={handleChange}
               required
@@ -252,35 +204,20 @@ const Login = (props: LoginProps) => {
           </div>
         )}
 
-        <div className=" flex items-center mt-4 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            className="text-white/75"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {" "}
-            <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />{" "}
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />{" "}
-          </svg>
+        <div className=" flex items-center mt-4 w-full bg-white/5 border-2  border-border focus-within:border-main-text h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
+          <HugeiconsIcon icon={CirclePasswordIcon} size={18} color="#c4c6d4" />
           <input
             type="password"
             name="userPassword"
             placeholder="Password"
-            className="w-full bg-transparent text-main-text placeholder-white/60 border-none outline-none"
+            className="w-full bg-transparent text-main-text placeholder-border outline-none"
             value={formData.userPassword}
             onChange={handleChange}
             required
           />
         </div>
 
-        <div className="mt-4 text-left">
+        <div className="mt-0 text-left">
           <button className="text-sm text-main-text hover:underline">
             Forget password?
           </button>
@@ -308,10 +245,10 @@ const Login = (props: LoginProps) => {
         </p>
       </form>
       {/* Soft Backdrop*/}
-      <div className="fixed inset-0 -z-1 pointer-events-none">
+      {/* <div className="fixed inset-0 -z-1 pointer-events-none">
         <div className="absolute left-1/2 top-20 -translate-x-1/2 w-245 h-115 bg-linear-to-tr from-indigo-800/35 to-transparent rounded-full blur-3xl" />
         <div className="absolute right-12 bottom-10 w-105 h-55 bg-linear-to-bl from-indigo-700/35 to-transparent rounded-full blur-2xl" />
-      </div>
+      </div> */}
     </div>
   );
 };

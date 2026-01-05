@@ -45,6 +45,15 @@ class UserService {
 
     console.log("User service, [logout] result: ", result);
   };
+
+  public getTopUsers = async (): Promise<User[]> => {
+    console.log("User service, [getTopUsers] ------");
+    const url = this.path + "/user/top-users";
+    const result = await axios.get(url, { withCredentials: true });
+    console.log("User service, [getTopUsers] incoming data: ", result.data);
+
+    return result.data.users;
+  };
 }
 
 export default UserService;

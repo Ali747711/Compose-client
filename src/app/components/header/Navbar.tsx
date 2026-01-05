@@ -22,7 +22,7 @@ const Navbar = (props: NavbarProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const { authUser, setAuthUser } = useGlobals();
   const navigate = useNavigate();
-  console.log(authUser);
+  // console.log(authUser);
 
   const logout = async () => {
     const userService = new UserService();

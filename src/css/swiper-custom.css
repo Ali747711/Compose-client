@@ -1,0 +1,21 @@
+/* Swiper pagination custom styles */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #d1d5db;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ee9b00 !important;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* Mobile carousel spacing */
+.swiper {
+  padding-bottom: 2rem;
+}
+.swiper-scrollbar {
+  display: none !important;
+}
