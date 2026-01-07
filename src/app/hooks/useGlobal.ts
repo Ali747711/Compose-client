@@ -2,6 +2,8 @@ import { createContext, useContext } from "react";
 import type { User } from "../../libs/data/types/user";
 
 interface GlobalInterface {
+  showUserLogin: boolean;
+  setShowUserLogin: (input: boolean) => void;
   authUser: User | null;
   setAuthUser: (user: User | null) => void;
   orderBuilder: Date;

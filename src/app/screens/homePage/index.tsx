@@ -1,15 +1,15 @@
-import { createSelector, type Dispatch } from "@reduxjs/toolkit";
+import { type Dispatch } from "@reduxjs/toolkit";
 import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
 import type { Product } from "../../../libs/data/types/product";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import UserService from "../../services/user.service";
 import type { User } from "../../../libs/data/types/user";
-import { retrieveTopUsers } from "./selector";
-import HeroSection from "../../components/header/HeroSection";
 import BestSeller from "./BestSeller";
 import ProductService from "../../services/product.service";
 import NewProducts from "./NewProducts";
+import { useGlobals } from "../../hooks/useGlobal";
+import HeroSection from "./HeroSection";
 // import Swiped from "../../components/Swiper";
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -18,15 +18,11 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setTopUsers: (data: User[]) => dispatch(setTopUsers(data)),
 });
 
-const topUsersRetriever = createSelector(retrieveTopUsers, (topUsers) => ({
-  topUsers,
-}));
-
 const Home = () => {
-  const { topUsers } = useSelector(topUsersRetriever);
   const { setTopUsers, setNewDishes, setPopularDishes } = actionDispatch(
     useDispatch()
   );
+  const { authUser } = useGlobals();
 
   useEffect(() => {
     console.log("🏠 HomePage mounted - fetching data...");
@@ -59,7 +55,7 @@ const Home = () => {
     productService
       .getProducts({
         page: 1,
-        limit: 20,
+        limit: 10,
         order: "createdAt",
       })
       .then((data) => {
@@ -69,8 +65,8 @@ const Home = () => {
       .catch((err) => {
         console.log("Error in fetching NewDishes in Home page: ", err);
       });
-  }, []);
-  console.log("Top users: ", topUsers);
+  }, [authUser]);
+  // console.log("Top users: ", topUsers);
   return (
     <div className="min-h-50vh w-full">
       <HeroSection />

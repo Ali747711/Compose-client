@@ -21,6 +21,12 @@ class ProductService {
     console.log("Product service, [getProducts] result: ", result.data);
     return result.data;
   };
+
+  public getAllProducts = async (): Promise<Product[]> => {
+    const url = this.path + "/product/all-products";
+    const result = await axios.get(url, { withCredentials: true });
+    return result.data;
+  };
 }
 
 export default ProductService;

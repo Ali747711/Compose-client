@@ -6,35 +6,13 @@ import {
   ShoppingBasket01Icon,
   ViewIcon,
 } from "@hugeicons/core-free-icons";
-import type {
-  ProductCollection,
-  ProductSize,
-  ProductStatus,
-  ProductVolume,
-} from "../../libs/enums/product.enum";
-import type { RatingsSummary } from "../../libs/data/types/product";
-interface Product {
-  _id: string;
-  productStatus: ProductStatus;
-  productCollection: ProductCollection;
-  productName: string;
-  productPrice: number;
-  productLeftCount: number;
-  productSize: ProductSize;
-  productVolume: ProductVolume;
-  productDesc: string;
-  productImages: string[];
-  productViews: number;
-  ratingsSummary: RatingsSummary;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import type { Product } from "../../libs/data/types/product";
 
 interface CardProps {
   product: Product;
 }
 const ProductCard = (props: CardProps) => {
-  const [count, setCount] = useState<number>(5);
+  const [count, setCount] = useState<number>(0);
   const { product } = props;
 
   return (

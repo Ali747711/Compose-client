@@ -34,7 +34,7 @@ const Footer = () => {
             Help
           </a>
         </div>
-        <div className="flex items-center gap-4 mt-8 text-indigo-500">
+        <div className="flex items-center gap-4 mt-8 text-main-text">
           <a
             href="#"
             className="hover:-translate-y-0.5 transition-all duration-300"
@@ -151,8 +151,7 @@ const Footer = () => {
           </a>
         </div>
         <p className="mt-8 text-center">
-          Copyright © 2025 <a href="https://prebuiltui.com">PrebuiltUI</a>. All
-          rights reservered.
+          Copyright © 2025 <a href="#">Azamat</a>. All rights reservered.
         </p>
       </footer>
     </div>

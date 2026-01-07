@@ -13,6 +13,7 @@ export interface HomePageState {
 }
 
 export interface ProductsPageState {
+  products: [];
   coffee: Product[];
   decaf_coffee: Product[];
   cold_brew: Product[];

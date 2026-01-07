@@ -17,16 +17,23 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       ? JSON.parse(localStorage.getItem("userData") as string)
       : null
   );
-  console.log("user: ", authUser);
 
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
+  const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");
 
   return (
     <GlobalContext.Provider
-      value={{ authUser, setAuthUser, orderBuilder, setOrderBuilder }}
+      value={{
+        authUser,
+        setAuthUser,
+        orderBuilder,
+        setOrderBuilder,
+        showUserLogin,
+        setShowUserLogin,
+      }}
     >
       {children}
     </GlobalContext.Provider>

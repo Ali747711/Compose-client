@@ -8,18 +8,13 @@ import {
   PhoneCheckIcon,
   MailReceive02Icon,
   CirclePasswordIcon,
-  ImageUploadIcon,
   ScanImageIcon,
 } from "@hugeicons/core-free-icons";
+import { AlertError, AlertSuccess } from "../../../libs/sweetAlert";
 
-interface LoginProps {
-  setShowUserLogin: (input: boolean) => void;
-}
-
-const Login = (props: LoginProps) => {
-  const { setShowUserLogin } = props;
+const Login = () => {
   const [state, setState] = useState("login");
-  const { setAuthUser } = useGlobals();
+  const { setAuthUser, setShowUserLogin } = useGlobals();
 
   // Add profile image state
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -58,18 +53,24 @@ const Login = (props: LoginProps) => {
   };
 
   const handleSubmitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const loginInput: UserLoginInput = {
-      userNick: formData.userNick,
-      userPassword: formData.userPassword,
-    };
+    try {
+      e.preventDefault();
 
-    const userService = new UserService();
-    const result = await userService.login(loginInput);
-    setAuthUser(result);
-    setFormData((prev) => ({ ...prev, userNick: "" }));
-    setFormData((prev) => ({ ...prev, userPassword: "" }));
-    setShowUserLogin(false);
+      const loginInput: UserLoginInput = {
+        userNick: formData.userNick,
+        userPassword: formData.userPassword,
+      };
+      const userService = new UserService();
+      const result = await userService.login(loginInput);
+      setAuthUser(result);
+      setFormData((prev) => ({ ...prev, userNick: "" }));
+      setFormData((prev) => ({ ...prev, userPassword: "" }));
+      setShowUserLogin(false);
+      AlertSuccess("Login Successfull!");
+    } catch (error) {
+      console.log("Login page, Error: ", error);
+      AlertError(error);
+    }
   };
   const handleSubmitSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,12 +83,6 @@ const Login = (props: LoginProps) => {
     if (profileImage) {
       signupData.append("userImage", profileImage);
     }
-    // const loginInput: UserInput = {
-    //   userNick: formData.userNick,
-    //   userPhone: formData.userPhone,
-    //   userPassword: formData.userPassword,
-    //   userEmail: formData.userEmail,
-    // };
 
     const userService = new UserService();
     const result = await userService.signup(signupData);
@@ -98,7 +93,6 @@ const Login = (props: LoginProps) => {
       userPassword: "",
       userPhone: "",
     });
-    setShowUserLogin(false);
     setImagePreview(null);
     setShowUserLogin(false);
   };

@@ -15,24 +15,9 @@ const heroImages = [
   "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800",
 ];
 
-const categories = [
-  { id: 1, name: "Bread", icon: "🥖", color: "bg-green-100" },
-  { id: 2, name: "Cheese", icon: "🧀", color: "bg-yellow-100" },
-  { id: 3, name: "Alcohol", icon: "🍺", color: "bg-amber-100" },
-  { id: 4, name: "Yogurt", icon: "🥛", color: "bg-blue-100" },
-  { id: 5, name: "Fruits", icon: "🍎", color: "bg-red-100" },
-  { id: 6, name: "Watermelon", icon: "🍉", color: "bg-pink-100" },
-  { id: 7, name: "Snacks", icon: "🍿", color: "bg-orange-100" },
-  { id: 8, name: "Cake", icon: "🍰", color: "bg-rose-100" },
-  { id: 9, name: "Candy", icon: "🍬", color: "bg-purple-100" },
-  { id: 10, name: "Vegetables", icon: "🥕", color: "bg-green-100" },
-  { id: 11, name: "Fruits", icon: "🍇", color: "bg-indigo-100" },
-  { id: 12, name: "Cans", icon: "🥫", color: "bg-gray-100" },
-];
-
-const HeroSection = () => {
+const Promotion = () => {
   return (
-    <div className="w-full  py-8 md:py-12 ">
+    <div className="w-full py-8 md:py-12">
       <div className="w-full mx-auto px-4">
         {/* Desktop Grid - Hidden on mobile */}
         <div className="hidden md:grid md:grid-cols-3 gap-4 mb-8">
@@ -55,22 +40,6 @@ const HeroSection = () => {
             <img
               src={heroImages[2]}
               alt="Product 3"
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-
-          {/* Bottom row - 2 larger images */}
-          <div className="col-span-1 h-90 bg-gray-200 rounded-2xl overflow-hidden">
-            <img
-              src={heroImages[3]}
-              alt="Product 4"
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div className="col-span-2 h-90 bg-gray-200 rounded-2xl overflow-hidden">
-            <img
-              src={heroImages[4]}
-              alt="Product 5"
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             />
           </div>
@@ -104,24 +73,9 @@ const HeroSection = () => {
             ))}
           </Swiper>
         </div>
-
-        {/* Category Badges */}
-        <div className="grid grid-cols-4 md:flex md:flex-wrap md:justify-center gap-3 md:gap-4">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              className={`${category.color} rounded-full px-3 py-2 md:px-4 md:py-2 flex items-center justify-center md:justify-start gap-2 hover:shadow-md transition-shadow duration-200`}
-            >
-              <span className="text-xl md:text-2xl">{category.icon}</span>
-              <span className="hidden md:inline text-sm font-medium text-gray-700">
-                {category.name}
-              </span>
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
 };
 
-export default HeroSection;
+export default Promotion;

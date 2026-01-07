@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ShoppingCart02Icon,
@@ -13,17 +11,31 @@ import {
 import { useGlobals } from "../../hooks/useGlobal";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
-interface NavbarProps {
-  setShowUserLogin: (input: boolean) => void;
-}
+import { useEffect, useRef, useState } from "react";
 
-const Navbar = (props: NavbarProps) => {
-  const { setShowUserLogin } = props;
+const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { authUser, setAuthUser } = useGlobals();
+  const navbarRef = useRef<HTMLDivElement>(null);
+  const { authUser, setAuthUser, setShowUserLogin } = useGlobals();
   const navigate = useNavigate();
-  // console.log(authUser);
 
+  useEffect(() => {
+    // Close element when clicking outside
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navbarRef && !navbarRef.current?.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    // Only add listener when menu is open(better performance + avoids bugs)
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean-up
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]); // Re-run when open changes
   const logout = async () => {
     const userService = new UserService();
     await userService.logout();
@@ -31,9 +43,12 @@ const Navbar = (props: NavbarProps) => {
     setAuthUser(null);
   };
   return (
-    <nav className="flex items-center gap-5  justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
+    <nav
+      ref={navbarRef}
+      className=" flex z-30 items-center gap-5  justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all"
+    >
       <button
-        onClick={() => (open ? setOpen(false) : setOpen(true))}
+        onClick={() => setOpen((prev) => !prev)}
         aria-label="Menu"
         className="sm:hidden"
       >
@@ -123,12 +138,24 @@ const Navbar = (props: NavbarProps) => {
         <a href="#" className="block">
           Contact
         </a>
-        <button
-          onClick={() => setShowUserLogin(true)}
-          className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
-        >
-          Login
-        </button>
+        {authUser ? (
+          <button
+            onClick={() => logout()}
+            className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              console.log("clicked ");
+              setShowUserLogin(true);
+            }}
+            className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
+          >
+            Login
+          </button>
+        )}
       </div>
     </nav>
   );
