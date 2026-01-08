@@ -56,8 +56,11 @@ const Navbar = () => {
         <HugeiconsIcon icon={Menu10Icon} />
       </button>
       <div className="flex gap-10">
-        <div className="hidden md:flex gap-1.5">
-          <a href="https://prebuiltui.com">Compose</a>
+        <div
+          className="hidden md:flex gap-1.5 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
+          <h1>Compose</h1>
           <HugeiconsIcon icon={Coffee02Icon} />
         </div>
 

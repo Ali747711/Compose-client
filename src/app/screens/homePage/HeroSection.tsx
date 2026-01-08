@@ -111,7 +111,7 @@ const HeroSection = () => {
         <div className="grid grid-cols-4 md:flex md:flex-wrap md:justify-center gap-3 md:gap-4">
           {categories.map((category) => (
             <button
-              onClick={() => navigate("/category")}
+              onClick={() => navigate("/products")}
               key={category.id}
               className={`${category.color} rounded-full px-3 py-2 md:px-4 md:py-2 flex items-center justify-center md:justify-start gap-2 hover:shadow-md transition-shadow duration-200`}
             >

@@ -48,3 +48,26 @@ export const retrieveProducts = createSelector(
   selectProductsPage,
   (ProductPage) => ProductPage.products
 );
+
+export const retrieveAllCategories = createSelector(
+  selectProductsPage,
+  (ProductPage) => [
+    { name: "Coffee", key: "coffee", products: ProductPage.coffee },
+    { name: "Ade", key: "ade", products: ProductPage.ade },
+    { name: "Beverage", key: "beverage", products: ProductPage.beverage },
+    { name: "Cold Brew", key: "cold_brew", products: ProductPage.cold_brew },
+    {
+      name: "Decaf Coffee",
+      key: "decaf_coffee",
+      products: ProductPage.decaf_coffee,
+    },
+    { name: "Juice", key: "juice", products: ProductPage.juice },
+    { name: "Milkshake", key: "milkshake", products: ProductPage.milkshake },
+    { name: "Smoothie", key: "smoothie", products: ProductPage.smoothie },
+    {
+      name: "Tea and Tea Beverage",
+      key: "tea_tea_beverage",
+      products: ProductPage.tea_tea_beverage,
+    },
+  ]
+);

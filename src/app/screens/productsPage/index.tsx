@@ -36,7 +36,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 const Products = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const {
     setAde,
     setBeverage,
@@ -63,7 +63,7 @@ const Products = () => {
         //     (product) => product.productCollection === ProductCollection.ADE
         //   )
         // );
-        setProducts(data);
+        dispatch(setProducts(data));
 
         setAde(
           data.filter((p) => p.productCollection === ProductCollection.ADE)
@@ -111,7 +111,8 @@ const Products = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mt-16">
+      <h1 className="text-main-text text-2xl md:text-3xl">Categories</h1>
       <Promotion />
       <Category />
     </div>
