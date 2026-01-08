@@ -20,14 +20,14 @@ export enum ProductStatus {
 }
 
 export enum ProductCollection {
-  COFFEE = "Coffee",
-  DECAF_COFFEE = "Decaf coffee",
-  COLD_BREW = "Cold Brew",
-  BEVERAGE = "Beverage",
-  SMOOTHIE = "Smoothie",
-  JUICE = "Juice",
+  COFFEE = "COFFEE",
+  DECAF_COFFEE = "DECAF_COFFEE",
+  COLD_BREW = "COLD_BREW",
+  BEVERAGE = "BEVERAGE",
+  SMOOTHIE = "SMOOTHIE",
+  JUICE = "JUICE",
   ADE = "ADE",
-  TEA_TEA_BEVERAGE = "Tea and Tea Beverage",
-  FRAPPE = "Frappe",
-  MILKSHAKE = "Milk Shake",
+  TEA_TEA_BEVERAGE = "TEA_TEA_BEVERAGE",
+  FRAPPE = "FRAPPE",
+  MILKSHAKE = "MILKSHAKE",
 }

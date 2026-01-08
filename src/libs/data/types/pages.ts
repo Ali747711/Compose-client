@@ -4,6 +4,7 @@ import type { User } from "./user";
 export interface AppRootState {
   homePage: HomePageState;
   productsPage: ProductsPageState;
+  categoryPage: ProductsPageState;
 }
 
 export interface HomePageState {

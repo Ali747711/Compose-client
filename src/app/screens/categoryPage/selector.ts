@@ -1,50 +1,50 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { AppRootState } from "../../../libs/data/types/pages";
 
-const selectProductsPage = (state: AppRootState) => state.productsPage;
+const selectProductsPage = (state: AppRootState) => state.categoryPage;
 
 export const retrieveProducts = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.products
+  (CategoryPage) => CategoryPage.products
 );
 
 export const retrieveCoffee = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.coffee
+  (CategoryPage) => CategoryPage.coffee
 );
 export const retrieveTeaTeaBeverage = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.tea_tea_beverage
+  (CategoryPage) => CategoryPage.tea_tea_beverage
 );
 export const retrieveMilkshake = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.milkshake
+  (CategoryPage) => CategoryPage.milkshake
 );
 export const retrieveDecafCoffee = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.decaf_coffee
+  (CategoryPage) => CategoryPage.decaf_coffee
 );
 export const retrieveColdBrew = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.cold_brew
+  (CategoryPage) => CategoryPage.cold_brew
 );
 export const retrieveBeverage = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.beverage
+  (CategoryPage) => CategoryPage.beverage
 );
 export const retrieveSmoothie = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.smoothie
+  (CategoryPage) => CategoryPage.smoothie
 );
 export const retrieveJuice = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.juice
+  (CategoryPage) => CategoryPage.juice
 );
 export const retrieveAde = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.ade
+  (CategoryPage) => CategoryPage.ade
 );
 export const retrieveFrappe = createSelector(
   selectProductsPage,
-  (ProductPage) => ProductPage.frappe
+  (CategoryPage) => CategoryPage.frappe
 );

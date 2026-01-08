@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Promotion from "./Promotion";
 import ProductService from "../../services/product.service";
-import { useDispatch, useSelector } from "react-redux";
-import { createSelector, type Dispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { type Dispatch } from "@reduxjs/toolkit";
 import {
   setProducts,
   setAde,
@@ -17,23 +17,10 @@ import {
   setTea_Tea_Beverage,
 } from "./slice";
 
-import {
-  retrieveAde,
-  retrieveBeverage,
-  retrieveCoffee,
-  retrieveColdBrew,
-  retrieveDecafCoffee,
-  retrieveFrappe,
-  retrieveJuice,
-  retrieveMilkshake,
-  retrieveSmoothie,
-  retrieveTeaTeaBeverage,
-} from "./selector";
-
-import ProductCard from "../../components/ProductCard";
 import { ProductCollection } from "../../../libs/enums/product.enum";
 import { AlertError } from "../../../libs/sweetAlert";
 import type { Product } from "../../../libs/data/types/product";
+import Category from "./categories";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setAde: (data: Product[]) => dispatch(setAde(data)),
@@ -47,13 +34,8 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setSmoothie: (data: Product[]) => dispatch(setSmoothie(data)),
   setTea_Tea_Beverage: (data: Product[]) => dispatch(setTea_Tea_Beverage(data)),
 });
-// Create a compound selector that returns all categories at once
-const AdeRetriever = createSelector(retrieveAde, (ade) => ({ ade }));
-const CoffeeRetriever = createSelector(retrieveCoffee, (coffee) => ({
-  coffee,
-}));
 
-const Category = () => {
+const Products = () => {
   // const dispatch = useDispatch();
   const {
     setAde,
@@ -68,20 +50,19 @@ const Category = () => {
     setTea_Tea_Beverage,
   } = actionDispatch(useDispatch());
 
-  // Use ONE useSelector with the compound selector — just like your NewProducts!
-  const { ade } = useSelector(AdeRetriever);
-  const { coffee } = useSelector(CoffeeRetriever);
-
-  console.log("Categories loaded:", { coffee }); // Debug
-
   useEffect(() => {
     const productService = new ProductService();
 
     productService
       .getAllProducts()
       .then((data) => {
-        console.log("Fetched products:", data);
-
+        // console.log("Fetched products:", data);
+        // console.log(
+        //   "ADE drinks: ",
+        //   data.filter(
+        //     (product) => product.productCollection === ProductCollection.ADE
+        //   )
+        // );
         setProducts(data);
 
         setAde(
@@ -132,16 +113,9 @@ const Category = () => {
   return (
     <div>
       <Promotion />
-      <section className="my-16">
-        <h2 className="text-2xl md:text-3xl font-medium mb-8">Ade</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {ade.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-      </section>
+      <Category />
     </div>
   );
 };
 
-export default Category;
+export default Products;

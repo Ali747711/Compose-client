@@ -4,7 +4,7 @@ import Login from "./components/auth/Login";
 import Home from "./screens/homePage";
 import Footer from "./components/footer/Footer";
 import { useGlobals } from "./hooks/useGlobal";
-import Category from "./screens/categoryPage";
+import Products from "./screens/productsPage";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -18,7 +18,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/category" element={<Category />} />
+          <Route path="/products" element={<Products />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}

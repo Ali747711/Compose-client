@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { ProductsPageState } from "../../../libs/data/types/pages";
 
 const initialState: ProductsPageState = {
+  products: [],
   tea_tea_beverage: [],
   frappe: [],
   milkshake: [],
@@ -48,10 +49,14 @@ const productsPageSlice = createSlice({
     setAde: (state, action) => {
       state.ade = action.payload;
     },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
   },
 });
 
 export const {
+  setProducts,
   setAde,
   setBeverage,
   setCoffee,

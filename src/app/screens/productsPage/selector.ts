@@ -7,6 +7,10 @@ export const retrieveCoffee = createSelector(
   selectProductsPage,
   (ProductPage) => ProductPage.coffee
 );
+export const retrieveAde = createSelector(
+  selectProductsPage,
+  (ProductPage) => ProductPage.ade
+);
 export const retrieveTeaTeaBeverage = createSelector(
   selectProductsPage,
   (ProductPage) => ProductPage.tea_tea_beverage
@@ -35,11 +39,12 @@ export const retrieveJuice = createSelector(
   selectProductsPage,
   (ProductPage) => ProductPage.juice
 );
-export const retrieveAde = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.ade
-);
 export const retrieveFrappe = createSelector(
   selectProductsPage,
   (ProductPage) => ProductPage.frappe
+);
+
+export const retrieveProducts = createSelector(
+  selectProductsPage,
+  (ProductPage) => ProductPage.products
 );

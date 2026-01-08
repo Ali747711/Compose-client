@@ -15,7 +15,7 @@ const initialState: ProductsPageState = {
   ade: [],
 };
 
-const productsPageSlice = createSlice({
+const categoryPageSlice = createSlice({
   name: "productsPage",
   initialState,
   reducers: {
@@ -67,8 +67,8 @@ export const {
   setMilkshake,
   setSmoothie,
   setTea_Tea_Beverage,
-} = productsPageSlice.actions;
+} = categoryPageSlice.actions;
 
-const ProductsPageReducer = productsPageSlice.reducer;
+const CategoryPageReducer = categoryPageSlice.reducer;
 
-export default ProductsPageReducer;
+export default CategoryPageReducer;
