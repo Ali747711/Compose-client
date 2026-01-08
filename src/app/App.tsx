@@ -5,13 +5,26 @@ import Home from "./screens/homePage";
 import Footer from "./components/footer/Footer";
 import { useGlobals } from "./hooks/useGlobal";
 import Products from "./screens/productsPage";
+import useBasket from "./hooks/useBasket";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
+  const { onAdd, onDelete, onDeleteAll, onRemove, cartItems, getCartCount } =
+    useBasket();
+  console.log(getCartCount());
   console.log("rerendering");
   return (
     <div className="min-h-screen text-main-text  text-default">
-      {isSellerPath ? null : <Navbar />}
+      {isSellerPath ? null : (
+        <Navbar
+          onAdd={onAdd}
+          onDelete={onDelete}
+          onDeleteAll={onDeleteAll}
+          onRemove={onRemove}
+          cartItems={cartItems}
+          getCartCount={getCartCount}
+        />
+      )}
       {showUserLogin ? <Login /> : null}
       <div
         className={`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px-32"}`}

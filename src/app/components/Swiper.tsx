@@ -25,11 +25,11 @@ const Swiped = ({ products }: { products: Product[] }) => {
           // install Swiper modules
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={150}
-          slidesPerView={5}
+          slidesPerView={4}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log("slide change")}
+          // onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log("slide change")}
         >
           {products.map((product, i) => (
             <div>

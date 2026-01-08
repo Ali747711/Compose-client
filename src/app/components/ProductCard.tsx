@@ -7,12 +7,14 @@ import {
   ViewIcon,
 } from "@hugeicons/core-free-icons";
 import type { Product } from "../../libs/data/types/product";
+import useBasket from "../hooks/useBasket";
 
 interface CardProps {
   product: Product;
 }
 
 const ProductCard = (props: CardProps) => {
+  const { onAdd, onRemove } = useBasket();
   const [count, setCount] = useState<number>(0);
   const { product } = props;
 
@@ -104,7 +106,11 @@ const ProductCard = (props: CardProps) => {
             ) : (
               <div className="flex items-center justify-center gap-2 md:w-24 w-20 h-10 bg-main border-2 border-main-dull rounded-lg select-none shadow-sm">
                 <button
-                  onClick={() => setCount((prev) => Math.max(prev - 1, 0))}
+                  onClick={() =>
+                    onRemove({
+                      _id: product._id,
+                    })
+                  }
                   className="cursor-pointer text-lg font-bold px-2 h-full hover:bg-main-dull/20 rounded-l transition-colors"
                 >
                   −
@@ -113,7 +119,14 @@ const ProductCard = (props: CardProps) => {
                   {count}
                 </span>
                 <button
-                  onClick={() => setCount((prev) => prev + 1)}
+                  onClick={() =>
+                    onAdd({
+                      _id: product._id,
+                      image: product.productImages[0],
+                      name: product.productName,
+                      price: product.productPrice,
+                    })
+                  }
                   className="cursor-pointer text-lg font-bold px-2 h-full hover:bg-main-dull/20 rounded-r transition-colors"
                 >
                   +
