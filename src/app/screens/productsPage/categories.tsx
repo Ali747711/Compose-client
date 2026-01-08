@@ -64,8 +64,6 @@ const Category = () => {
   console.log("Categories: ", categories);
   console.log("All Categories: ", allCategories);
 
-  console.log(allCategories.map((p) => console.log(p.name)));
-
   return (
     <div>
       {allCategories.map((category, i) => (
@@ -90,7 +88,9 @@ const CategorySection = ({
 
   return (
     <section className="mt-7">
-      <h1 className="text-main-text text-md md:text-2xl">{title} Drinks</h1>
+      <h1 className="text-main-text text-2xl font-medium md:text-3xl">
+        {title} <span className="text-main-dull">Drinks</span>
+      </h1>
       {products.length !== 0 ? (
         <div>
           <Swiped products={products} />

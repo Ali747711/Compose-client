@@ -18,7 +18,7 @@ const heroImages = [
 const Promotion = () => {
   return (
     <div className="w-full py-8 md:py-12">
-      <div className="w-full mx-auto px-4">
+      <div className="w-full mx-auto ">
         {/* Desktop Grid - Hidden on mobile */}
         <div className="hidden md:grid md:grid-cols-3 gap-4 mb-8">
           {/* Top row - 3 images */}

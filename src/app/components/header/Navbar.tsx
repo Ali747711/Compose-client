@@ -2,14 +2,13 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   ShoppingCart02Icon,
   Search01Icon,
-  Coffee02Icon,
   Location04Icon,
   UserAccountIcon,
   Menu10Icon,
   ArrowDown01Icon,
 } from "@hugeicons/core-free-icons";
 import { useGlobals } from "../../hooks/useGlobal";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import { useEffect, useRef, useState } from "react";
 
@@ -60,8 +59,7 @@ const Navbar = () => {
           className="hidden md:flex gap-1.5 cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <h1>Compose</h1>
-          <HugeiconsIcon icon={Coffee02Icon} />
+          <img src="/images/logo/logo.svg" alt="logo" className="h-8" />
         </div>
 
         <div className="sm:hidden md:flex items-center gap-2">
@@ -132,15 +130,10 @@ const Navbar = () => {
           open ? "flex" : "hidden"
         } absolute top-15 left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
       >
-        <a href="#" className="block">
-          Home
-        </a>
-        <a href="#" className="block">
-          About
-        </a>
-        <a href="#" className="block">
-          Contact
-        </a>
+        <NavLink to={"/"}>Home</NavLink>
+        <NavLink to={"/about"}>About</NavLink>
+        <NavLink to={"/contact"}>Contact</NavLink>
+
         {authUser ? (
           <button
             onClick={() => logout()}

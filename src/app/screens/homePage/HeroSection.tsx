@@ -6,6 +6,7 @@ import "swiper/css";
 import "../../../css/swiper-custom.css";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../../../libs/data/category";
 
 // Dummy data
 const heroImages = [
@@ -16,23 +17,14 @@ const heroImages = [
   "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800",
 ];
 
-const categories = [
-  { id: 1, name: "Bread", icon: "🥖", color: "bg-green-100" },
-  { id: 2, name: "Cheese", icon: "🧀", color: "bg-yellow-100" },
-  { id: 3, name: "Alcohol", icon: "🍺", color: "bg-amber-100" },
-  { id: 4, name: "Yogurt", icon: "🥛", color: "bg-blue-100" },
-  { id: 5, name: "Fruits", icon: "🍎", color: "bg-red-100" },
-  { id: 6, name: "Watermelon", icon: "🍉", color: "bg-pink-100" },
-  { id: 7, name: "Snacks", icon: "🍿", color: "bg-orange-100" },
-  { id: 8, name: "Cake", icon: "🍰", color: "bg-rose-100" },
-  { id: 9, name: "Candy", icon: "🍬", color: "bg-purple-100" },
-  { id: 10, name: "Vegetables", icon: "🥕", color: "bg-green-100" },
-  { id: 11, name: "Fruits", icon: "🍇", color: "bg-indigo-100" },
-  { id: 12, name: "Cans", icon: "🥫", color: "bg-gray-100" },
-];
-
 const HeroSection = () => {
   const navigate = useNavigate();
+  // const samples = useSelector(retrieveAllCategories);
+  // const categories = samples.map((product) => ({
+  //   id: product.key,
+  //   name: product.name,
+  //   icon: product.products[0]?.productImages[0],
+  // }));
   return (
     <div className="w-full  py-8 md:py-12 ">
       <div className="w-full mx-auto px-4">
@@ -108,15 +100,21 @@ const HeroSection = () => {
         </div>
 
         {/* Category Badges */}
-        <div className="grid grid-cols-4 md:flex md:flex-wrap md:justify-center gap-3 md:gap-4">
+        <div className="grid grid-cols-2  md:flex gap-3 justify-self-center md:gap-4">
           {categories.map((category) => (
             <button
               onClick={() => navigate("/products")}
               key={category.id}
-              className={`${category.color} rounded-full px-3 py-2 md:px-4 md:py-2 flex items-center justify-center md:justify-start gap-2 hover:shadow-md transition-shadow duration-200`}
+              className={`${category.color} rounded-full px-3 py-2 md:px-4 md:py-2 flex items-center justify-center md:justify-start gap-2 hover:shadow-lg shadow-main/50 transition-shadow duration-200`}
             >
-              <span className="text-xl md:text-2xl">{category.icon}</span>
-              <span className="hidden md:inline text-sm font-medium text-gray-700">
+              <span className="text-xl md:text-2xl">
+                <img
+                  src={category.path}
+                  alt={category.name}
+                  className="h-10 w-8"
+                />
+              </span>
+              <span className="inline text-sm font-medium text-main-text">
                 {category.name}
               </span>
             </button>

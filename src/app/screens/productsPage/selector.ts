@@ -69,5 +69,10 @@ export const retrieveAllCategories = createSelector(
       key: "tea_tea_beverage",
       products: ProductPage.tea_tea_beverage,
     },
+    {
+      name: "Frappe",
+      key: "frappe",
+      products: ProductPage.frappe,
+    },
   ]
 );
