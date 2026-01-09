@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { ProductsPageState } from "../../../libs/data/types/pages";
+import type { CategoryPageState } from "../../../libs/data/types/pages";
 
-const initialState: ProductsPageState = {
+const initialState: CategoryPageState = {
   products: [],
   tea_tea_beverage: [],
   frappe: [],
@@ -15,8 +15,8 @@ const initialState: ProductsPageState = {
   ade: [],
 };
 
-const productsPageSlice = createSlice({
-  name: "productsPage",
+const CategoryPageSlice = createSlice({
+  name: "categoryPage",
   initialState,
   reducers: {
     setTea_Tea_Beverage: (state, action) => {
@@ -67,8 +67,8 @@ export const {
   setMilkshake,
   setSmoothie,
   setTea_Tea_Beverage,
-} = productsPageSlice.actions;
+} = CategoryPageSlice.actions;
 
-const ProductsPageReducer = productsPageSlice.reducer;
+const CategoryPageReducer = CategoryPageSlice.reducer;
 
-export default ProductsPageReducer;
+export default CategoryPageReducer;

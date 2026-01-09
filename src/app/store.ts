@@ -4,14 +4,14 @@ import {
   type ThunkAction,
 } from "@reduxjs/toolkit";
 import HomePageReducer from "./screens/homePage/slice";
-import ProductsPageReducer from "./screens/categoryPage/slice";
-// import CategoryPageReducer from "./screens/categoryPage/slice";
+import CategoryPageReducer from "./screens/categoryPage/slice";
+import ProductPageReducer from "./screens/productPage/slice";
 
 export const store = configureStore({
   reducer: {
     homePage: HomePageReducer,
-    productsPage: ProductsPageReducer,
-    // categoryPage: CategoryPageReducer,
+    productsPage: ProductPageReducer,
+    categoryPage: CategoryPageReducer,
   },
 });
 

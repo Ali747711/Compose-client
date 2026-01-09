@@ -1,12 +1,20 @@
 import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ShoppingCart02Icon,
+  CheckmarkBadge02Icon,
+  ChampionIcon,
+} from "@hugeicons/core-free-icons";
 
 const ProductHero = () => {
   const product = {
-    name: "Nike Pegasus 41 shoes",
+    name: "Nike Pegasus 41 Premium Running Shoes",
     category: "Sports",
     price: 189,
     offerPrice: 159,
-    rating: 4,
+    pricePerUnit: "$6.71/lb",
+    stock: 12,
+    rating: 4.7,
     images: [
       "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage.png",
       "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage2.png",
@@ -18,108 +26,171 @@ const ProductHero = () => {
       "Comfortable for everyday use",
       "Available in different sizes",
     ],
+    isBestSeller: true,
+    hasGuarantee: true,
   };
 
-  const [thumbnail, setThumbnail] = useState(product.images[0]);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   return (
-    product && (
-      <div className="max-w-6xl w-full px-0">
-        <p>
-          <span>Home</span> /<span> Products</span> /
-          <span> {product.category}</span> /
-          <span className="text-indigo-500"> {product.name}</span>
-        </p>
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-gray-500 mb-8">
+        <span className="hover:text-gray-700 cursor-pointer">Home</span>
+        <span className="mx-2">/</span>
+        <span className="hover:text-gray-700 cursor-pointer">Products</span>
+        <span className="mx-2">/</span>
+        <span className="hover:text-gray-700 cursor-pointer">
+          {product.category}
+        </span>
+        <span className="mx-2">/</span>
+        <span className="text-gray-900 font-medium">{product.name}</span>
+      </nav>
 
-        <div className="flex flex-col md:flex-row gap-16 mt-4">
-          <div className="flex-col  gap-3 w-4/6">
-            <div className="border relative border-gray-500/30 w-full rounded">
-              <img
-                src={thumbnail}
-                alt="Selected product"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0  flex  flex-row gap-3">
-                {product.images.map((image, index) => (
-                  <div
-                    key={index}
-                    onClick={() => setThumbnail(image)}
-                    className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer"
-                  >
-                    <img src={image} alt={`Thumbnail ${index + 1}`} />
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="flex flex-col lg:flex-row gap-12">
+        {/* Left Side - Images */}
+        <div className="flex-1 max-w-2xl">
+          {/* Main Image */}
+          <div className="bg-gradient-to-br from-main/5 to-gray-50 rounded-2xl overflow-hidden mb-4 aspect-square flex items-center justify-center p-8 border border-gray-100">
+            <img
+              src={product.images[selectedImage]}
+              alt={product.name}
+              className="w-full h-full object-contain"
+            />
           </div>
 
-          <div className="text-sm w-full md:w-2/6">
-            <h1 className="text-3xl font-medium">{product.name}</h1>
+          {/* Thumbnail Images */}
+          <div className="flex gap-3">
+            {product.images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedImage(index)}
+                className={`flex-1 bg-gray-50 rounded-lg overflow-hidden border-2 transition-all ${
+                  selectedImage === index
+                    ? "border-main-dull shadow-md scale-105"
+                    : "border-transparent hover:border-main/30"
+                }`}
+              >
+                <div className="aspect-square p-3 flex items-center justify-center">
+                  <img
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
-            <div className="flex items-center gap-0.5 mt-1">
-              {Array(5)
-                .fill("")
-                .map((_, i) =>
-                  product.rating > i ? (
+        {/* Right Side - Product Details */}
+        <div className="flex-1 max-w-xl">
+          {/* Product Name */}
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {product.name}
+          </h1>
+
+          {/* Price Per Unit */}
+          <p className="text-sm text-gray-500 mb-2">{product.pricePerUnit}</p>
+
+          {/* Price */}
+          <div className="flex items-baseline gap-3 mb-3">
+            <span className="text-4xl font-bold text-gray-900">
+              ${product.offerPrice}
+            </span>
+            <span className="text-xl text-gray-400 line-through">
+              ${product.price}
+            </span>
+          </div>
+
+          {/* Stock Badge */}
+          <div className="inline-block mb-6">
+            <span className="px-3 py-1.5 bg-red-50 text-red-600 text-sm font-semibold rounded-lg border border-red-100">
+              {product.stock} Left
+            </span>
+          </div>
+
+          {/* Add to Cart Button */}
+          <button className="w-full bg-main hover:bg-main-dull text-gray-900 font-bold py-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2 mb-8 border-2 border-main-dull">
+            <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />
+            Add To Cart
+          </button>
+
+          {/* About Product Section */}
+          <div className="border-t border-gray-200 pt-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              About Product
+            </h2>
+
+            <div className="space-y-3">
+              {/* Best Seller Badge */}
+              {product.isBestSeller && (
+                <div className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center w-10 h-10 bg-main/30 rounded-full">
+                      <HugeiconsIcon
+                        icon={ChampionIcon}
+                        size={20}
+                        color="#e3b609"
+                      />
+                    </div>
+                    <span className="font-semibold text-gray-900">
+                      Best Seller Product
+                    </span>
+                  </div>
+                  <button className="text-main-dull hover:text-gray-900 font-semibold text-sm flex items-center gap-1 transition-colors">
+                    View More
                     <svg
-                      key={i}
-                      width="14"
-                      height="13"
-                      viewBox="0 0 18 17"
+                      className="w-4 h-4"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
                       <path
-                        d="M8.049.927c.3-.921 1.603-.921 1.902 0l1.294 3.983a1 1 0 0 0 .951.69h4.188c.969 0 1.371 1.24.588 1.81l-3.388 2.46a1 1 0 0 0-.364 1.118l1.295 3.983c.299.921-.756 1.688-1.54 1.118L9.589 13.63a1 1 0 0 0-1.176 0l-3.389 2.46c-.783.57-1.838-.197-1.539-1.118L4.78 10.99a1 1 0 0 0-.363-1.118L1.028 7.41c-.783-.57-.38-1.81.588-1.81h4.188a1 1 0 0 0 .95-.69z"
-                        fill="#615fff"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  ) : (
-                    <svg
-                      width="14"
-                      height="13"
-                      viewBox="0 0 18 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.04894 0.927049C8.3483 0.00573802 9.6517 0.00574017 9.95106 0.927051L11.2451 4.90983C11.379 5.32185 11.763 5.60081 12.1962 5.60081H16.3839C17.3527 5.60081 17.7554 6.84043 16.9717 7.40983L13.5838 9.87132C13.2333 10.126 13.0866 10.5773 13.2205 10.9894L14.5146 14.9721C14.8139 15.8934 13.7595 16.6596 12.9757 16.0902L9.58778 13.6287C9.2373 13.374 8.7627 13.374 8.41221 13.6287L5.02426 16.0902C4.24054 16.6596 3.18607 15.8934 3.48542 14.9721L4.7795 10.9894C4.91338 10.5773 4.76672 10.126 4.41623 9.87132L1.02827 7.40983C0.244561 6.84043 0.647338 5.60081 1.61606 5.60081H5.8038C6.23703 5.60081 6.62099 5.32185 6.75486 4.90983L8.04894 0.927049Z"
-                        fill="#615fff"
-                        fill-opacity="0.35"
-                      />
-                    </svg>
-                  )
-                )}
-              <p className="text-base ml-2">({product.rating})</p>
+                  </button>
+                </div>
+              )}
+
+              {/* Satisfaction Guarantee */}
+              {product.hasGuarantee && (
+                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-100 rounded-xl">
+                  <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
+                    <HugeiconsIcon
+                      icon={CheckmarkBadge02Icon}
+                      size={20}
+                      color="#16a34a"
+                    />
+                  </div>
+                  <span className="font-semibold text-gray-900">
+                    100% satisfaction guarantee
+                  </span>
+                </div>
+              )}
             </div>
 
-            <div className="mt-6">
-              <p className="text-gray-500/70 line-through">
-                MRP: ${product.price}
-              </p>
-              <p className="text-2xl font-medium">MRP: ${product.offerPrice}</p>
-              <span className="text-gray-500/70">(inclusive of all taxes)</span>
-            </div>
-
-            <p className="text-base font-medium mt-6">About Product</p>
-            <ul className="list-disc ml-4 text-gray-500/70">
-              {product.description.map((desc, index) => (
-                <li key={index}>{desc}</li>
-              ))}
-            </ul>
-
-            <div className="flex items-center mt-10 gap-4 text-base">
-              <button className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition">
-                Add to Cart
-              </button>
-              <button className="w-full py-3.5 cursor-pointer font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition">
-                Buy now
-              </button>
+            {/* Product Description */}
+            <div className="mt-6 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <ul className="space-y-2.5 text-gray-700">
+                {product.description.map((desc, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="text-main-dull text-lg font-bold mt-0.5">
+                      •
+                    </span>
+                    <span className="font-medium">{desc}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </div>
-    )
+    </div>
   );
 };
 

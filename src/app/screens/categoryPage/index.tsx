@@ -114,7 +114,7 @@ const Products = () => {
     <div className="mt-16">
       <h1 className="text-main-text text-2xl md:text-3xl">Categories</h1>
       <Promotion />
-      <Category />
+      {/* <Category /> */}
     </div>
   );
 };

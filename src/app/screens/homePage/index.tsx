@@ -10,6 +10,7 @@ import ProductService from "../../services/product.service";
 import NewProducts from "./NewProducts";
 import { useGlobals } from "../../hooks/useGlobal";
 import HeroSection from "./HeroSection";
+import Categories from "./Categories";
 // import Swiped from "../../components/Swiper";
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -70,6 +71,7 @@ const Home = () => {
   return (
     <div className="min-h-50vh w-full">
       <HeroSection />
+      <Categories />
       {/* <Swiped /> */}
       <BestSeller />
       <NewProducts />

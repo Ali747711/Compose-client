@@ -1,78 +1,94 @@
 import { createSelector } from "@reduxjs/toolkit";
 import type { AppRootState } from "../../../libs/data/types/pages";
 
-const selectProductsPage = (state: AppRootState) => state.productsPage;
+const selectCategoryPage = (state: AppRootState) => state.categoryPage;
 
 export const retrieveCoffee = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.coffee
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.coffee
 );
 export const retrieveAde = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.ade
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.ade
 );
 export const retrieveTeaTeaBeverage = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.tea_tea_beverage
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.tea_tea_beverage
 );
 export const retrieveMilkshake = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.milkshake
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.milkshake
 );
 export const retrieveDecafCoffee = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.decaf_coffee
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.decaf_coffee
 );
 export const retrieveColdBrew = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.cold_brew
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.cold_brew
 );
 export const retrieveBeverage = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.beverage
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.beverage
 );
 export const retrieveSmoothie = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.smoothie
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.smoothie
 );
 export const retrieveJuice = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.juice
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.juice
 );
 export const retrieveFrappe = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.frappe
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.frappe
 );
 
 export const retrieveProducts = createSelector(
-  selectProductsPage,
-  (ProductPage) => ProductPage.products
+  selectCategoryPage,
+  (CategoryPage) => CategoryPage.products
 );
 
 export const retrieveAllCategories = createSelector(
-  selectProductsPage,
-  (ProductPage) => [
-    { name: "Coffee", key: "coffee", products: ProductPage.coffee },
-    { name: "Ade", key: "ade", products: ProductPage.ade },
-    { name: "Beverage", key: "beverage", products: ProductPage.beverage },
-    { name: "Cold Brew", key: "cold_brew", products: ProductPage.cold_brew },
+  selectCategoryPage,
+  (CategoryPage) => [
+    { name: "Rich Coffee", key: "coffee", products: CategoryPage.coffee },
+    { name: "Sparkling Ade", key: "ade", products: CategoryPage.ade },
     {
-      name: "Decaf Coffee",
+      name: "Refreshing Beverages",
+      key: "beverage",
+      products: CategoryPage.beverage,
+    },
+    {
+      name: "Smooth Cold Brew",
+      key: "cold_brew",
+      products: CategoryPage.cold_brew,
+    },
+    {
+      name: "Gentle Decaf Coffee",
       key: "decaf_coffee",
-      products: ProductPage.decaf_coffee,
+      products: CategoryPage.decaf_coffee,
     },
-    { name: "Juice", key: "juice", products: ProductPage.juice },
-    { name: "Milkshake", key: "milkshake", products: ProductPage.milkshake },
-    { name: "Smoothie", key: "smoothie", products: ProductPage.smoothie },
+    { name: "Fresh Juice", key: "juice", products: CategoryPage.juice },
     {
-      name: "Tea and Tea Beverage",
+      name: "Creamy Milkshake",
+      key: "milkshake",
+      products: CategoryPage.milkshake,
+    },
+    {
+      name: "Velvety Smoothie",
+      key: "smoothie",
+      products: CategoryPage.smoothie,
+    },
+    {
+      name: "Premium Tea Selection",
       key: "tea_tea_beverage",
-      products: ProductPage.tea_tea_beverage,
+      products: CategoryPage.tea_tea_beverage,
     },
     {
-      name: "Frappe",
+      name: "Chilled Frappe",
       key: "frappe",
-      products: ProductPage.frappe,
+      products: CategoryPage.frappe,
     },
   ]
 );

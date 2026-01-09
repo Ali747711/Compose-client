@@ -3,8 +3,8 @@ import type { User } from "./user";
 
 export interface AppRootState {
   homePage: HomePageState;
-  productsPage: ProductsPageState;
-  categoryPage: ProductsPageState;
+  productsPage: ProductPageState;
+  categoryPage: CategoryPageState;
 }
 
 export interface HomePageState {
@@ -13,7 +13,7 @@ export interface HomePageState {
   topUsers: User[];
 }
 
-export interface ProductsPageState {
+export interface CategoryPageState {
   products: [];
   coffee: Product[];
   decaf_coffee: Product[];
@@ -25,4 +25,7 @@ export interface ProductsPageState {
   milkshake: Product[];
   frappe: Product[];
   tea_tea_beverage: Product[];
+}
+export interface ProductPageState {
+  products: [];
 }

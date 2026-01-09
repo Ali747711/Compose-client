@@ -5,8 +5,6 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "../../../css/swiper-custom.css";
 import "swiper/css/pagination";
-import { useNavigate } from "react-router-dom";
-import { categories } from "../../../libs/data/category";
 
 // Dummy data
 const heroImages = [
@@ -18,13 +16,6 @@ const heroImages = [
 ];
 
 const HeroSection = () => {
-  const navigate = useNavigate();
-  // const samples = useSelector(retrieveAllCategories);
-  // const categories = samples.map((product) => ({
-  //   id: product.key,
-  //   name: product.name,
-  //   icon: product.products[0]?.productImages[0],
-  // }));
   return (
     <div className="w-full  py-8 md:py-12 ">
       <div className="w-full mx-auto px-4">
@@ -100,26 +91,6 @@ const HeroSection = () => {
         </div>
 
         {/* Category Badges */}
-        <div className="grid grid-cols-2  md:flex gap-3 justify-self-center md:gap-4">
-          {categories.map((category) => (
-            <button
-              onClick={() => navigate("/products")}
-              key={category.id}
-              className={`${category.color} rounded-full px-3 py-2 md:px-4 md:py-2 flex items-center justify-center md:justify-start gap-2 hover:shadow-lg shadow-main/50 transition-shadow duration-200`}
-            >
-              <span className="text-xl md:text-2xl">
-                <img
-                  src={category.path}
-                  alt={category.name}
-                  className="h-10 w-8"
-                />
-              </span>
-              <span className="inline text-sm font-medium text-main-text">
-                {category.name}
-              </span>
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
