@@ -3,8 +3,9 @@ import Navbar from "./components/header/Navbar";
 import Login from "./components/auth/Login";
 import Home from "./screens/homePage";
 import Footer from "./components/footer/Footer";
-import Products from "./screens/productsPage";
+import Products from "./screens/categoryPage";
 import { useGlobals } from "./hooks/useGlobal";
+import Product from "./screens/productPage";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<Product />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}

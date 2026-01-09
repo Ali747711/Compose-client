@@ -16,6 +16,7 @@ interface GlobalInterface {
   getCartCount: () => number;
   getItemQuantity: (input: string) => number;
   cartItems: CartItem[];
+  currency: string;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

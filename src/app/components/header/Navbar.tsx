@@ -26,10 +26,11 @@ const Navbar = () => {
     const handleClickOutside = (e: MouseEvent) => {
       if (navbarRef && !navbarRef.current?.contains(e.target as Node)) {
         setOpen(false);
+        setOpenBasket(false);
       }
     };
     // Only add listener when menu is open(better performance + avoids bugs)
-    if (open) {
+    if (open || openBasket) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
@@ -37,7 +38,8 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open]); // Re-run when open changes
+  }, [open, openBasket]); // Re-run when open changes
+
   const logout = async () => {
     const userService = new UserService();
     await userService.logout();

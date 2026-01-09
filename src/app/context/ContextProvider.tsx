@@ -19,6 +19,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       : null
   );
 
+  const currency: string = import.meta.env.VITE_CURRENCY;
+
   // GET cart data from localStorage
   const getInitilCartData = (): CartItem[] => {
     const cartJson = localStorage.getItem("cartData");
@@ -104,7 +106,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");
-
+  console.log(currency);
   return (
     <GlobalContext.Provider
       value={{
@@ -121,6 +123,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         getCartCount,
         getItemQuantity,
         cartItems,
+        currency,
       }}
     >
       {children}

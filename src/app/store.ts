@@ -4,7 +4,7 @@ import {
   type ThunkAction,
 } from "@reduxjs/toolkit";
 import HomePageReducer from "./screens/homePage/slice";
-import ProductsPageReducer from "./screens/productsPage/slice";
+import ProductsPageReducer from "./screens/categoryPage/slice";
 // import CategoryPageReducer from "./screens/categoryPage/slice";
 
 export const store = configureStore({
