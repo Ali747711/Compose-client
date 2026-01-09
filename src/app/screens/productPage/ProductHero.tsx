@@ -5,73 +5,78 @@ import {
   CheckmarkBadge02Icon,
   ChampionIcon,
 } from "@hugeicons/core-free-icons";
+import type { Product } from "../../../libs/data/types/product";
+import type { CartItem } from "../../../libs/data/types/search";
+import { useGlobals } from "../../hooks/useGlobal";
+import { Link, useNavigate } from "react-router-dom";
 
-const ProductHero = () => {
-  const product = {
-    name: "Nike Pegasus 41 Premium Running Shoes",
-    category: "Sports",
-    price: 189,
-    offerPrice: 159,
-    pricePerUnit: "$6.71/lb",
-    stock: 12,
-    rating: 4.7,
-    images: [
-      "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage.png",
-      "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage2.png",
-      "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage3.png",
-      "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/card/productImage4.png",
-    ],
-    description: [
-      "High-quality material",
-      "Comfortable for everyday use",
-      "Available in different sizes",
-    ],
-    isBestSeller: true,
-    hasGuarantee: true,
-  };
+interface ProductHeroProps {
+  product: Product;
+}
 
+const ProductHero = (props: ProductHeroProps) => {
+  const { product } = props;
   const [selectedImage, setSelectedImage] = useState(0);
+  const { onAdd } = useGlobals();
+
+  const navigate = useNavigate();
+
+  // CREATE cart item from product
+  const createCartItem = (): CartItem => ({
+    _id: product._id,
+    price: product.productPrice,
+    name: product.productName,
+    image: product.productImages[0],
+    quantity: 1,
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-8">
-        <span className="hover:text-gray-700 cursor-pointer">Home</span>
+        <Link className="hover:text-gray-700 cursor-pointer" to={"/"}>
+          Home
+        </Link>
         <span className="mx-2">/</span>
-        <span className="hover:text-gray-700 cursor-pointer">Products</span>
+        <Link
+          className="hover:text-gray-700 cursor-pointer"
+          to={`/products/${product?.productCollection.toLowerCase()}`}
+        >
+          {product?.productCollection}
+        </Link>
         <span className="mx-2">/</span>
-        <span className="hover:text-gray-700 cursor-pointer">
-          {product.category}
+        <span className="text-main-text font-medium">
+          {product?.productName}
         </span>
-        <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">{product.name}</span>
       </nav>
 
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left Side - Images */}
-        <div className="flex-1 max-w-2xl">
-          {/* Main Image */}
-          <div className="bg-gradient-to-br from-main/5 to-gray-50 rounded-2xl overflow-hidden mb-4 aspect-square flex items-center justify-center p-8 border border-gray-100">
-            <img
-              src={product.images[selectedImage]}
-              alt={product.name}
-              className="w-full h-full object-contain"
-            />
+        <div className="flex-1 max-w-xl">
+          {/* Main Image Container */}
+          <div className="relative bg-white rounded-2xl overflow-hidden mb-6 border border-gray-200">
+            <div className="aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-gray-50 to-white">
+              <img
+                src={product?.productImages[selectedImage]}
+                alt={product?.productName}
+                className="w-full h-full object-contain"
+              />
+            </div>
           </div>
 
-          {/* Thumbnail Images */}
-          <div className="flex gap-3">
-            {product.images.map((image, index) => (
+          {/* Thumbnail Images - Fixed Size */}
+          <div className="flex gap-4 justify-start">
+            {product?.productImages.map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`flex-1 bg-gray-50 rounded-lg overflow-hidden border-2 transition-all ${
+                className={`flex-shrink-0 w-20 h-20 bg-white rounded-xl overflow-hidden border-2 transition-all ${
                   selectedImage === index
-                    ? "border-main-dull shadow-md scale-105"
-                    : "border-transparent hover:border-main/30"
+                    ? "border-main-dull shadow-md"
+                    : "border-gray-200 hover:border-main/50"
                 }`}
               >
-                <div className="aspect-square p-3 flex items-center justify-center">
+                <div className="w-full h-full p-2 flex items-center justify-center">
                   <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
@@ -80,52 +85,79 @@ const ProductHero = () => {
                 </div>
               </button>
             ))}
+            {/* Empty placeholder thumbnails if less than 4 images */}
+            {/* {product?.productImages &&
+              product.productImages.length < 4 &&
+              Array(4 - product.productImages.length)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={`placeholder-${index}`}
+                    className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-xl border-2 border-gray-100"
+                  />
+                ))} */}
           </div>
         </div>
 
         {/* Right Side - Product Details */}
         <div className="flex-1 max-w-xl">
           {/* Product Name */}
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {product.name}
+          <h1 className="text-3xl md:text-4xl font-bold text-main-text mb-0.5  leading-tight">
+            {product?.productName}
           </h1>
+          {/* Product Description */}
+          {product?.productDesc && (
+            <div className="mb-3 ml-1">
+              <p className="text-gray-600 leading-relaxed">
+                {product.productDesc}
+              </p>
+            </div>
+          )}
 
           {/* Price Per Unit */}
-          <p className="text-sm text-gray-500 mb-2">{product.pricePerUnit}</p>
+          <p className="text-sm text-gray-500 mb-3">
+            ${product?.productPrice / 10}/lb
+          </p>
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-3">
-            <span className="text-4xl font-bold text-gray-900">
-              ${product.offerPrice}
+            <span className="text-4xl font-bold text-main-text">
+              ${product?.productPrice}
             </span>
             <span className="text-xl text-gray-400 line-through">
-              ${product.price}
+              ${(Number(product?.productPrice) * 1.2).toFixed(2)}
             </span>
           </div>
 
           {/* Stock Badge */}
-          <div className="inline-block mb-6">
-            <span className="px-3 py-1.5 bg-red-50 text-red-600 text-sm font-semibold rounded-lg border border-red-100">
-              {product.stock} Left
+          <div className="inline-block mb-6 ">
+            <span className="px-3 py-1.5 mr-3 bg-red-50 text-red-600 text-sm font-semibold rounded-lg border border-red-100">
+              {product?.productLeftCount} Left
+            </span>
+            <span className="px-3 py-1.5 bg-main/30 text-main-text text-sm font-semibold rounded-lg border border-main">
+              {product?.productViews} views
             </span>
           </div>
 
           {/* Add to Cart Button */}
-          <button className="w-full bg-main hover:bg-main-dull text-gray-900 font-bold py-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2 mb-8 border-2 border-main-dull">
+          <button
+            onClick={() => onAdd(createCartItem())}
+            className="w-full bg-main hover:bg-main-dull text-main-text font-bold py-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2 mb-8 border-2 border-main-dull"
+          >
             <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />
             Add To Cart
           </button>
 
           {/* About Product Section */}
           <div className="border-t border-gray-200 pt-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="text-lg font-semibold text-main-text mb-4">
               About Product
             </h2>
 
             <div className="space-y-3">
               {/* Best Seller Badge */}
-              {product.isBestSeller && (
-                <div className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors">
+              {product?.productViews !== undefined && (
+                <div className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors cursor-pointer">
                   <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-10 h-10 bg-main/30 rounded-full">
                       <HugeiconsIcon
@@ -134,11 +166,11 @@ const ProductHero = () => {
                         color="#e3b609"
                       />
                     </div>
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-main-text">
                       Best Seller Product
                     </span>
                   </div>
-                  <button className="text-main-dull hover:text-gray-900 font-semibold text-sm flex items-center gap-1 transition-colors">
+                  <button className="text-main-dull hover:text-main-text font-semibold text-sm flex items-center gap-1 transition-colors">
                     View More
                     <svg
                       className="w-4 h-4"
@@ -158,8 +190,8 @@ const ProductHero = () => {
               )}
 
               {/* Satisfaction Guarantee */}
-              {product.hasGuarantee && (
-                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-100 rounded-xl">
+              {product?.productStatus && (
+                <div className="flex items-center gap-3 p-4 rounded-xl">
                   <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
                     <HugeiconsIcon
                       icon={CheckmarkBadge02Icon}
@@ -167,25 +199,11 @@ const ProductHero = () => {
                       color="#16a34a"
                     />
                   </div>
-                  <span className="font-semibold text-gray-900">
+                  <span className="font-semibold text-main-text">
                     100% satisfaction guarantee
                   </span>
                 </div>
               )}
-            </div>
-
-            {/* Product Description */}
-            <div className="mt-6 bg-gray-50 rounded-xl p-4 border border-gray-100">
-              <ul className="space-y-2.5 text-gray-700">
-                {product.description.map((desc, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-main-dull text-lg font-bold mt-0.5">
-                      •
-                    </span>
-                    <span className="font-medium">{desc}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
 import type { Product } from "../../libs/data/types/product";
 import { useGlobals } from "../hooks/useGlobal";
 import type { CartItem } from "../../libs/data/types/search";
+import { useNavigate } from "react-router-dom";
 
 interface CardProps {
   product: Product;
@@ -17,6 +18,7 @@ const ProductCard = (props: CardProps) => {
   const { onAdd, onRemove, getItemQuantity } = useGlobals();
   const { product } = props;
   const quantity = getItemQuantity(product._id);
+  const navigate = useNavigate();
 
   // CREATE cart item from product
   const createCartItem = (): CartItem => ({
@@ -27,7 +29,15 @@ const ProductCard = (props: CardProps) => {
     quantity: 1,
   });
   return (
-    <div className="mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 max-w-90 w-full min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300">
+    <div
+      onClick={() => {
+        navigate(
+          `/products/${product.productCollection.toLowerCase()}/${product._id}`
+        );
+        scrollTo(0, 0);
+      }}
+      className=" mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 max-w-90 w-full min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300"
+    >
       {/* Image Container with Yellow Accent */}
       <div className="group cursor-pointer flex items-center justify-center px-2 py-3 bg-white rounded-lg mb-3 relative overflow-hidden">
         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -102,7 +112,7 @@ const ProductCard = (props: CardProps) => {
           </div>
 
           {/* Add to Cart Button */}
-          <div>
+          <div onClick={(e) => e.stopPropagation()}>
             {quantity === 0 ? (
               <button
                 className="flex items-center justify-center gap-1.5 bg-main hover:bg-main-dull border-2 border-main hover:border-main-dull md:px-5 px-4 h-10 rounded-lg text-gray-900 font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95"

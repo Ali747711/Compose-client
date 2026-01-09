@@ -35,7 +35,7 @@ const actionDispatch = (dispatch: Dispatch) => ({
   setTea_Tea_Beverage: (data: Product[]) => dispatch(setTea_Tea_Beverage(data)),
 });
 
-const Products = () => {
+const CategoryPage = () => {
   const dispatch = useDispatch();
   const {
     setAde,
@@ -112,11 +112,9 @@ const Products = () => {
 
   return (
     <div className="mt-16">
-      <h1 className="text-main-text text-2xl md:text-3xl">Categories</h1>
-      <Promotion />
-      {/* <Category /> */}
+      <Category />
     </div>
   );
 };
 
-export default Products;
+export default CategoryPage;

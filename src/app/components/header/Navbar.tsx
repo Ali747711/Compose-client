@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [openBasket, setOpenBasket] = useState<boolean>(false);
   const navbarRef = useRef<HTMLDivElement>(null);
@@ -40,6 +41,15 @@ const Navbar = () => {
     };
   }, [open, openBasket]); // Re-run when open changes
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const logout = async () => {
     const userService = new UserService();
     await userService.logout();
@@ -49,7 +59,15 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className=" flex z-30 items-center gap-5  justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all"
+      className={`
+        fixed top-0 left-0 right-0 z-50
+        flex items-center gap-5 justify-between 
+        px-6 md:px-16 lg:px-24 xl:px-32 py-4 
+        bg-white/95 backdrop-blur-sm
+        border-b border-gray-300
+        transition-all duration-300 ease-in-out
+        ${scrolled ? "shadow-lg py-3" : "shadow-none py-4"}
+      `}
     >
       <button
         onClick={() => setOpen((prev) => !prev)}
