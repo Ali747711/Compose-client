@@ -1,17 +1,10 @@
 import { ShoppingCart02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Divider from "../divider";
-import useBasket from "../../hooks/useBasket";
-import type { CartItem } from "../../../libs/data/types/search";
-interface BasketProps {
-  onAdd: (input: CartItem) => void;
-  onRemove: (input: CartItem) => void;
-  onDelete: (input: CartItem) => void;
-  onDeleteAll: () => void;
-  cartItems: CartItem[];
-}
-const Basket = (props: BasketProps) => {
-  const { onAdd, onDelete, onDeleteAll, onRemove, cartItems } = props;
+import { useGlobals } from "../../hooks/useGlobal";
+
+const Basket = () => {
+  const { onAdd, onRemove, cartItems, getItemQuantity } = useGlobals();
   //   console.log(cartItems);
   return (
     <div
@@ -32,7 +25,7 @@ const Basket = (props: BasketProps) => {
               </div>
               <div className="flex flex-row gap-1.5">
                 <button onClick={() => onRemove(item)}>-</button>
-                <p>{item.quantity}</p>
+                <p>{getItemQuantity(item._id)}</p>
                 <button onClick={() => onAdd(item)}>+</button>
               </div>
             </div>

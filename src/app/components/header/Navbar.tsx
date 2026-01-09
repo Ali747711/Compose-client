@@ -12,23 +12,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
-import type { CartItem } from "../../../libs/data/types/search";
 
-interface NavbarProps {
-  onAdd: (input: CartItem) => void;
-  onRemove: (input: CartItem) => void;
-  onDelete: (input: CartItem) => void;
-  onDeleteAll: () => void;
-  getCartCount: () => number;
-  cartItems: CartItem[];
-}
-const Navbar = (props: NavbarProps) => {
+const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [openBasket, setOpenBasket] = useState<boolean>(false);
   const navbarRef = useRef<HTMLDivElement>(null);
   const { authUser, setAuthUser, setShowUserLogin } = useGlobals();
-  const { onAdd, onDelete, onRemove, onDeleteAll, cartItems, getCartCount } =
-    props;
+  const { getCartCount } = useGlobals();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,17 +92,9 @@ const Navbar = (props: NavbarProps) => {
         >
           <HugeiconsIcon icon={ShoppingCart02Icon} size={21} />
           <button className="absolute -top-2 -right-3 text-xs text-main-text bg-main w-4.5 h-4.5 rounded-full">
-            {cartItems ? getCartCount() : 3}
+            {getCartCount()}
           </button>
-          {openBasket && (
-            <Basket
-              onAdd={onAdd}
-              onRemove={onRemove}
-              onDelete={onDelete}
-              onDeleteAll={onDeleteAll}
-              cartItems={cartItems}
-            />
-          )}
+          {openBasket && <Basket />}
         </div>
 
         {!authUser ? (

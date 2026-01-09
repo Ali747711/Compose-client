@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   StarIcon,
@@ -7,19 +6,28 @@ import {
   ViewIcon,
 } from "@hugeicons/core-free-icons";
 import type { Product } from "../../libs/data/types/product";
-import useBasket from "../hooks/useBasket";
+import { useGlobals } from "../hooks/useGlobal";
+import type { CartItem } from "../../libs/data/types/search";
 
 interface CardProps {
   product: Product;
 }
 
 const ProductCard = (props: CardProps) => {
-  const { onAdd, onRemove } = useBasket();
-  const [count, setCount] = useState<number>(0);
+  const { onAdd, onRemove, getItemQuantity } = useGlobals();
   const { product } = props;
+  const quantity = getItemQuantity(product._id);
 
+  // CREATE cart item from product
+  const createCartItem = (): CartItem => ({
+    _id: product._id,
+    price: product.productPrice,
+    name: product.productName,
+    image: product.productImages[0],
+    quantity: 1,
+  });
   return (
-    <div className="mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-72 max-w-90 w-full min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300">
+    <div className="mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 max-w-90 w-full min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300">
       {/* Image Container with Yellow Accent */}
       <div className="group cursor-pointer flex items-center justify-center px-2 py-3 bg-white rounded-lg mb-3 relative overflow-hidden">
         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -95,10 +103,10 @@ const ProductCard = (props: CardProps) => {
 
           {/* Add to Cart Button */}
           <div>
-            {count === 0 ? (
+            {quantity === 0 ? (
               <button
                 className="flex items-center justify-center gap-1.5 bg-main hover:bg-main-dull border-2 border-main hover:border-main-dull md:px-5 px-4 h-10 rounded-lg text-gray-900 font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95"
-                onClick={() => setCount(1)}
+                onClick={() => onAdd(createCartItem())}
               >
                 <HugeiconsIcon icon={ShoppingCartCheck01Icon} size={16} />
                 <span className="md:inline hidden">Add</span>
@@ -106,27 +114,16 @@ const ProductCard = (props: CardProps) => {
             ) : (
               <div className="flex items-center justify-center gap-2 md:w-24 w-20 h-10 bg-main border-2 border-main-dull rounded-lg select-none shadow-sm">
                 <button
-                  onClick={() =>
-                    onRemove({
-                      _id: product._id,
-                    })
-                  }
-                  className="cursor-pointer text-lg font-bold px-2 h-full hover:bg-main-dull/20 rounded-l transition-colors"
+                  onClick={() => onRemove(createCartItem())}
+                  className="cursor-pointer text-lg font-bold px-2 min-w-10 h-full hover:bg-main-dull/20 rounded-l transition-colors"
                 >
                   −
                 </button>
                 <span className="w-6 text-center font-semibold text-gray-900">
-                  {count}
+                  {quantity}
                 </span>
                 <button
-                  onClick={() =>
-                    onAdd({
-                      _id: product._id,
-                      image: product.productImages[0],
-                      name: product.productName,
-                      price: product.productPrice,
-                    })
-                  }
+                  onClick={() => onAdd(createCartItem())}
                   className="cursor-pointer text-lg font-bold px-2 h-full hover:bg-main-dull/20 rounded-r transition-colors"
                 >
                   +

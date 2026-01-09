@@ -1,84 +1,93 @@
-import { useState } from "react";
-import type { CartItem } from "../../libs/data/types/search";
+// import { useState } from "react";
+// import type { CartItem } from "../../libs/data/types/search";
 
-const useBasket = () => {
-  const cartJson: string | null = localStorage.getItem("cartData");
-  const curretCart = cartJson ? JSON.parse(cartJson) : [];
-  const [cartItems, setCartItems] = useState<CartItem[]>(curretCart);
+// const useBasket = () => {
+//   const getInitialCartData = (): CartItem[] => {
+//     const cartJson = localStorage.getItem("cartData");
+//     return cartJson ? JSON.parse(cartJson) : [];
+//   };
+//   const [cartItems, setCartItems] = useState<CartItem[]>(getInitialCartData());
 
-  const onAdd = (input: CartItem) => {
-    console.log("incoming: ", input);
-    const exist: any = cartItems.find(
-      (item: CartItem) => item._id === input._id
-    );
+//   const onAdd = (input: CartItem) => {
+//     console.log("Adding to cart:", input);
 
-    if (exist) {
-      const cartUpdate = cartItems.map((item: CartItem) =>
-        item._id === input._id ? { ...exist, quantity: exist.quantity++ } : item
-      );
-      console.log("Added If Cart item: ", cartUpdate);
-      setCartItems(cartUpdate);
-      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-    } else {
-      const cartUpdate = [...cartItems, { ...input }];
-      console.log("Added Else Cart item: ", cartUpdate);
-      setCartItems(cartUpdate);
-      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-    }
-  };
+//     const existingItem = cartItems.find((item) => item._id === input._id);
 
-  const onRemove = (input: CartItem) => {
-    console.log("incoming: ", input);
-    const exist: any = cartItems.map((item) => item._id === input._id);
+//     let cartUpdate: CartItem[];
 
-    if (exist?.quantity === 1) {
-      const cartUpdate = cartItems.filter(
-        (item: CartItem) => item._id !== input._id
-      );
-      console.log("Removed when 1 Cart item: ", cartUpdate);
-      setCartItems(cartUpdate);
-      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-    } else {
-      const cartUpdate = cartItems.map((item: CartItem) =>
-        item._id === input._id
-          ? { ...exist, quantity: exist?.quantity - 1 }
-          : item
-      );
-      console.log("Removed Cart item: ", cartUpdate);
-      setCartItems(cartUpdate);
-      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-    }
-  };
+//     if (existingItem) {
+//       // ✅ FIX: Increment quantity correctly
+//       cartUpdate = cartItems.map((item) =>
+//         item._id === input._id ? { ...item, quantity: item.quantity + 1 } : item
+//       );
+//     } else {
+//       // Add new item with quantity 1
+//       cartUpdate = [...cartItems, { ...input, quantity: 1 }];
+//     }
 
-  const onDelete = (input: CartItem) => {
-    const cartUpdate = cartItems.filter(
-      (item: CartItem) => item._id !== input._id
-    );
-    setCartItems(cartUpdate);
-    localStorage.setItem("cartData", JSON.stringify(cartUpdate));
-  };
+//     console.log("Cart after add:", cartUpdate);
+//     setCartItems(cartUpdate);
+//     localStorage.setItem("cartData", JSON.stringify(cartUpdate));
+//   };
 
-  const onDeleteAll = () => {
-    setCartItems([]);
-    localStorage.removeItem("cartData");
-  };
+//   const onRemove = (input: CartItem) => {
+//     console.log("Removing from cart:", input);
 
-  const getCartCount = () => {
-    let cartTotal: number = 0;
-    for (const item in cartItems) {
-      cartTotal += cartItems[item].quantity;
-    }
-    return cartTotal;
-  };
+//     const existingItem = cartItems.find((item) => item._id === input._id);
 
-  return {
-    cartItems,
-    onAdd,
-    onRemove,
-    onDelete,
-    onDeleteAll,
-    getCartCount,
-  };
-};
+//     if (!existingItem) {
+//       console.warn("Item not found in cart");
+//       return;
+//     }
 
-export default useBasket;
+//     let cartUpdate: CartItem[];
+
+//     if (existingItem.quantity === 1) {
+//       // Remove item completely
+//       cartUpdate = cartItems.filter((item) => item._id !== input._id);
+//     } else {
+//       // Decrement quantity
+//       cartUpdate = cartItems.map((item) =>
+//         item._id === input._id ? { ...item, quantity: item.quantity - 1 } : item
+//       );
+//     }
+
+//     console.log("Cart after remove:", cartUpdate);
+//     setCartItems(cartUpdate);
+//     localStorage.setItem("cartData", JSON.stringify(cartUpdate));
+//   };
+
+//   const onDelete = (input: CartItem) => {
+//     const cartUpdate = cartItems.filter(
+//       (item: CartItem) => item._id !== input._id
+//     );
+//     setCartItems(cartUpdate);
+//     localStorage.setItem("cartData", JSON.stringify(cartUpdate));
+//   };
+
+//   const onDeleteAll = () => {
+//     setCartItems([]);
+//     localStorage.removeItem("cartData");
+//   };
+
+//   const getCartCount = () => {
+//     return cartItems.reduce((total, item) => total + item.quantity, 0);
+//   };
+
+//   const getItemQuantity = (id: string): number => {
+//     const item = cartItems.find((item) => item._id === id);
+//     return item?.quantity || 0;
+//   };
+
+//   return {
+//     cartItems,
+//     onAdd,
+//     onRemove,
+//     onDelete,
+//     onDeleteAll,
+//     getCartCount,
+//     getItemQuantity,
+//   };
+// };
+
+// export default useBasket;

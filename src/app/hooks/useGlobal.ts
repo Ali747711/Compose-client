@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import type { User } from "../../libs/data/types/user";
+import type { CartItem } from "../../libs/data/types/search";
 
 interface GlobalInterface {
   showUserLogin: boolean;
@@ -8,6 +9,13 @@ interface GlobalInterface {
   setAuthUser: (user: User | null) => void;
   orderBuilder: Date;
   setOrderBuilder: (input: Date) => void;
+  onAdd: (input: CartItem) => void;
+  onRemove: (input: CartItem) => void;
+  onDelete: (input: CartItem) => void;
+  onDeleteAll: () => void;
+  getCartCount: () => number;
+  getItemQuantity: (input: string) => number;
+  cartItems: CartItem[];
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(
