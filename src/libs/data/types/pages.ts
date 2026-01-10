@@ -5,6 +5,7 @@ export interface AppRootState {
   homePage: HomePageState;
   productsPage: ProductPageState;
   categoryPage: CategoryPageState;
+  userProfilePage: UserProfilePageState;
 }
 
 export interface HomePageState {
@@ -27,5 +28,10 @@ export interface CategoryPageState {
   tea_tea_beverage: Product[];
 }
 export interface ProductPageState {
+  products: [];
+  chosenProduct: Product | null;
+}
+
+export interface UserProfilePageState {
   products: [];
 }

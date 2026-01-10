@@ -65,7 +65,7 @@ const ProductCard = (props: CardProps) => {
           {Array(5)
             .fill("")
             .map((_, i) =>
-              product.ratingsSummary.average > i ? (
+              product.ratingsSummary?.average > i ? (
                 <HugeiconsIcon
                   key={i}
                   icon={StarIcon}
@@ -83,7 +83,7 @@ const ProductCard = (props: CardProps) => {
               )
             )}
           <p className="text-sm text-gray-600 ml-1">
-            ({product.ratingsSummary.average})
+            ({product.ratingsSummary?.average})
           </p>
         </div>
 

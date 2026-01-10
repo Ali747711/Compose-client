@@ -3,12 +3,16 @@ import Navbar from "./components/header/Navbar";
 import Login from "./components/auth/Login";
 import Home from "./screens/homePage";
 import Footer from "./components/footer/Footer";
-import Products from "./screens/categoryPage";
 import { useGlobals } from "./hooks/useGlobal";
 // import Product from "./screens/productPage";
 // import Category from "./screens/categoryPage/categories";
 import CategoryPage from "./screens/categoryPage";
 import Product from "./screens/productPage";
+import AllProducts from "./screens/productPage/AllProducts";
+import UserProfile from "./screens/userProfile";
+import Cart from "./screens/userProfile/Cart";
+import Payment from "./screens/userProfile/Payment";
+import Address from "./screens/userProfile/Address";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -24,9 +28,14 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:category" element={<CategoryPage />} />
           <Route path="/products/:category/:id" element={<Product />} />
+          <Route path="/user" element={<UserProfile />}>
+            <Route index element={<Address />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="payment" element={<Payment />} />
+          </Route>
         </Routes>
       </div>
       {!isSellerPath && <Footer />}

@@ -18,7 +18,6 @@ const ProductHero = (props: ProductHeroProps) => {
   const { product } = props;
   const [selectedImage, setSelectedImage] = useState(0);
   const { onAdd } = useGlobals();
-
   const navigate = useNavigate();
 
   // CREATE cart item from product
@@ -31,7 +30,7 @@ const ProductHero = (props: ProductHeroProps) => {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+    <div className="">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-8">
         <Link className="hover:text-gray-700 cursor-pointer" to={"/"}>
@@ -157,7 +156,13 @@ const ProductHero = (props: ProductHeroProps) => {
             <div className="space-y-3">
               {/* Best Seller Badge */}
               {product?.productViews !== undefined && (
-                <div className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors cursor-pointer">
+                <div
+                  onClick={() => {
+                    navigate("/");
+                    scrollTo(0, 900);
+                  }}
+                  className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors cursor-pointer"
+                >
                   <div className="flex items-center gap-3">
                     <div className="flex items-center justify-center w-10 h-10 bg-main/30 rounded-full">
                       <HugeiconsIcon

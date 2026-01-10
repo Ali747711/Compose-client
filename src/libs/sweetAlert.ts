@@ -35,19 +35,20 @@ export const AlertSuccess = async (msg: string, duration: number = 1500) => {
   });
 };
 
-export const AlertErrorProvider = async (
-  msg: string,
-  show_button: boolean = false,
-  forwardUrl: string = ""
-) => {
-  await Swal.fire({
-    icon: "error",
-    title: msg,
-    showConfirmButton: show_button,
-    confirmButtonText: "OK",
-  }).then(() => {
-    if (forwardUrl) {
-      window.location.replace(forwardUrl);
-    }
-  });
-};
+// export const AlertLogin = (
+//   msg: string,
+//   forward_url: string = "/",
+//   show_button: boolean = false
+// ) => {
+//   Swal.fire({
+//     icon: "error",
+//     title: msg,
+//     showConfirmButton: show_button,
+//     confirmButtonText: "OK",
+//   }).then(() => {
+//     if (forward_url !== "") {
+//       window.location.replace(forward_url);
+//     }
+//     setShowUserLogin(true);
+//   });
+// };

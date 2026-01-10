@@ -6,12 +6,14 @@ import {
 import HomePageReducer from "./screens/homePage/slice";
 import CategoryPageReducer from "./screens/categoryPage/slice";
 import ProductPageReducer from "./screens/productPage/slice";
+import UserProfilePageReducer from "./screens/userProfile/slice";
 
 export const store = configureStore({
   reducer: {
     homePage: HomePageReducer,
     productsPage: ProductPageReducer,
     categoryPage: CategoryPageReducer,
+    userProfilePage: UserProfilePageReducer,
   },
 });
 

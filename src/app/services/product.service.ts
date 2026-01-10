@@ -18,14 +18,25 @@ class ProductService {
       url += `&search=${input.search}`;
     }
     const result = await axios.get(url);
-    console.log("Product service, [getProducts] result: ", result.data);
     return result.data;
+  };
+
+  public getProduct = async (productId: string): Promise<Product> => {
+    try {
+      const url = `${this.path}/product/product/${productId}`;
+      console.log("getProduct URL: ", url);
+      const result = await axios.get(url, { withCredentials: true });
+      console.log("Product service, [getProduct] result: ", result.data);
+      return result.data;
+    } catch (error) {
+      console.log("Frontend, Product Service [getProduct] Error: ", error);
+      throw error;
+    }
   };
 
   public getAllProducts = async (): Promise<Product[]> => {
     const url = this.path + "/product/all-products";
     const result = await axios.get(url, { withCredentials: true });
-    console.log("Product service, [getAllProducts] result: ", result.data);
     return result.data;
   };
 }

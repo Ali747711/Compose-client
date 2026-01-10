@@ -31,7 +31,7 @@ const Home = () => {
     // FETCH Top users (sorted by views)
     const userService = new UserService();
     userService.getTopUsers().then((data) => {
-      console.log("✅ Top users loaded:", data);
+      // console.log("✅ Top users loaded:", data);
       setTopUsers(data); // DISPATCH TO REDUX!
     });
 

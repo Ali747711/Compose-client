@@ -18,7 +18,13 @@ const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [openBasket, setOpenBasket] = useState<boolean>(false);
   const navbarRef = useRef<HTMLDivElement>(null);
-  const { authUser, setAuthUser, setShowUserLogin } = useGlobals();
+  const {
+    authUser,
+    setAuthUser,
+    setShowUserLogin,
+    searchQuery,
+    setSearchQuery,
+  } = useGlobals();
   const { getCartCount } = useGlobals();
   const navigate = useNavigate();
 
@@ -49,6 +55,16 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (searchQuery.length > 0) {
+      navigate("/products");
+    }
+  }, [searchQuery]);
+
+  const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   const logout = async () => {
     const userService = new UserService();
@@ -99,6 +115,7 @@ const Navbar = () => {
 
       <div className="hidden min-w-10 w-3xl md:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
         <input
+          onChange={(e) => handleSearchQuery(e)}
           className="py-2.5 w-full bg-transparent outline-none placeholder-gray-500"
           type="text"
           placeholder="Search products"
@@ -126,9 +143,12 @@ const Navbar = () => {
             Login
           </button>
         ) : (
-          <div className="relative group text-main-text">
+          <div
+            onClick={() => navigate("/user")}
+            className="relative group text-main-text cursor-pointer"
+          >
             <img
-              className="w-12 h-12 rounded-full border-main-dull"
+              className="w-12 h-12 rounded-full border-2 border-main object-cover "
               src={authUser?.userImage}
               alt="user profile image"
             />

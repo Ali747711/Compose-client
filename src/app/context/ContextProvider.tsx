@@ -14,10 +14,11 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   // GET user from localStorage (persists across page refresh)
   const [authUser, setAuthUser] = useState<User | null>(
-    localStorage.getItem("userDate")
+    localStorage.getItem("userData")
       ? JSON.parse(localStorage.getItem("userData") as string)
       : null
   );
+  console.log(authUser);
 
   const currency: string = import.meta.env.VITE_CURRENCY;
 
@@ -103,6 +104,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");
@@ -124,6 +126,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         getItemQuantity,
         cartItems,
         currency,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}

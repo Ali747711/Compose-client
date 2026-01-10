@@ -8,6 +8,11 @@ export const retrieveProducts = createSelector(
   (ProductPage) => ProductPage.products
 );
 
+export const retrieveChosenProduct = createSelector(
+  selectProductPage,
+  (ProductPage) => ProductPage.chosenProduct
+);
+
 // export const retrieveAllCategories = createSelector(
 //   selectCategoryPage,
 //   (CategoryPage) => [

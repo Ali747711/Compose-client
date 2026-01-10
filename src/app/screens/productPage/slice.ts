@@ -3,6 +3,7 @@ import type { ProductPageState } from "../../../libs/data/types/pages";
 
 const initialState: ProductPageState = {
   products: [],
+  chosenProduct: null,
 };
 
 const ProductPageSlice = createSlice({
@@ -12,10 +13,13 @@ const ProductPageSlice = createSlice({
     setProducts: (state, action) => {
       state.products = action.payload;
     },
+    setChosenProduct: (state, action) => {
+      state.chosenProduct = action.payload;
+    },
   },
 });
 
-export const { setProducts } = ProductPageSlice.actions;
+export const { setProducts, setChosenProduct } = ProductPageSlice.actions;
 
 const ProductPageReducer = ProductPageSlice.reducer;
 

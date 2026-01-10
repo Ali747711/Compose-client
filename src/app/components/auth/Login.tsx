@@ -66,6 +66,7 @@ const Login = () => {
       setFormData((prev) => ({ ...prev, userNick: "" }));
       setFormData((prev) => ({ ...prev, userPassword: "" }));
       setShowUserLogin(false);
+      localStorage.setItem("userData", JSON.stringify(result));
       AlertSuccess("Login Successfull!");
     } catch (error) {
       console.log("Login page, Error: ", error);
@@ -73,28 +74,34 @@ const Login = () => {
     }
   };
   const handleSubmitSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Create FormData to send file + text fields
-    const signupData: any = new FormData();
-    signupData.append("userNick", formData.userNick);
-    signupData.append("userPhone", formData.userPhone);
-    signupData.append("userPassword", formData.userPassword);
-    signupData.append("userEmail", formData.userEmail);
-    if (profileImage) {
-      signupData.append("userImage", profileImage);
-    }
+    try {
+      e.preventDefault();
+      // Create FormData to send file + text fields
+      const signupData: any = new FormData();
+      signupData.append("userNick", formData.userNick);
+      signupData.append("userPhone", formData.userPhone);
+      signupData.append("userPassword", formData.userPassword);
+      signupData.append("userEmail", formData.userEmail);
+      if (profileImage) {
+        signupData.append("userImage", profileImage);
+      }
 
-    const userService = new UserService();
-    const result = await userService.signup(signupData);
-    setAuthUser(result);
-    setFormData({
-      userEmail: "",
-      userNick: "",
-      userPassword: "",
-      userPhone: "",
-    });
-    setImagePreview(null);
-    setShowUserLogin(false);
+      const userService = new UserService();
+      const result = await userService.signup(signupData);
+      setAuthUser(result);
+      setFormData({
+        userEmail: "",
+        userNick: "",
+        userPassword: "",
+        userPhone: "",
+      });
+      setImagePreview(null);
+      setShowUserLogin(false);
+      localStorage.setItem("userData", JSON.stringify(result));
+      AlertSuccess("Sign-up Successfull!");
+    } catch (error) {
+      AlertError(error);
+    }
   };
 
   return (
@@ -108,7 +115,7 @@ const Login = () => {
         className="flex flex-col gap-4 m-auto items-start sm:w-87.5 w-80 shadow-xl   bg-white border border-white/10 rounded-2xl px-8 "
       >
         <h1 className="text-main-text text-3xl mt-5 font-medium">
-          <span className="text-main-duller">User</span>
+          <span className="text-main">User</span>
           {state === "login" ? " Login" : " Sign up"}
         </h1>
 

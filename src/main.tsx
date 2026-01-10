@@ -6,14 +6,17 @@ import { BrowserRouter } from "react-router-dom";
 import ContextProvider from "./app/context/ContextProvider.tsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
+import { HeroUIProvider } from "@heroui/react";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
       <StrictMode>
-        <ContextProvider>
-          <App />
-        </ContextProvider>
+        <HeroUIProvider>
+          <ContextProvider>
+            <App />
+          </ContextProvider>
+        </HeroUIProvider>
       </StrictMode>
     </BrowserRouter>
   </Provider>

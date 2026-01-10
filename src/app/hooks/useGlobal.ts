@@ -1,7 +1,6 @@
 import { createContext, useContext } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
-import type { Product } from "../../libs/data/types/product";
 
 interface GlobalInterface {
   showUserLogin: boolean;
@@ -18,7 +17,8 @@ interface GlobalInterface {
   getItemQuantity: (input: string) => number;
   cartItems: CartItem[];
   currency: string;
-  products: Product[];
+  searchQuery: string;
+  setSearchQuery: (input: string) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

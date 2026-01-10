@@ -1,36 +1,56 @@
-import { retrieveAllCategories } from "./selector";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Product } from "../../../libs/data/types/product";
 import ProductCard from "../../components/ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { retrieveProducts } from "./selector";
+import ProductService from "../../services/product.service";
+import { setProducts } from "./slice";
+import { useGlobals } from "../../hooks/useGlobal";
 
-const Category = () => {
-  const { category } = useParams();
-  const allCategories = useSelector(retrieveAllCategories);
-  const selectedCategory = allCategories.find(
-    (product) => product.key === category
-  );
+const AllProducts = () => {
+  const { searchQuery } = useGlobals();
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const dispatch = useDispatch();
+  console.log("All products Page is laoding");
+  useEffect(() => {
+    const productService = new ProductService();
 
+    productService.getAllProducts().then((data) => {
+      dispatch(setProducts(data));
+      console.log(data);
+
+      if (searchQuery.length > 0) {
+        setFilteredProducts(
+          data.filter((product: Product) =>
+            product.productName
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+          )
+        );
+      } else {
+        setFilteredProducts(data);
+      }
+    });
+  }, [searchQuery]);
+  const products: Product[] = useSelector(retrieveProducts);
   return (
     <div className="max-w-[1800px] mx-auto px-4 md:px-8 py-8">
       {/* Category Header */}
-      {selectedCategory && (
+      {products && (
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-2">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              {selectedCategory.name}
+              All Products
             </h1>
-            <span className="px-3 py-1 bg-main/20 text-main-dull font-semibold rounded-lg text-sm">
-              {selectedCategory.products.length} Products
-            </span>
           </div>
           <div className="w-20 h-1 bg-gradient-to-r from-main to-main-dull rounded-full"></div>
         </div>
       )}
 
       {/* Products Grid */}
-      {selectedCategory?.products && selectedCategory.products.length > 0 ? (
+      {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {selectedCategory.products.map((product, i) => (
+          {filteredProducts.map((product, i) => (
             <ProductCard key={i} product={product} />
           ))}
         </div>
@@ -61,4 +81,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default AllProducts;
