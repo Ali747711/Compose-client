@@ -27,16 +27,24 @@ const Product = () => {
       dispatch(setProducts(data));
     });
 
-    productService
-      .getProduct(id)
-      .then((data) => {
-        console.log("Chosen Product Component, data: ", data);
-        dispatch(setChosenProduct(data));
-      })
-      .catch((err) => {
-        console.log("Chosen Product, data Fetching ERROR: ", err);
-        AlertError(err);
+    if (!authUser) {
+      Swal.fire({
+        icon: "error",
+        text: "Please login first",
+        showConfirmButton: true,
       });
+    } else {
+      productService
+        .getProduct(id)
+        .then((data) => {
+          console.log("Chosen Product Component, data: ", data);
+          dispatch(setChosenProduct(data));
+        })
+        .catch((err) => {
+          console.log("Chosen Product, data Fetching ERROR: ", err);
+          AlertError(err);
+        });
+    }
   }, [authUser, id]);
 
   const products: Product[] = useSelector(retrieveProducts);

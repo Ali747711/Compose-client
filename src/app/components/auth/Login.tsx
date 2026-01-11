@@ -66,7 +66,6 @@ const Login = () => {
       setFormData((prev) => ({ ...prev, userNick: "" }));
       setFormData((prev) => ({ ...prev, userPassword: "" }));
       setShowUserLogin(false);
-      localStorage.setItem("userData", JSON.stringify(result));
       AlertSuccess("Login Successfull!");
     } catch (error) {
       console.log("Login page, Error: ", error);
@@ -97,7 +96,6 @@ const Login = () => {
       });
       setImagePreview(null);
       setShowUserLogin(false);
-      localStorage.setItem("userData", JSON.stringify(result));
       AlertSuccess("Sign-up Successfull!");
     } catch (error) {
       AlertError(error);

@@ -24,7 +24,7 @@ const Swiped = ({ products }: { products: Product[] }) => {
         <Swiper
           // install Swiper modules
           modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={100}
+          spaceBetween={50}
           slidesPerView={4}
           pagination={{ clickable: true }}
           scrollbar={{ draggable: true }}

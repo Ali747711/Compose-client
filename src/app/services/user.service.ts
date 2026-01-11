@@ -42,7 +42,6 @@ class UserService {
     console.log("User service, [logout] ------");
     const url = this.path + "/user/logout";
     const result = await axios.get(url, { withCredentials: true });
-
     console.log("User service, [logout] result: ", result);
   };
 

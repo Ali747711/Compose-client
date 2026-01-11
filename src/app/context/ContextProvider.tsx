@@ -1,16 +1,10 @@
 import { GlobalContext } from "../hooks/useGlobal";
 import { useState, type ReactNode } from "react";
-import Cookies from "universal-cookie";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
 
 const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const cookies = new Cookies();
-
-  // If no cookies, remove stored user data
-  if (!cookies.get("accessToken")) {
-    localStorage.removeItem("userData");
-  }
+  // const cookies = new Cookies();
 
   // GET user from localStorage (persists across page refresh)
   const [authUser, setAuthUser] = useState<User | null>(
@@ -18,8 +12,16 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       ? JSON.parse(localStorage.getItem("userData") as string)
       : null
   );
-  console.log(authUser);
 
+  // useEffect(() => {
+  //   const accessToken = cookies.get("accessToken");
+
+  //   if (!accessToken && authUser) {
+  //     console.log("No valid cookie, clearing stale user data");
+  //     localStorage.removeItem("userData");
+  //     setAuthUser(null);
+  //   }
+  // }, []);
   const currency: string = import.meta.env.VITE_CURRENCY;
 
   // GET cart data from localStorage
