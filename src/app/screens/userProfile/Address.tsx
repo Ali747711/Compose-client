@@ -5,8 +5,8 @@ import { retrieveUserAddresses, retrieveUserOrders } from "./selector";
 import { Order } from "../../../libs/data/types/order";
 
 const AddressPage = () => {
-  const addresses: Address[] = useSelector(retrieveUserAddresses);
-  const orders: Order[] = useSelector(retrieveUserOrders);
+  const addresses: Address[] = useSelector(retrieveUserAddresses); // I cannot addresses here
+  const orders: Order[] = useSelector(retrieveUserOrders); // and here
   console.log(orders);
   console.log(addresses);
   return (

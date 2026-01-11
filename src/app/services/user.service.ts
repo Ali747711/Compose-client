@@ -72,7 +72,7 @@ class UserService {
     try {
       const url = `${this.path}/user/user-details`;
       const result = await axios.get(url, { withCredentials: true });
-
+      console.log(result);
       return result.data;
     } catch (error) {
       console.log("User Service, [getUserDetails] Error: ", error);
