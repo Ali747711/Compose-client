@@ -16,7 +16,7 @@ import {
   ArrowRight01Icon,
 } from "@hugeicons/core-free-icons";
 import { useGlobals } from "../../hooks/useGlobal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductService from "../../services/product.service";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,16 +26,20 @@ import {
   setUserOrders,
   setUserPayments,
 } from "./slice";
-import { Avatar } from "@heroui/react";
+import { Avatar, Spinner } from "@heroui/react";
 import UserService from "../../services/user.service";
-import { retrieveUserDetails } from "./selector";
+import { retrieveUserAddresses, retrieveUserDetails } from "./selector";
 const UserProfile = () => {
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const { authUser, setAuthUser } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
   const userDetails = useSelector(retrieveUserDetails);
+  const addresses = useSelector(retrieveUserAddresses);
   console.log(userDetails);
+  console.log(addresses);
 
   const sidebarLinks = [
     { name: "User details", path: "/user", icon: User02Icon },
@@ -66,30 +70,80 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    const productService = new ProductService();
-    const userService = new UserService();
+    const fetchUserData = async () => {
+      try {
+        setIsLoadingUser(true);
+        const userService = new UserService();
+        const data = await userService.getUserDetails();
+        console.log("Fetched user Details: ", data?.userAddresses);
 
-    productService.getAllProducts().then((data) => {
-      console.log(
-        "Data fetching is successful in User Profile Page, All products!"
-      );
-      dispatch(setProducts(data));
-    });
+        dispatch(setUserDetails(data));
 
-    userService.getUserDetails().then((data) => {
-      console.log(
-        "Data fetching is successful in User Profile Page, User Details!"
-      );
-      dispatch(setUserDetails(data));
-      dispatch(setUserAddresses(data?.userAddresses));
-      dispatch(setUserPayments(data?.userPayments));
-      dispatch(setUserOrders(data?.userOrders));
-    });
-  }, []);
+        if (data.userAddresses) {
+          console.log(data?.userAddresses);
+          dispatch(setUserAddresses(data?.userAddresses));
+        }
+        if (data.userPayments) {
+          dispatch(setUserPayments(data?.userPayments));
+        }
+        if (data.userOrders) {
+          dispatch(setUserOrders(data?.userOrders));
+        }
+
+        setIsLoadingUser(false);
+      } catch (error: any) {
+        console.error("Failed to fetch User Details! Error: ", error);
+        setError(error?.message);
+        setIsLoadingUser(false);
+      }
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const productService = new ProductService();
+        const data = await productService.getAllProducts();
+
+        console.log("✅ Products fetched:", data.length);
+        dispatch(setProducts(data));
+      } catch (error: any) {
+        console.error("Failed to fetch Products! Error: ", error);
+        setError(error?.message);
+        setIsLoadingUser(false);
+      }
+    };
+
+    fetchUserData();
+    fetchProducts();
+  }, [dispatch]);
 
   // Check if we're on a sub-route (mobile should show content, not menu)
   const isSubRoute = location.pathname !== "/user";
 
+  if (isLoadingUser) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <Spinner color="warning" label="Loading ..." size="lg" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-main text-main-text rounded-lg"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="lg:flex">
