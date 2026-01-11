@@ -4,7 +4,9 @@ import type {
   User,
   UserInput,
   UserLoginInput,
+  UserUpdateInput,
 } from "../../libs/data/types/user";
+import { AlertError } from "../../libs/sweetAlert";
 
 class UserService {
   private readonly path: string;
@@ -52,6 +54,30 @@ class UserService {
     console.log("User service, [getTopUsers] incoming data: ", result.data);
 
     return result.data.users;
+  };
+
+  public updateUser = async (input: UserUpdateInput): Promise<User> => {
+    try {
+      const url = `${this.path}/user/updateUser`;
+      const result = await axios.post(url, input, { withCredentials: true });
+
+      return result.data.user as User;
+    } catch (error) {
+      console.log("User Service, [updateUser] Error: ", error);
+      throw error;
+    }
+  };
+
+  public getUserDetails = async (): Promise<User> => {
+    try {
+      const url = `${this.path}/user/user-details`;
+      const result = await axios.get(url, { withCredentials: true });
+
+      return result.data;
+    } catch (error) {
+      console.log("User Service, [getUserDetails] Error: ", error);
+      throw error;
+    }
   };
 }
 

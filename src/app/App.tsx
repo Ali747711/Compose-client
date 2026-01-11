@@ -12,7 +12,8 @@ import AllProducts from "./screens/productPage/AllProducts";
 import UserProfile from "./screens/userProfile";
 import Cart from "./screens/userProfile/Cart";
 import Payment from "./screens/userProfile/Payment";
-import Address from "./screens/userProfile/Address";
+import UserDetails from "./screens/userProfile/UserDetails";
+import AddressPage from "./screens/userProfile/Address";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -32,9 +33,10 @@ function App() {
           <Route path="/products/:category" element={<CategoryPage />} />
           <Route path="/products/:category/:id" element={<Product />} />
           <Route path="/user" element={<UserProfile />}>
-            <Route index element={<Address />} />
+            <Route index element={<UserDetails />} />
             <Route path="cart" element={<Cart />} />
             <Route path="payment" element={<Payment />} />
+            <Route path="addresses" element={<AddressPage />} />
           </Route>
         </Routes>
       </div>

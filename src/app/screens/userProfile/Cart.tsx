@@ -80,12 +80,7 @@ const Cart = () => {
               </h2>
               <div className="w-16 lg:w-20 h-0.5 lg:h-1 bg-gradient-to-r from-main to-main-dull rounded-full"></div>
             </div>
-            {/* <div className="grid grid-cols-2 gap-3 lg:hidden">
-              {recomProducts?.slice(0, 4).map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div> */}
-            <div className=" lg:block">
+            <div className="lg:block">
               <Swiped products={recomProducts} />
             </div>
           </div>
@@ -218,20 +213,21 @@ const Cart = () => {
             </div>
           </div>
 
-          {/* Cart Items */}
-          <div className="bg-white lg:rounded-2xl lg:shadow-sm p-4 lg:p-6">
+          {/* Cart Items - Scrollable after 4 items */}
+          <div className="bg-white lg:rounded-2xl shadow-sm p-4 lg:p-6">
             <h2 className="text-base lg:text-lg font-semibold text-main-text mb-4">
               Items Name
             </h2>
-            <div className="space-y-4">
+            {/* Scrollable container - max height for ~4 items */}
+            <div className=" space-y-4 max-h-90 md:max-h-125 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 hover:scrollbar-thumb-main/50">
               {cartItems.map((item, index) => (
                 <div
                   key={index}
                   className="pb-4 border-b border-gray-100 last:border-b-0"
                 >
-                  <div className=" flex justify-between">
+                  <div className="flex justify-between">
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-14 h-14 lg:w-16 lg:h-16 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-14 h-14 lg:w-16 lg:h-16 bg-gray-50 rounded-lg overflow-hidden shrink-0">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -295,7 +291,6 @@ const Cart = () => {
                       <span className="font-light">Item total: </span>{" "}
                       {item?.price * getItemQuantity(item._id)}
                       {currency}
-                      {}
                     </div>
                   </div>
                 </div>
@@ -358,15 +353,15 @@ const Cart = () => {
       </div>
 
       {/* Recommendations Section */}
-      <div className="p-4 lg:p-8 pb-24 lg:pb-8 lg:max-w-7xl lg:mx-auto">
-        <div className="mb-4 lg:mb-6">
+      <div className="p-4 lg:p-8 pb-25 lg:pb-8 lg:max-w-7xl lg:mx-auto">
+        <div className="mb-0 lg:mb-6">
           <h2 className="text-xl lg:text-3xl font-bold text-main-text mb-2">
             Best Seller
           </h2>
-          <div className="w-16 lg:w-20 h-0.5 lg:h-1 bg-gradient-to-r from-main to-main-dull rounded-full"></div>
+          <div className="w-16 lg:w-20 h-0.5 lg:h-1 bg-linear-to-r from-main to-main-dull rounded-full"></div>
         </div>
 
-        <div className=" lg:block">
+        <div className="lg:block m-0">
           <Swiped products={recomProducts} />
         </div>
       </div>

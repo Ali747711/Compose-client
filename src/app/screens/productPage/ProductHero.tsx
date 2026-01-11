@@ -17,35 +17,40 @@ interface ProductHeroProps {
 const ProductHero = (props: ProductHeroProps) => {
   const { product } = props;
   const [selectedImage, setSelectedImage] = useState(0);
-  const { onAdd } = useGlobals();
+  const { onAdd, currency } = useGlobals();
   const navigate = useNavigate();
+
+  // Guard clause - if no product, show nothing (parent handles loading)
+  if (!product) {
+    return null;
+  }
 
   // CREATE cart item from product
   const createCartItem = (): CartItem => ({
     _id: product._id,
     price: product.productPrice,
     name: product.productName,
-    image: product.productImages[0],
+    image: product.productImages?.[0] || "",
     quantity: 1,
   });
 
   return (
-    <div className="">
+    <div>
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-8">
-        <Link className="hover:text-gray-700 cursor-pointer" to={"/"}>
+        <Link className="hover:text-gray-700 cursor-pointer" to="/">
           Home
         </Link>
         <span className="mx-2">/</span>
         <Link
           className="hover:text-gray-700 cursor-pointer"
-          to={`/products/${product?.productCollection.toLowerCase()}`}
+          to={`/products/${product.productCollection?.toLowerCase()}`}
         >
-          {product?.productCollection}
+          {product.productCollection}
         </Link>
         <span className="mx-2">/</span>
         <span className="text-main-text font-medium">
-          {product?.productName}
+          {product.productName}
         </span>
       </nav>
 
@@ -55,57 +60,55 @@ const ProductHero = (props: ProductHeroProps) => {
           {/* Main Image Container */}
           <div className="relative bg-white rounded-2xl overflow-hidden mb-6 border border-gray-200">
             <div className="aspect-square flex items-center justify-center p-12 bg-gradient-to-br from-gray-50 to-white">
-              <img
-                src={product?.productImages[selectedImage]}
-                alt={product?.productName}
-                className="w-full h-full object-contain"
-              />
+              {product.productImages?.[selectedImage] ? (
+                <img
+                  src={product.productImages[selectedImage]}
+                  alt={product.productName}
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <div className="flex items-center justify-center w-full h-full bg-gray-100 rounded-lg">
+                  <span className="text-gray-400">No image available</span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Thumbnail Images - Fixed Size */}
-          <div className="flex gap-4 justify-start">
-            {product?.productImages.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className={`flex-shrink-0 w-20 h-20 bg-white rounded-xl overflow-hidden border-2 transition-all ${
-                  selectedImage === index
-                    ? "border-main-dull shadow-md"
-                    : "border-gray-200 hover:border-main/50"
-                }`}
-              >
-                <div className="w-full h-full p-2 flex items-center justify-center">
-                  <img
-                    src={image}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              </button>
-            ))}
-            {/* Empty placeholder thumbnails if less than 4 images */}
-            {/* {product?.productImages &&
-              product.productImages.length < 4 &&
-              Array(4 - product.productImages.length)
-                .fill(null)
-                .map((_, index) => (
-                  <div
-                    key={`placeholder-${index}`}
-                    className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-xl border-2 border-gray-100"
-                  />
-                ))} */}
-          </div>
+          {product.productImages && product.productImages.length > 1 && (
+            <div className="flex gap-4 justify-start">
+              {product.productImages.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`flex-shrink-0 w-20 h-20 bg-white rounded-xl overflow-hidden border-2 transition-all ${
+                    selectedImage === index
+                      ? "border-main-dull shadow-md"
+                      : "border-gray-200 hover:border-main/50"
+                  }`}
+                >
+                  <div className="w-full h-full p-2 flex items-center justify-center">
+                    <img
+                      src={image}
+                      alt={`Thumbnail ${index + 1}`}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right Side - Product Details */}
         <div className="flex-1 max-w-xl">
           {/* Product Name */}
-          <h1 className="text-3xl md:text-4xl font-bold text-main-text mb-0.5  leading-tight">
-            {product?.productName}
+          <h1 className="text-3xl md:text-4xl font-bold text-main-text mb-0.5 leading-tight">
+            {product.productName}
           </h1>
+
           {/* Product Description */}
-          {product?.productDesc && (
+          {product.productDesc && (
             <div className="mb-3 ml-1">
               <p className="text-gray-600 leading-relaxed">
                 {product.productDesc}
@@ -115,26 +118,29 @@ const ProductHero = (props: ProductHeroProps) => {
 
           {/* Price Per Unit */}
           <p className="text-sm text-gray-500 mb-3">
-            ${product?.productPrice / 10}/lb
+            {currency}
+            {(product.productPrice / 10).toFixed(2)}/lb
           </p>
 
           {/* Price */}
           <div className="flex items-baseline gap-3 mb-3">
             <span className="text-4xl font-bold text-main-text">
-              ${product?.productPrice}
+              {currency}
+              {product.productPrice}
             </span>
             <span className="text-xl text-gray-400 line-through">
-              ${(Number(product?.productPrice) * 1.2).toFixed(2)}
+              {currency}
+              {(Number(product.productPrice) * 1.2).toFixed(2)}
             </span>
           </div>
 
           {/* Stock Badge */}
-          <div className="inline-block mb-6 ">
+          <div className="inline-block mb-6">
             <span className="px-3 py-1.5 mr-3 bg-red-50 text-red-600 text-sm font-semibold rounded-lg border border-red-100">
-              {product?.productLeftCount} Left
+              {product.productLeftCount} Left
             </span>
             <span className="px-3 py-1.5 bg-main/30 text-main-text text-sm font-semibold rounded-lg border border-main">
-              {product?.productViews} views
+              {product.productViews} views
             </span>
           </div>
 
@@ -155,11 +161,11 @@ const ProductHero = (props: ProductHeroProps) => {
 
             <div className="space-y-3">
               {/* Best Seller Badge */}
-              {product?.productViews !== undefined && (
+              {product.productViews !== undefined && (
                 <div
                   onClick={() => {
                     navigate("/");
-                    scrollTo(0, 900);
+                    setTimeout(() => scrollTo(0, 900), 100);
                   }}
                   className="flex items-center justify-between p-4 bg-main/10 border border-main/30 rounded-xl hover:bg-main/15 transition-colors cursor-pointer"
                 >
@@ -195,7 +201,7 @@ const ProductHero = (props: ProductHeroProps) => {
               )}
 
               {/* Satisfaction Guarantee */}
-              {product?.productStatus && (
+              {product.productStatus && (
                 <div className="flex items-center gap-3 p-4 rounded-xl">
                   <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
                     <HugeiconsIcon

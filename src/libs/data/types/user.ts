@@ -1,4 +1,7 @@
 import type { UserStatus, UserType } from "../../enums/user.enum";
+import { Address } from "./address";
+import { Order } from "./order";
+import { Payment } from "./payment";
 
 export interface User {
   _id: string;
@@ -11,6 +14,10 @@ export interface User {
   userBio?: string;
   userImage?: string;
   userPoints: number;
+  // from aggregate
+  userAddresses?: Address[];
+  userPayments?: Payment[];
+  userOrders?: Order[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
+  User02Icon,
   ShoppingCart02Icon,
   Location04Icon,
   CreditCardIcon,
@@ -17,17 +18,27 @@ import {
 import { useGlobals } from "../../hooks/useGlobal";
 import { useEffect } from "react";
 import ProductService from "../../services/product.service";
-import { useDispatch } from "react-redux";
-import { setProducts } from "./slice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setProducts,
+  setUserAddresses,
+  setUserDetails,
+  setUserOrders,
+  setUserPayments,
+} from "./slice";
 import { Avatar } from "@heroui/react";
-
+import UserService from "../../services/user.service";
+import { retrieveUserDetails } from "./selector";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { authUser, setAuthUser } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
+  const userDetails = useSelector(retrieveUserDetails);
+  console.log(userDetails);
 
   const sidebarLinks = [
+    { name: "User details", path: "/user", icon: User02Icon },
     { name: "My Orders", path: "/user/orders", icon: Package01Icon },
     { name: "My Cart", path: "/user/cart", icon: ShoppingCart02Icon },
     { name: "My Addresses", path: "/user/addresses", icon: Location04Icon },
@@ -56,10 +67,23 @@ const UserProfile = () => {
 
   useEffect(() => {
     const productService = new ProductService();
+    const userService = new UserService();
 
     productService.getAllProducts().then((data) => {
-      console.log("Data fetching is successful in User Profile Page!");
+      console.log(
+        "Data fetching is successful in User Profile Page, All products!"
+      );
       dispatch(setProducts(data));
+    });
+
+    userService.getUserDetails().then((data) => {
+      console.log(
+        "Data fetching is successful in User Profile Page, User Details!"
+      );
+      dispatch(setUserDetails(data));
+      dispatch(setUserAddresses(data?.userAddresses));
+      dispatch(setUserPayments(data?.userPayments));
+      dispatch(setUserOrders(data?.userOrders));
     });
   }, []);
 
@@ -70,7 +94,7 @@ const UserProfile = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="lg:flex">
         {/* Desktop Sidebar - Always visible */}
-        <aside className="hidden lg:flex lg:w-72 bg-white border-r border-gray-200 min-h-screen flex-col">
+        <aside className="hidden lg:flex max-w-40 bg-white border-r border-gray-200 min-h-screen flex-col">
           {/* User Profile Section */}
           <div className="p-6 border-b border-gray-200">
             <div className="flex flex-col items-start gap-3">

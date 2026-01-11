@@ -1,18 +1,24 @@
 import React from "react";
+import { Address } from "../../../libs/data/types/address";
+import { useSelector } from "react-redux";
+import { retrieveUserAddresses, retrieveUserOrders } from "./selector";
+import { Order } from "../../../libs/data/types/order";
 
-const Address = () => {
+const AddressPage = () => {
+  const addresses: Address[] = useSelector(retrieveUserAddresses);
+  const orders: Order[] = useSelector(retrieveUserOrders);
+  console.log(orders);
+  console.log(addresses);
   return (
-    <div className="mt-15">
-      <div className="mb-5">
-        <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Address Details
-          </h1>
-        </div>
-        <div className="w-20 h-1 bg-gradient-to-r from-main to-main-dull rounded-full"></div>
+    <div className="p-5">
+      <h1 className="text-3xl">Main address Page</h1>
+      <div className="w-full bg-border h-1 mt-5"></div>
+      <div className="mt-5">
+        <h1>User Addresses:</h1>
+        <div>{}</div>
       </div>
     </div>
   );
 };
 
-export default Address;
+export default AddressPage;

@@ -7,3 +7,20 @@ export const retrieveProducts = createSelector(
   selectUserProfilePage,
   (UserProfilePage) => UserProfilePage.products
 );
+
+export const retrieveUserDetails = createSelector(
+  selectUserProfilePage,
+  (UserProfilePage) => UserProfilePage.userDetails
+);
+export const retrieveUserAddresses = createSelector(
+  selectUserProfilePage,
+  (UserProfilePage) => UserProfilePage.addresses
+);
+export const retrieveUserOrders = createSelector(
+  selectUserProfilePage,
+  (UserProfilePage) => UserProfilePage.orders
+);
+export const retrieveUserPayments = createSelector(
+  selectUserProfilePage,
+  (UserProfilePage) => UserProfilePage.payments
+);

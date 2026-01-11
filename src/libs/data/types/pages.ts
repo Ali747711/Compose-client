@@ -1,3 +1,6 @@
+import { Address } from "./address";
+import { Order } from "./order";
+import { Payment } from "./payment";
 import type { Product } from "./product";
 import type { User } from "./user";
 
@@ -28,10 +31,14 @@ export interface CategoryPageState {
   tea_tea_beverage: Product[];
 }
 export interface ProductPageState {
-  products: [];
+  products: Product[];
   chosenProduct: Product | null;
 }
 
 export interface UserProfilePageState {
-  products: [];
+  products: Product[];
+  userDetails: User | null;
+  addresses: Address[];
+  orders: Order[];
+  payments: Payment[];
 }

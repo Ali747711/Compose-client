@@ -12,6 +12,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
+import { AlertInputError } from "../../../libs/sweetAlert";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -24,8 +25,8 @@ const Navbar = () => {
     setShowUserLogin,
     searchQuery,
     setSearchQuery,
+    getCartCount,
   } = useGlobals();
-  const { getCartCount } = useGlobals();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -143,10 +144,7 @@ const Navbar = () => {
             Login
           </button>
         ) : (
-          <div
-            onClick={() => navigate("/user")}
-            className="relative group text-main-text cursor-pointer"
-          >
+          <div className="relative group text-main-text cursor-pointer">
             <img
               className="w-12 h-12 rounded-full border-2 border-main object-cover "
               src={authUser?.userImage}
@@ -155,10 +153,12 @@ const Navbar = () => {
 
             <ul className="hidden group-hover:block absolute top-10 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40">
               <li
-                onClick={() => navigate("my-orders")}
+                onClick={() => {
+                  navigate("/user");
+                }}
                 className="p-1.5 pl-3 hover:bg-main/10 cursor-pointer"
               >
-                My Orders
+                User Profile
               </li>
               <li
                 onClick={() => logout()}
@@ -178,7 +178,7 @@ const Navbar = () => {
         } absolute top-15 left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
       >
         <NavLink to={"/"}>Home</NavLink>
-        <NavLink to={"/about"}>About</NavLink>
+        {authUser && <NavLink to={"/user"}>User Profile</NavLink>}
         <NavLink to={"/contact"}>Contact</NavLink>
 
         {authUser ? (

@@ -10,6 +10,13 @@ export const AlertError = async (err: any) => {
     showCancelButton: false,
   });
 };
+export const AlertInputError = async (msg: string = "Please login first!") => {
+  await Swal.fire({
+    icon: "error",
+    text: msg,
+    showCancelButton: false,
+  });
+};
 
 export const AlertSuccess = async (msg: string, duration: number = 1500) => {
   await Swal.fire({
