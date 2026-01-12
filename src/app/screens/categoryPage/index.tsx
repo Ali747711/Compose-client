@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Promotion from "./Promotion";
 import ProductService from "../../services/product.service";
 import { useDispatch } from "react-redux";
 import { type Dispatch } from "@reduxjs/toolkit";

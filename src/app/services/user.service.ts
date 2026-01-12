@@ -6,7 +6,6 @@ import type {
   UserLoginInput,
   UserUpdateInput,
 } from "../../libs/data/types/user";
-import { AlertError } from "../../libs/sweetAlert";
 
 class UserService {
   private readonly path: string;

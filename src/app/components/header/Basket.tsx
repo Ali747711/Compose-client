@@ -1,11 +1,8 @@
-import {
-  AddCircleIcon,
-  Delete02Icon,
-  ShoppingCart02Icon,
-} from "@hugeicons/core-free-icons";
+import { Delete02Icon, ShoppingCart02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Divider from "../divider";
 import { useGlobals } from "../../hooks/useGlobal";
+import { CartItem } from "../../../libs/data/types/search";
 
 const Basket = () => {
   const { onAdd, onRemove, cartItems, getItemQuantity, currency } =
@@ -13,7 +10,8 @@ const Basket = () => {
 
   // Calculate subtotal
   const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * getItemQuantity(item._id),
+    (sum, item: CartItem) =>
+      sum + (item?.price ?? 0) * getItemQuantity(item._id),
     0
   );
 
@@ -65,7 +63,7 @@ const Basket = () => {
                       {currency}
                     </span>
                     <span className="text-xs text-gray-400 line-through">
-                      {item.price * 1.5}
+                      {(item.price ?? 0) * 1.5}
                       {currency}
                     </span>
                   </div>

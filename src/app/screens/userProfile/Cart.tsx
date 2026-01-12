@@ -5,7 +5,6 @@ import {
   Calendar03Icon,
   Location04Icon,
   Cancel01Icon,
-  ArrowDown01,
 } from "@hugeicons/core-free-icons";
 import { useGlobals } from "../../hooks/useGlobal";
 
@@ -24,7 +23,7 @@ const Cart = () => {
 
   // Calculate totals
   const itemsTotal = cartItems.reduce(
-    (sum, item) => sum + item?.price * getItemQuantity(item._id),
+    (sum, item) => sum + (item?.price ?? 0) * getItemQuantity(item._id),
     0
   );
   const deliveryFee = itemsTotal > 25000 ? 0 : 5000;
@@ -254,7 +253,7 @@ const Cart = () => {
                             {currency}
                           </span>
                           <span className="text-xs lg:text-sm text-gray-400 line-through">
-                            {item?.price * 1.3}
+                            {(item?.price ?? 0) * 1.3}
                             {currency}
                           </span>
                         </div>
@@ -298,7 +297,7 @@ const Cart = () => {
                     <div></div>
                     <div className="ml-auto font-bold text-main-text">
                       <span className="font-light">Item total: </span>{" "}
-                      {item?.price * getItemQuantity(item._id)}
+                      {(item?.price ?? 0) * getItemQuantity(item._id)}
                       {currency}
                     </div>
                   </div>

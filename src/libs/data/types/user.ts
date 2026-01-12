@@ -40,7 +40,7 @@ export interface UserLoginInput {
 }
 
 export interface UserUpdateInput {
-  _id: string;
+  _id?: string;
   userType?: UserType;
   userStatus?: UserStatus;
   userNick?: string;

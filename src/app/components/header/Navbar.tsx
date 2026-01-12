@@ -12,7 +12,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
-import { AlertInputError } from "../../../libs/sweetAlert";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

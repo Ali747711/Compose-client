@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductHero from "./ProductHero";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenProduct, retrieveProducts } from "./selector";
@@ -15,7 +15,7 @@ import { UserAccountIcon, LockIcon } from "@hugeicons/core-free-icons";
 import Recommended from "./Recommended";
 
 const Product = () => {
-  const { id } = useParams<{ productId: string }>();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { setShowUserLogin, authUser } = useGlobals();
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const Product = () => {
 
   // Get data from Redux BEFORE useEffect
   const products: Product[] = useSelector(retrieveProducts);
-  const chosenProduct: Product = useSelector(retrieveChosenProduct);
+  const chosenProduct: Product | null = useSelector(retrieveChosenProduct);
 
   useEffect(() => {
     if (!authUser) {
@@ -49,17 +49,25 @@ const Product = () => {
           console.log("Chosen Product Component, data: ", productData);
           dispatch(setChosenProduct(productData));
         }
-      } catch (err: any) {
-        console.error("Error fetching product data:", err);
-        setError(err?.message || "Failed to load product");
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error(String(err));
+        console.error("Error fetching product data:", error);
+        setError(error?.message || "Failed to load product");
 
-        if (err?.status === 401) {
+        if (
+          err &&
+          typeof err === "object" &&
+          "status" in err &&
+          err.status === 401
+        ) {
           Swal.fire({
             icon: "error",
-            text: err?.response?.data?.message || "Authentication required",
+            text:
+              (err as unknown as { response: { data: { message: string } } })
+                .response?.data?.message || "Authentication required",
           }).then(() => setShowUserLogin(true));
         } else {
-          AlertError(err);
+          AlertError(error);
         }
       } finally {
         setLoading(false);

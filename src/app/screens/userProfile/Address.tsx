@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Address,
-  AddressInput,
-  AddressUpdateInput,
-} from "../../../libs/data/types/address";
+import { useEffect, useState } from "react";
+import { Address } from "../../../libs/data/types/address";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveUserAddresses } from "./selector";
 import { HugeiconsIcon } from "@hugeicons/react";

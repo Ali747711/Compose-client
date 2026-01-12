@@ -27,7 +27,6 @@ const AddressForm = ({
   userId,
 }: AddressFormProps) => {
   const [selectedType, setSelectedType] = useState<string>();
-  const [newAddress, setNewAddress] = useState<Address>([]);
   const [formData, setFormData] = useState<AddressUpdateInput>({
     _id: editAddress?._id || "",
     label: editAddress?.label || selectedType || "Home",
@@ -81,13 +80,11 @@ const AddressForm = ({
     }
     if (editAddress) {
       await addressService.updateAddress(formData).then((data) => {
-        setNewAddress(data);
         onSave(data);
         console.log("UPDATE ADDRESS");
       });
     } else {
       await addressService.createAddress(addFormData).then((data) => {
-        setNewAddress(data);
         onSave(data);
         console.log("ADD ADDRESS");
       });

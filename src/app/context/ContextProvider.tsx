@@ -2,6 +2,10 @@ import { GlobalContext } from "../hooks/useGlobal";
 import { useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // const cookies = new Cookies();
@@ -38,7 +42,9 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     let cartUpdate: CartItem[];
     if (exist) {
       cartUpdate = cartItems?.map((item) =>
-        item._id === input._id ? { ...item, quantity: item.quantity + 1 } : item
+        item._id === input._id
+          ? { ...item, quantity: (item.quantity ?? 0) + 1 }
+          : item
       );
     } else {
       cartUpdate = [...cartItems, { ...input, quantity: 1 }];
@@ -67,7 +73,9 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     } else {
       // Decrement quantity
       cartUpdate = cartItems.map((item) =>
-        item._id === input._id ? { ...item, quantity: item.quantity - 1 } : item
+        item._id === input._id
+          ? { ...item, quantity: (item.quantity ?? 0) - 1 }
+          : item
       );
     }
 
@@ -95,7 +103,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   // Get total quantity of all items
   const getCartCount = (): number => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return cartItems.reduce((total, item) => total + (item.quantity ?? 0), 0);
   };
 
   // Get quantity of specific item

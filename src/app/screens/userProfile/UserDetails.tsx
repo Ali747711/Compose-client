@@ -9,16 +9,14 @@ import {
   Mail01Icon,
   Call02Icon,
   Calendar03Icon,
-  Location04Icon,
   Camera01Icon,
-  User02Icon,
 } from "@hugeicons/core-free-icons";
 import { AlertError, AlertSuccess } from "../../../libs/sweetAlert";
 import UserService from "../../services/user.service";
-import { User } from "../../../libs/data/types/user";
 import { Avatar } from "@heroui/react";
 import { useSelector } from "react-redux";
 import { retrieveUserDetails } from "./selector";
+import { UserUpdateInput } from "../../../libs/data/types/user";
 
 const UserDetails = () => {
   const userDetails = useSelector(retrieveUserDetails);
@@ -45,7 +43,7 @@ const UserDetails = () => {
 
   const handleSubmit = async () => {
     try {
-      const signupForm: any = new FormData();
+      const signupForm = new FormData();
       signupForm.append("userNick", formData.userNick);
       signupForm.append("userBio", formData.userBio);
       signupForm.append("userEmail", formData.userEmail);
@@ -55,7 +53,9 @@ const UserDetails = () => {
       }
 
       const userService = new UserService();
-      const result = await userService.updateUser(signupForm);
+      const result = await userService.updateUser(
+        signupForm as UserUpdateInput
+      );
       setAuthUser(result);
       setIsEditing(false);
       AlertSuccess("User details successfully updated!");
@@ -73,6 +73,7 @@ const UserDetails = () => {
       userEmail: authUser?.userEmail || "",
       userPhone: authUser?.userPhone || "",
       userBio: authUser?.userBio || "",
+      userAddress: authUser?.userAddresses || "",
     });
     setIsEditing(false);
   };
@@ -84,10 +85,12 @@ const UserDetails = () => {
       // TODO: Upload image to server
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAuthUser((prev: any) => ({
-          ...prev,
-          userImage: reader.result as string,
-        }));
+        if (authUser) {
+          setAuthUser({
+            ...authUser,
+            userImage: reader.result as string,
+          });
+        }
       };
       reader.readAsDataURL(file);
     }
