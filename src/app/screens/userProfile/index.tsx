@@ -28,7 +28,7 @@ import {
 } from "./slice";
 import { Avatar, Spinner } from "@heroui/react";
 import UserService from "../../services/user.service";
-
+import { retrieveUserDetails } from "./selector";
 const UserProfile = () => {
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,10 +36,8 @@ const UserProfile = () => {
   const { authUser, setAuthUser } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
-  // const userDetails = useSelector(retrieveUserDetails);
-  // const addresses = useSelector(retrieveUserAddresses);
-  // console.log(userDetails);
-  // console.log(addresses);
+  const userDetails = useSelector(retrieveUserDetails);
+  console.log(userDetails);
 
   const sidebarLinks = [
     { name: "User details", path: "/user", icon: User02Icon },
