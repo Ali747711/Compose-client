@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { retrieveProducts } from "./selector";
 import Swiped from "../../components/Swiper";
 import { Product } from "../../../libs/data/types/product";
+import { DatePicker } from "@heroui/react";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -137,11 +138,19 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 border-2 border-gray-200 rounded-lg hover:border-main transition-all">
+              {/* <button className="flex items-center gap-2 px-4 py-2 border-2 border-gray-200 rounded-lg hover:border-main transition-all">
                 <HugeiconsIcon icon={Calendar03Icon} size={18} />
                 <span className="font-medium">Wed 1/23</span>
                 <HugeiconsIcon icon={ArrowDown01} size={18} />
-              </button>
+              </button> */}
+              <div>
+                <DatePicker
+                  color="warning"
+                  showMonthAndYearPickers
+                  radius="md"
+                  label="Delivery date"
+                />
+              </div>
             </div>
 
             {itemsTotal < freeDeliveryThreshold && (

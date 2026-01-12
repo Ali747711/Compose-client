@@ -17,17 +17,20 @@ import { AlertError, AlertSuccess } from "../../../libs/sweetAlert";
 import UserService from "../../services/user.service";
 import { User } from "../../../libs/data/types/user";
 import { Avatar } from "@heroui/react";
+import { useSelector } from "react-redux";
+import { retrieveUserDetails } from "./selector";
 
 const UserDetails = () => {
+  const userDetails = useSelector(retrieveUserDetails);
   const { authUser, setAuthUser } = useGlobals();
   const [isEditing, setIsEditing] = useState(false);
   const [imageInput, setImageInput] = useState<File | null>(null);
   const [formData, setFormData] = useState({
-    userNick: authUser?.userNick || "",
-    userEmail: authUser?.userEmail || "",
-    userPhone: authUser?.userPhone || "",
-    userBio: authUser?.userBio || "",
-    // userAddress: authUser?.userAddress || "",
+    userNick: userDetails?.userNick || authUser?.userNick || "",
+    userEmail: userDetails?.userEmail || authUser?.userEmail || "",
+    userPhone: userDetails?.userPhone || authUser?.userPhone || "",
+    userBio: userDetails?.userBio || authUser?.userBio || "",
+    userAddress: userDetails?.userAddresses || authUser?.userAddresses || "",
   });
 
   const handleInputChange = (
@@ -203,7 +206,9 @@ const UserDetails = () => {
                   <p className="text-xs text-gray-500">Orders</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-main-text">12</p>
+                  <p className="text-2xl font-bold text-main-text">
+                    {formData?.userAddress?.length}
+                  </p>
                   <p className="text-xs text-gray-500">Addresses</p>
                 </div>
                 <div className="text-center">

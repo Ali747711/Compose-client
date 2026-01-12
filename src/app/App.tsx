@@ -35,7 +35,7 @@ function App() {
           <Route path="/user" element={<UserProfile />}>
             <Route index element={<UserDetails />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="payment" element={<Payment />} />
+            <Route path="payments" element={<Payment />} />
             <Route path="addresses" element={<AddressPage />} />
           </Route>
         </Routes>
