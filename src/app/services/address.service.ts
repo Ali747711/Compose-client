@@ -1,4 +1,3 @@
-import axios from "axios";
 import { serverURL } from "../../libs/configs";
 import {
   Address,
@@ -6,6 +5,7 @@ import {
   AddressUpdateInput,
 } from "../../libs/data/types/address";
 import { AlertSuccess } from "../../libs/sweetAlert";
+import { apiClient } from "../../libs/api/axios.config";
 
 class AddressService {
   private readonly path: string;
@@ -17,7 +17,9 @@ class AddressService {
   public createAddress = async (input: AddressInput): Promise<Address> => {
     try {
       const url = `${this.path}/address/add-address`;
-      const result = await axios.post(url, input, { withCredentials: true });
+      const result = await apiClient.post(url, input, {
+        withCredentials: true,
+      });
 
       return result.data;
     } catch (error) {
@@ -33,7 +35,7 @@ class AddressService {
       const id = input._id;
       const url = `${this.path}/address/update-address/${id}`;
 
-      const result = await axios.put(url, input, { withCredentials: true });
+      const result = await apiClient.put(url, input);
       AlertSuccess("Address successfully added!");
       return result.data;
     } catch (error) {
@@ -45,7 +47,7 @@ class AddressService {
   public updateToDefault = async (id: string): Promise<Address[]> => {
     try {
       const url = `${this.path}/address/update-default/${id}`;
-      const result = await axios.put(url, id, { withCredentials: true });
+      const result = await apiClient.put(url);
       return result.data;
     } catch (error) {
       console.log("Address Service, [updateToDefault] ERROR: ", error);
@@ -55,9 +57,9 @@ class AddressService {
 
   public updateMany = async (input: Address): Promise<Address[]> => {
     try {
-      console.log("Address Service, incomig data to UpdateMany: ", input);
+      // console.log("Address Service, incomig data to UpdateMany: ", input);
       const url = `${this.path}/address/update-many`;
-      const result = await axios.put(url, input, { withCredentials: true });
+      const result = await apiClient.put(url, input);
       // console.log("Address Service, [updateMany] result: ", result);
       return result.data;
     } catch (error) {
@@ -69,9 +71,9 @@ class AddressService {
   public deleteAddress = async (id: string): Promise<void> => {
     try {
       const url = `${this.path}/address/delete-address/${id}`;
-      const result = await axios.delete(url, { withCredentials: true });
+      const result = await apiClient.delete(url);
       AlertSuccess(result.data?.message);
-      console.log("Address Service, [deleteAddress] result: ", result);
+      // console.log("Address Service, [deleteAddress] result: ", result);
     } catch (error) {
       console.log("Address Service, [deleteAddress] ERROR: ", error);
       throw error;

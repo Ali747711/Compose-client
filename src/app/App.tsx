@@ -14,6 +14,7 @@ import Cart from "./screens/userProfile/Cart";
 import Payment from "./screens/userProfile/Payment";
 import UserDetails from "./screens/userProfile/UserDetails";
 import AddressPage from "./screens/userProfile/Address";
+import NotFound from "./screens/NotFound";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -38,6 +39,7 @@ function App() {
             <Route path="payments" element={<Payment />} />
             <Route path="addresses" element={<AddressPage />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}

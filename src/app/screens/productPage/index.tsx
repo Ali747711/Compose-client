@@ -46,7 +46,7 @@ const Product = () => {
         // Always fetch the chosen product when ID changes
         if (id) {
           const productData = await productService.getProduct(id);
-          console.log("Chosen Product Component, data: ", productData);
+          // console.log("Chosen Product Component, data: ", productData);
           dispatch(setChosenProduct(productData));
         }
       } catch (err) {

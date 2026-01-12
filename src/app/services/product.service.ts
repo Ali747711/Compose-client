@@ -1,6 +1,6 @@
-import axios from "axios";
 import { serverURL } from "../../libs/configs";
 import type { Product, ProductInquiry } from "../../libs/data/types/product";
+import { apiClient } from "../../libs/api/axios.config";
 
 class ProductService {
   private readonly path: string;
@@ -17,7 +17,7 @@ class ProductService {
     if (input.search) {
       url += `&search=${input.search}`;
     }
-    const result = await axios.get(url);
+    const result = await apiClient.get(url);
     return result.data;
   };
 
@@ -25,7 +25,7 @@ class ProductService {
     try {
       const url = `${this.path}/product/product/${productId}`;
       console.log("getProduct URL: ", url);
-      const result = await axios.get(url, { withCredentials: true });
+      const result = await apiClient.get(url);
       console.log("Product service, [getProduct] result: ", result.data);
       return result.data;
     } catch (error) {
@@ -36,7 +36,7 @@ class ProductService {
 
   public getAllProducts = async (): Promise<Product[]> => {
     const url = this.path + "/product/all-products";
-    const result = await axios.get(url, { withCredentials: true });
+    const result = await apiClient.get(url);
     return result.data;
   };
 }

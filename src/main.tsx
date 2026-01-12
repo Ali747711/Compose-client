@@ -8,19 +8,21 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import { HeroUIProvider } from "@heroui/react";
 import { APIProvider } from "@vis.gl/react-google-maps";
-
+import { HelmetProvider } from "@dr.pogodin/react-helmet";
 createRoot(document.getElementById("root")!).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <StrictMode>
-        <HeroUIProvider>
-          <ContextProvider>
-            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-              <App />
-            </APIProvider>
-          </ContextProvider>
-        </HeroUIProvider>
-      </StrictMode>
-    </BrowserRouter>
-  </Provider>
+  <HelmetProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <StrictMode>
+          <HeroUIProvider>
+            <ContextProvider>
+              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                <App />
+              </APIProvider>
+            </ContextProvider>
+          </HeroUIProvider>
+        </StrictMode>
+      </BrowserRouter>
+    </Provider>
+  </HelmetProvider>
 );

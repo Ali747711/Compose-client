@@ -73,12 +73,12 @@ const UserProfile = () => {
         setIsLoadingUser(true);
         const userService = new UserService();
         const data = await userService.getUserDetails();
-        console.log("Fetched user Details: ", data?.userAddresses);
+        // console.log("Fetched user Details: ", data?.userAddresses);
 
         dispatch(setUserDetails(data));
 
         if (data.userAddresses) {
-          console.log(data?.userAddresses);
+          // console.log(data?.userAddresses);
           dispatch(setUserAddresses(data?.userAddresses));
         }
         if (data.userPayments) {
@@ -101,10 +101,10 @@ const UserProfile = () => {
         const productService = new ProductService();
         const data = await productService.getAllProducts();
 
-        console.log("✅ Products fetched:", data.length);
+        // console.log("✅ Products fetched:", data.length);
         dispatch(setProducts(data));
       } catch (error: any) {
-        console.error("Failed to fetch Products! Error: ", error);
+        // console.error("Failed to fetch Products! Error: ", error);
         setError(error?.message);
         setIsLoadingUser(false);
       }

@@ -2,14 +2,15 @@ import { GlobalContext } from "../hooks/useGlobal";
 import { useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
-import axios from "axios";
+import { apiClient } from "../../libs/api/axios.config";
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+// ✅ Add token to all requests from localStorage
+const token = localStorage.getItem("token");
+if (token) {
+  apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 
 const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  // const cookies = new Cookies();
-
   // GET user from localStorage (persists across page refresh)
   const [authUser, setAuthUser] = useState<User | null>(
     localStorage.getItem("userData")
@@ -112,6 +113,16 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     return item?.quantity || 0;
   };
 
+  // Mobile token
+  const saveToken = (token: string) => {
+    localStorage.setItem("token", token);
+    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  };
+  const removeToken = () => {
+    localStorage.removeItem("token");
+    delete apiClient.defaults.headers.common["Authorization"];
+  };
+
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -138,6 +149,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         currency,
         searchQuery,
         setSearchQuery,
+        saveToken,
+        removeToken,
       }}
     >
       {children}

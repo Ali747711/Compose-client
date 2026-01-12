@@ -19,6 +19,8 @@ interface GlobalInterface {
   currency: string;
   searchQuery: string;
   setSearchQuery: (input: string) => void;
+  saveToken: (input: string) => void;
+  removeToken: () => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(
