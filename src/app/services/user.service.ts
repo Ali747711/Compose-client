@@ -19,7 +19,7 @@ class UserService {
     const result = await apiClient.post(url, input);
     // console.log("User signup result : ", result.data);
     const user: User = result.data.user;
-    localStorage.setItem("token", result.data.accessToken);
+    localStorage.setItem("token", result.data.token);
     localStorage.setItem("userData", JSON.stringify(user));
     return user;
   };
@@ -34,7 +34,8 @@ class UserService {
     const user: User = result.data.user;
 
     localStorage.setItem("userData", JSON.stringify(user));
-    localStorage.setItem("token", result.data.accessToken);
+    localStorage.setItem("token", result.data.token);
+    console.log("API client: ", apiClient);
     return user;
   };
 

@@ -15,10 +15,41 @@ import Payment from "./screens/userProfile/Payment";
 import UserDetails from "./screens/userProfile/UserDetails";
 import AddressPage from "./screens/userProfile/Address";
 import NotFound from "./screens/NotFound";
+import { useEffect } from "react";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
   console.log("rerendering");
+
+  // ✅ Debug mobile issues
+  useEffect(() => {
+    // Log environment info on mobile
+    const debugInfo = {
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      apiUrl: import.meta.env.VITE_API_URL,
+      hasLocalStorage: typeof localStorage !== "undefined",
+      cookiesEnabled: navigator.cookieEnabled,
+      isOnline: navigator.onLine,
+    };
+
+    console.log("🔍 Debug Info:", debugInfo);
+
+    // Test localStorage
+    try {
+      localStorage.setItem("test", "test");
+      localStorage.removeItem("test");
+      console.log("✅ localStorage working");
+    } catch (e) {
+      console.error("❌ localStorage NOT working:", e);
+    }
+
+    // Test API connection
+    fetch(`${import.meta.env.VITE_API_URL}/health/health`)
+      .then((res) => res.json())
+      .then((data) => console.log("✅ API Health Check:", data))
+      .catch((err) => console.error("❌ API Health Check Failed:", err));
+  }, []);
   return (
     <div className="min-h-screen text-main-text  text-default">
       {isSellerPath ? null : <Navbar />}

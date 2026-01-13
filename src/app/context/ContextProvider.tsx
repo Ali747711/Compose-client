@@ -2,13 +2,14 @@ import { GlobalContext } from "../hooks/useGlobal";
 import { useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
-import { apiClient } from "../../libs/api/axios.config";
 
 // ✅ Add token to all requests from localStorage
-const token = localStorage.getItem("token");
-if (token) {
-  apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-}
+// it is already setup in axios, so commet it!
+
+// const token = localStorage.getItem("token");
+// if (token) {
+//   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+// }
 
 const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // GET user from localStorage (persists across page refresh)
@@ -18,15 +19,6 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       : null
   );
 
-  // useEffect(() => {
-  //   const accessToken = cookies.get("accessToken");
-
-  //   if (!accessToken && authUser) {
-  //     console.log("No valid cookie, clearing stale user data");
-  //     localStorage.removeItem("userData");
-  //     setAuthUser(null);
-  //   }
-  // }, []);
   const currency: string = import.meta.env.VITE_CURRENCY;
 
   // GET cart data from localStorage
@@ -114,14 +106,14 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   // Mobile token
-  const saveToken = (token: string) => {
-    localStorage.setItem("token", token);
-    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  };
-  const removeToken = () => {
-    localStorage.removeItem("token");
-    delete apiClient.defaults.headers.common["Authorization"];
-  };
+  // const saveToken = (token: string) => {
+  //   localStorage.setItem("token", token);
+  //   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  // };
+  // const removeToken = () => {
+  //   localStorage.removeItem("token");
+  //   delete apiClient.defaults.headers.common["Authorization"];
+  // };
 
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
@@ -149,8 +141,6 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         currency,
         searchQuery,
         setSearchQuery,
-        saveToken,
-        removeToken,
       }}
     >
       {children}

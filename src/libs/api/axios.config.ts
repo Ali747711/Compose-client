@@ -7,13 +7,19 @@ export const apiClient = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
 
-// ✅ Request interceptor
+// ✅ Request interceptor - DYNAMICALLY add token on each request
 apiClient.interceptors.request.use(
   (config) => {
+    // Get fresh token from localStorage on EVERY request
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     // Add timestamp to prevent caching
     if (config.method === "get") {
       config.params = {
@@ -21,6 +27,7 @@ apiClient.interceptors.request.use(
         _t: Date.now(),
       };
     }
+
     return config;
   },
   (error) => {
@@ -37,6 +44,7 @@ apiClient.interceptors.response.use(
     // Handle 401 - Unauthorized
     if (error.response?.status === 401) {
       localStorage.removeItem("userData");
+      localStorage.removeItem("token"); // ✅ Also remove token
       window.location.href = "/";
     }
 
