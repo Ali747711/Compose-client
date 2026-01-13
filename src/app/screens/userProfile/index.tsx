@@ -40,11 +40,11 @@ const UserProfile = () => {
   console.log(userDetails);
 
   const sidebarLinks = [
-    { name: "User details", path: "/user", icon: User02Icon },
+    { name: "User details", path: "/user/user-details", icon: User02Icon },
     { name: "My Orders", path: "/user/orders", icon: Package01Icon },
     { name: "My Cart", path: "/user/cart", icon: ShoppingCart02Icon },
     { name: "My Addresses", path: "/user/addresses", icon: Location04Icon },
-    { name: "My Payments", path: "/user/payments", icon: CreditCardIcon },
+    { name: "My Payments", path: "/user", icon: CreditCardIcon },
     {
       name: "Notification Setting",
       path: "/user/notifications",
