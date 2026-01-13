@@ -13,14 +13,14 @@ export const apiClient = axios.create({
 // ✅ Request interceptor - DYNAMICALLY add token on each request
 apiClient.interceptors.request.use(
   (config) => {
-    // Get fresh token from localStorage on EVERY request
     const token = localStorage.getItem("token");
 
-    if (token) {
+    if (token && token !== "null" && token !== "undefined") {
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete config.headers.Authorization;
     }
 
-    // Add timestamp to prevent caching
     if (config.method === "get") {
       config.params = {
         ...config.params,
