@@ -64,10 +64,11 @@ function App() {
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:category" element={<CategoryPage />} />
           <Route path="/products/:category/:id" element={<Product />} />
-          <Route path="/user" element={<Payment />}>
+          <Route path="/user" element={<UserProfile />}>
             <Route index element={<UserDetails />} />
+            <Route path="details" element={<UserDetails />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="user-details" element={<UserProfile />} />
+            <Route path="payments" element={<Payment />} />
             <Route path="addresses" element={<AddressPage />} />
           </Route>
           <Route path="*" element={<NotFound />} />
