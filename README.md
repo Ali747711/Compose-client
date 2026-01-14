@@ -172,61 +172,6 @@ Visit `http://localhost:4173`
 </div>
 ```
 
-## 🔌 API Integration
-
-### Axios Configuration
-
-```typescript
-// src/libs/api/axios.config.ts
-import axios from "axios";
-
-export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // For cookies
-  timeout: 15000,
-});
-
-// Request interceptor
-apiClient.interceptors.request.use((config) => {
-  // Add headers, tokens, etc.
-  return config;
-});
-
-// Response interceptor
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized
-      localStorage.removeItem("userData");
-      window.location.href = "/";
-    }
-    return Promise.reject(error);
-  }
-);
-```
-
-### Service Example
-
-```typescript
-// src/app/services/product.service.ts
-import { apiClient } from "../../libs/api/axios.config";
-
-class ProductService {
-  async getAllProducts() {
-    const response = await apiClient.get("/product/all-products");
-    return response.data;
-  }
-
-  async getProduct(id: string) {
-    const response = await apiClient.get(`/product/product/${id}`);
-    return response.data;
-  }
-}
-
-export default ProductService;
-```
-
 ## 🚀 Deployment
 
 ### Deploying to Vercel

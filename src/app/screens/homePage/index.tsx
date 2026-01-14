@@ -8,9 +8,9 @@ import type { User } from "../../../libs/data/types/user";
 import BestSeller from "./BestSeller";
 import ProductService from "../../services/product.service";
 import NewProducts from "./NewProducts";
-import { useGlobals } from "../../hooks/useGlobal";
 import HeroSection from "./HeroSection";
 import Categories from "./Categories";
+import Users from "./Users";
 // import Swiped from "../../components/Swiper";
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -23,7 +23,6 @@ const Home = () => {
   const { setTopUsers, setNewDishes, setPopularDishes } = actionDispatch(
     useDispatch()
   );
-  const { authUser } = useGlobals();
 
   useEffect(() => {
     console.log("🏠 HomePage mounted - fetching data...");
@@ -66,7 +65,7 @@ const Home = () => {
       .catch((err) => {
         console.log("Error in fetching NewDishes in Home page: ", err);
       });
-  }, [authUser]);
+  }, []);
   // console.log("Top users: ", topUsers);
   return (
     <div className="min-h-50vh w-full">
@@ -75,6 +74,7 @@ const Home = () => {
       {/* <Swiped /> */}
       <BestSeller />
       <NewProducts />
+      <Users />
     </div>
   );
 };

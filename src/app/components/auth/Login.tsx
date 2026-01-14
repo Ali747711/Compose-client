@@ -35,6 +35,7 @@ const Login = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log("Target print: ", e.target.files);
     if (file) {
       setProfileImage(file);
 
@@ -44,6 +45,7 @@ const Login = () => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+      console.log("Reader URL: ", reader.result as string);
     }
   };
 
@@ -57,12 +59,13 @@ const Login = () => {
       e.preventDefault();
 
       const loginInput: UserLoginInput = {
-        userNick: formData.userNick,
+        userNick: formData.userNick.trim(),
         userPassword: formData.userPassword,
       };
       const userService = new UserService();
-      const result = await userService.login(loginInput);
-      setAuthUser(result);
+      await userService.login(loginInput);
+      const user = await userService.getUserDetails();
+      setAuthUser(user);
       setFormData((prev) => ({ ...prev, userNick: "" }));
       setFormData((prev) => ({ ...prev, userPassword: "" }));
       setShowUserLogin(false);
@@ -77,14 +80,14 @@ const Login = () => {
       e.preventDefault();
       // Create FormData to send file + text fields
       const signupData: any = new FormData();
-      signupData.append("userNick", formData.userNick);
+      signupData.append("userNick", formData.userNick.trim());
       signupData.append("userPhone", formData.userPhone);
       signupData.append("userPassword", formData.userPassword);
       signupData.append("userEmail", formData.userEmail);
       if (profileImage) {
         signupData.append("userImage", profileImage);
       }
-
+      console.log("SIGNUP data: ", signupData);
       const userService = new UserService();
       const result = await userService.signup(signupData);
       setAuthUser(result);
@@ -120,8 +123,8 @@ const Login = () => {
         <p className="text-gray-400 text-sm mt-2">Please sign in to continue</p>
         {/* Profile Image Upload - Only in Signup */}
         {state !== "login" && (
-          <div className="mt-3 w-full flex justify-center">
-            <div className="relative">
+          <div className="mt-3 w-full flex justify-center ">
+            <div className="relative flex flex-col justify-center items-center">
               {/* Hidden file input */}
               <input
                 type="file"
@@ -134,7 +137,7 @@ const Login = () => {
               {/* Clickable preview or placeholder */}
               <div
                 onClick={handleImageClick}
-                className="w-20 h-20 rounded-full border-4 border-dashed border-border cursor-pointer overflow-hidden bg-white/10 hover:border-main-text transition-all"
+                className=" w-20 h-20 rounded-full border-4 border-dashed border-border cursor-pointer overflow-hidden bg-white/10 hover:border-main-text transition-all "
               >
                 {imagePreview ? (
                   <img
@@ -155,7 +158,7 @@ const Login = () => {
 
               {/* Optional: Small text below */}
               <p className="text-xs text-gray-400 text-center mt-2">
-                Click to upload
+                Click to upload <br /> (jpeg | jpg | png | webp | gif)
               </p>
             </div>
           </div>

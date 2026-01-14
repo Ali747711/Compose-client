@@ -12,7 +12,7 @@ export interface Payment {
 }
 
 export interface PaymentInput {
-  userId: string;
+  userId?: string;
   cardName?: string;
   cardNumber?: string;
   expiryMonth?: number;
@@ -22,7 +22,8 @@ export interface PaymentInput {
 }
 
 export interface PaymentUpdateInput {
-  userId: string;
+  _id?: string;
+  userId?: string;
   cardName?: string;
   cardNumber?: string;
   expiryMonth?: number;

@@ -16,7 +16,9 @@ class UserService {
 
   public signup = async (input: UserInput): Promise<User> => {
     const url = this.path + "/user/signup";
-    const result = await apiClient.post(url, input);
+    const result = await apiClient.post(url, input, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     // console.log("User signup result : ", result.data);
     const user: User = result.data.user;
     localStorage.setItem("token", result.data.token);

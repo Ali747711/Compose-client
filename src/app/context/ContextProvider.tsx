@@ -18,6 +18,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       ? JSON.parse(localStorage.getItem("userData") as string)
       : null
   );
+  console.log(authUser);
 
   const currency: string = import.meta.env.VITE_CURRENCY;
 

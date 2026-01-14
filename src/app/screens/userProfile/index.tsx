@@ -18,7 +18,7 @@ import {
 import { useGlobals } from "../../hooks/useGlobal";
 import { useEffect, useState } from "react";
 import ProductService from "../../services/product.service";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setProducts,
   setUserAddresses,
@@ -28,7 +28,6 @@ import {
 } from "./slice";
 import { Avatar, Spinner } from "@heroui/react";
 import UserService from "../../services/user.service";
-import { retrieveUserDetails } from "./selector";
 const UserProfile = () => {
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +35,6 @@ const UserProfile = () => {
   const { authUser, setAuthUser } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
-  const userDetails = useSelector(retrieveUserDetails);
-  console.log(userDetails);
 
   const sidebarLinks = [
     { name: "User details", path: "/user/details", icon: User02Icon },
@@ -89,9 +86,11 @@ const UserProfile = () => {
         }
 
         setIsLoadingUser(false);
-      } catch (error: any) {
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error occurred";
         console.error("Failed to fetch User Details! Error: ", error);
-        setError(error?.message);
+        setError(errorMessage);
         setIsLoadingUser(false);
       }
     };
@@ -103,9 +102,11 @@ const UserProfile = () => {
 
         // console.log("✅ Products fetched:", data.length);
         dispatch(setProducts(data));
-      } catch (error: any) {
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error occurred";
         console.error("Failed to fetch Products! Error: ", error);
-        setError(error?.message);
+        setError(errorMessage);
         setIsLoadingUser(false);
       }
     };
