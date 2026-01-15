@@ -14,7 +14,9 @@ import Cart from "./screens/userProfile/Cart";
 import Payment from "./screens/userProfile/Payment";
 import UserDetails from "./screens/userProfile/UserDetails";
 import AddressPage from "./screens/userProfile/Address";
-import NotFound from "./screens/NotFound";
+import NotFound from "./components/page/NotFound";
+import CheckoutPage from "./screens/checkoutPage";
+import CartPage from "./screens/cart";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -63,10 +65,12 @@ function App() {
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:category" element={<CategoryPage />} />
           <Route path="/products/:category/:id" element={<Product />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/user" element={<UserProfile />}>
             <Route index element={<UserDetails />} />
             <Route path="details" element={<UserDetails />} />
-            <Route path="cart" element={<Cart />} />
+            {/* <Route path="cart" element={<Cart />} /> */}
             <Route path="payments" element={<Payment />} />
             <Route path="addresses" element={<AddressPage />} />
           </Route>

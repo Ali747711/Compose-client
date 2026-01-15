@@ -7,6 +7,8 @@ import HomePageReducer from "./screens/homePage/slice";
 import CategoryPageReducer from "./screens/categoryPage/slice";
 import ProductPageReducer from "./screens/productPage/slice";
 import UserProfilePageReducer from "./screens/userProfile/slice";
+import CheckoutPageReducer from "./screens/checkoutPage/slice";
+import CartPageReducer from "./screens/cart/slice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ export const store = configureStore({
     productsPage: ProductPageReducer,
     categoryPage: CategoryPageReducer,
     userProfilePage: UserProfilePageReducer,
+    checkoutPage: CheckoutPageReducer,
+    cartPage: CartPageReducer,
   },
 });
 

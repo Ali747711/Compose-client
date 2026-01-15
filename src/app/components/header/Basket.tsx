@@ -3,8 +3,10 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Divider from "../divider";
 import { useGlobals } from "../../hooks/useGlobal";
 import { CartItem } from "../../../libs/data/types/search";
+import { useNavigate } from "react-router-dom";
 
 const Basket = () => {
+  const navigate = useNavigate();
   const { onAdd, onRemove, cartItems, getItemQuantity, currency } =
     useGlobals();
 
@@ -148,9 +150,12 @@ const Basket = () => {
             </div>
 
             {/* View Cart Button */}
-            <button className="w-full bg-main hover:bg-main-dull text-gray-900 font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 flex items-center justify-center gap-2">
+            <button
+              onClick={() => navigate("/cart")}
+              className="w-full bg-main hover:bg-main-dull text-gray-900 font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 flex items-center justify-center gap-2"
+            >
               <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />
-              View Cart
+              View cart
             </button>
           </div>
         </div>

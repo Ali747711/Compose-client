@@ -200,8 +200,18 @@ const Navbar = () => {
       <div className="flex items-center gap-8">
         {/* Cart */}
         <div
-          className="relative cursor-pointer"
+          className="relative cursor-pointer hidden md:flex"
           onClick={() => setOpenBasket((prev) => !prev)}
+        >
+          <HugeiconsIcon icon={ShoppingCart02Icon} size={21} />
+          <button className="absolute -top-2 -right-3 text-xs text-main-text bg-main w-4.5 h-4.5 rounded-full">
+            {getCartCount()}
+          </button>
+          {openBasket && <Basket />}
+        </div>
+        <div
+          className="sm:hidden cursor-pointer relative"
+          onClick={() => navigate("/cart")}
         >
           <HugeiconsIcon icon={ShoppingCart02Icon} size={21} />
           <button className="absolute -top-2 -right-3 text-xs text-main-text bg-main w-4.5 h-4.5 rounded-full">

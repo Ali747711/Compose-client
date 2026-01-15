@@ -20,6 +20,7 @@ import { ProductCollection } from "../../../libs/enums/product.enum";
 import { AlertError } from "../../../libs/sweetAlert";
 import type { Product } from "../../../libs/data/types/product";
 import Category from "./categories";
+import Promotion from "./Promotion";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setAde: (data: Product[]) => dispatch(setAde(data)),
@@ -111,6 +112,7 @@ const CategoryPage = () => {
 
   return (
     <div className="mt-16">
+      <Promotion />
       <Category />
     </div>
   );

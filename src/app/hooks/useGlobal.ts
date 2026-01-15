@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
+import { CalendarDate } from "@internationalized/date";
 
 interface GlobalInterface {
   showUserLogin: boolean;
@@ -19,6 +20,8 @@ interface GlobalInterface {
   currency: string;
   searchQuery: string;
   setSearchQuery: (input: string) => void;
+  deliveryDate: CalendarDate | null;
+  setDeliveryDate: (date: CalendarDate) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

@@ -79,6 +79,16 @@ class PaymentService {
       throw error;
     }
   };
+  public getPayments = async (): Promise<Payment[]> => {
+    try {
+      const url = `${this.path}/payment/get-payments`;
+      const result = await apiClient.get(url);
+      return result.data;
+    } catch (error) {
+      console.log("Payment Service, [deletePayment] ERROR: ", error);
+      throw error;
+    }
+  };
 }
 
 export default PaymentService;

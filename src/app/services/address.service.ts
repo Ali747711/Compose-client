@@ -79,6 +79,17 @@ class AddressService {
       throw error;
     }
   };
+
+  public getUserAddresses = async (): Promise<Address[]> => {
+    try {
+      const url = `${this.path}/address/addresses`;
+      const result = await apiClient.get(url);
+      return result.data;
+    } catch (error) {
+      console.log("Address Service, [getUserAddresses] ERROR: ", error);
+      throw error;
+    }
+  };
 }
 
 export default AddressService;

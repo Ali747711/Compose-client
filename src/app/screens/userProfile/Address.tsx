@@ -11,7 +11,7 @@ import {
   Location04Icon,
   PlusSignIcon,
 } from "@hugeicons/core-free-icons";
-import AddressForm from "./AddressForm";
+import AddressForm from "../../components/page/AddressForm";
 import AddressService from "../../services/address.service";
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";

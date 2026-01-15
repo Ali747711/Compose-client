@@ -65,6 +65,7 @@ const Login = () => {
       const userService = new UserService();
       await userService.login(loginInput);
       const user = await userService.getUserDetails();
+      console.log("Details: ", user);
       setAuthUser(user);
       setFormData((prev) => ({ ...prev, userNick: "" }));
       setFormData((prev) => ({ ...prev, userPassword: "" }));

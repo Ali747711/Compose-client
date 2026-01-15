@@ -2,6 +2,7 @@ import { GlobalContext } from "../hooks/useGlobal";
 import { useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
+import { CalendarDate } from "@internationalized/date";
 
 // ✅ Add token to all requests from localStorage
 // it is already setup in axios, so commet it!
@@ -106,16 +107,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     return item?.quantity || 0;
   };
 
-  // Mobile token
-  // const saveToken = (token: string) => {
-  //   localStorage.setItem("token", token);
-  //   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // };
-  // const removeToken = () => {
-  //   localStorage.removeItem("token");
-  //   delete apiClient.defaults.headers.common["Authorization"];
-  // };
-
+  const [deliveryDate, setDeliveryDate] = useState<CalendarDate | null>(null);
+  console.log(deliveryDate);
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -126,6 +119,8 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        deliveryDate,
+        setDeliveryDate,
         authUser,
         setAuthUser,
         orderBuilder,

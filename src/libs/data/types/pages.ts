@@ -9,6 +9,8 @@ export interface AppRootState {
   productsPage: ProductPageState;
   categoryPage: CategoryPageState;
   userProfilePage: UserProfilePageState;
+  checkoutPage: CheckoutPageState;
+  cartPage: CartPageState;
 }
 
 export interface HomePageState {
@@ -41,4 +43,14 @@ export interface UserProfilePageState {
   addresses: Address[];
   orders: Order[];
   payments: Payment[];
+}
+
+export interface CheckoutPageState {
+  addresses: Address[];
+  payments: Payment[];
+  products: Product[];
+}
+
+export interface CartPageState {
+  products: Product[];
 }

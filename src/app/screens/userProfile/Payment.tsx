@@ -12,7 +12,7 @@ import {
   CreditCardIcon,
   PlusSignIcon,
 } from "@hugeicons/core-free-icons";
-import PaymentForm from "./PaymentForm";
+import PaymentForm from "../../components/page/PaymentForm";
 import PaymentService from "../../services/payment.service";
 import { useGlobals } from "../../hooks/useGlobal";
 import Swal from "sweetalert2";

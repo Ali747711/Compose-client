@@ -2,7 +2,6 @@ import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   User02Icon,
-  ShoppingCart02Icon,
   Location04Icon,
   CreditCardIcon,
   Package01Icon,
@@ -39,7 +38,7 @@ const UserProfile = () => {
   const sidebarLinks = [
     { name: "User details", path: "/user/details", icon: User02Icon },
     { name: "My Orders", path: "/user/orders", icon: Package01Icon },
-    { name: "My Cart", path: "/user/cart", icon: ShoppingCart02Icon },
+    // { name: "My Cart", path: "/user/cart", icon: ShoppingCart02Icon },
     { name: "My Addresses", path: "/user/addresses", icon: Location04Icon },
     { name: "My Payments", path: "/user/payments", icon: CreditCardIcon },
     {
