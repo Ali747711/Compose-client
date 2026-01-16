@@ -7,7 +7,6 @@ import {
   Calendar03Icon,
   ShoppingCart02Icon,
   Cancel01Icon,
-  ArrowLeft01Icon,
 } from "@hugeicons/core-free-icons";
 import { DatePicker } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ const CartPage = () => {
   const navigate = useNavigate();
   const [recomPros, setRecomPros] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [actionLoading] = useState<string | null>(null);
 
   const {
     cartItems,
@@ -37,7 +36,7 @@ const CartPage = () => {
   } = useGlobals();
 
   // Fetch products
-  useEffect(() => {
+  const fetchCartPros = async () => {
     const productService = new ProductService();
     setLoading(true);
     productService
@@ -52,6 +51,11 @@ const CartPage = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+  useEffect(() => {
+    (async () => {
+      await fetchCartPros();
+    })();
   }, [dispatch]);
 
   // Calculate totals

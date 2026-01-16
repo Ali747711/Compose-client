@@ -21,7 +21,7 @@ interface GlobalInterface {
   searchQuery: string;
   setSearchQuery: (input: string) => void;
   deliveryDate: CalendarDate | null;
-  setDeliveryDate: (date: CalendarDate) => void;
+  setDeliveryDate: (date: CalendarDate | null) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(

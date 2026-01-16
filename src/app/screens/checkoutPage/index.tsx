@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -6,13 +6,9 @@ import {
   ArrowLeft01Icon,
   Location01Icon,
   CreditCardIcon,
-  ShoppingCart02Icon,
-  ArrowRight01Icon,
   InformationCircleIcon,
   Add01Icon,
   Calendar03Icon,
-  ArrowDown01Icon,
-  ArrowUp01Icon,
 } from "@hugeicons/core-free-icons";
 import AddressService from "../../services/address.service";
 import PaymentService from "../../services/payment.service";
@@ -23,6 +19,8 @@ import {
   retrieveCheckoutPayments,
 } from "./selector";
 import { Accordion, AccordionItem } from "@heroui/react";
+import { Address } from "../../../libs/data/types/address";
+import { Payment } from "../../../libs/data/types/payment";
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -35,8 +33,8 @@ const CheckoutPage = () => {
 
   // Local state
   const [loading, setLoading] = useState(true);
-  const [selectedAddress, setSelectedAddress] = useState<any>(null);
-  const [selectedPayment, setSelectedPayment] = useState<any>(null);
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [processingCheckout, setProcessingCheckout] = useState(false);
 
   // Delivery tip state
@@ -44,7 +42,7 @@ const CheckoutPage = () => {
   const tipOptions = [5, 10, 15, 20, 30];
 
   // Coupon state
-  const [couponCode, setCouponCode] = useState("");
+  // const [couponCode, setCouponCode] = useState("");
 
   // Redux selectors (you'll need to add these)
   const addresses = useSelector(retrieveCheckoutAddresses);
@@ -56,8 +54,11 @@ const CheckoutPage = () => {
       const data = await addressService.getUserAddresses();
       dispatch(setAddresses(data));
       // Auto-select default address
-      const defaultAddr = data.find((addr: any) => addr.isDefault);
+      const defaultAddr = data.find((addr: Address) => addr.isDefault);
       if (defaultAddr) setSelectedAddress(defaultAddr);
+      else {
+        setSelectedAddress(data[0]);
+      }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
@@ -68,8 +69,11 @@ const CheckoutPage = () => {
       const data = await paymentService.getPayments();
       dispatch(setPayments(data));
       // Auto-select default payment
-      const defaultPay = data.find((pay: any) => pay.isDefault);
+      const defaultPay = data.find((pay: Payment) => pay.isDefault);
       if (defaultPay) setSelectedPayment(defaultPay);
+      else {
+        setSelectedPayment(data[0]);
+      }
     } catch (error) {
       console.error("Error fetching payments:", error);
     }
@@ -83,13 +87,13 @@ const CheckoutPage = () => {
     };
     fetchData();
 
-    // Auto-select first address and payment if available
-    if (addresses.length > 0) {
-      setSelectedAddress(addresses.find((a) => a.isDefault) || addresses[0]);
-    }
-    if (payments.length > 0) {
-      setSelectedPayment(payments.find((p) => p.isDefault) || payments[0]);
-    }
+    // // Auto-select first address and payment if available
+    // if (addresses.length > 0) {
+    //   setSelectedAddress(addresses.find((a) => a.isDefault) || addresses[0]);
+    // }
+    // if (payments.length > 0) {
+    //   setSelectedPayment(payments.find((p) => p.isDefault) || payments[0]);
+    // }
   }, [authUser]);
 
   // Calculate totals
@@ -237,7 +241,7 @@ const CheckoutPage = () => {
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {addresses.map((address: any) => (
+                        {addresses.map((address: Address) => (
                           <div
                             key={address._id}
                             onClick={() => {
@@ -354,7 +358,7 @@ const CheckoutPage = () => {
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {payments.map((payment: any) => (
+                        {payments.map((payment: Payment) => (
                           <div
                             key={payment._id}
                             onClick={() => {
@@ -426,7 +430,7 @@ const CheckoutPage = () => {
                         <div className="flex gap-2">
                           {cartItems.slice(0, 6).map((item, index) => (
                             <div
-                              key={item._id}
+                              key={index}
                               className="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden shrink-0"
                             >
                               <img

@@ -10,7 +10,6 @@ import CategoryPage from "./screens/categoryPage";
 import Product from "./screens/productPage";
 import AllProducts from "./screens/productPage/AllProducts";
 import UserProfile from "./screens/userProfile";
-import Cart from "./screens/userProfile/Cart";
 import Payment from "./screens/userProfile/Payment";
 import UserDetails from "./screens/userProfile/UserDetails";
 import AddressPage from "./screens/userProfile/Address";
