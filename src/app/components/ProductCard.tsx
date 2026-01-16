@@ -36,7 +36,7 @@ const ProductCard = (props: CardProps) => {
         );
         scrollTo(0, 0);
       }}
-      className=" mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 w-70 md:w-full max-w-90  min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300"
+      className=" mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 w-80 md:w-full max-w-90  min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300"
     >
       {/* Image Container with Yellow Accent */}
       <div className="group cursor-pointer flex items-center justify-center px-2 py-3 bg-white rounded-lg mb-3 relative overflow-hidden">
