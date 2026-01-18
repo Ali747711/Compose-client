@@ -32,7 +32,7 @@ import {
 } from "@heroui/react";
 
 const Navbar = () => {
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [openBasket, setOpenBasket] = useState<boolean>(false);
