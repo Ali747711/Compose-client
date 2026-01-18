@@ -15,14 +15,24 @@ import {
   Logout01Icon,
   UserIcon,
   StarIcon,
+  Home01Icon,
+  ProductLoadingIcon,
 } from "@hugeicons/core-free-icons";
 import { useGlobals } from "../../hooks/useGlobal";
 import { NavLink, useNavigate } from "react-router-dom";
 import UserService from "../../services/user.service";
 import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  useDisclosure,
+  DrawerFooter,
+} from "@heroui/react";
 
 const Navbar = () => {
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [openBasket, setOpenBasket] = useState<boolean>(false);
@@ -160,20 +170,19 @@ const Navbar = () => {
         ${scrolled ? "shadow-lg py-3" : "shadow-none py-4"}
       `}
     >
-      <button
-        onClick={() => setOpen((prev) => !prev)}
-        aria-label="Menu"
-        className="sm:hidden"
-      >
+      <button onClick={() => onOpen()} aria-label="Menu" className="sm:hidden">
         <HugeiconsIcon icon={Menu10Icon} />
       </button>
+      {/* <Button onPress={() => onOpen()} aria-label="Menu" className="sm:hidden">
+        <HugeiconsIcon icon={Menu10Icon} />
+      </Button> */}
 
       <div className="flex gap-10">
         <div
           className="hidden md:flex gap-1.5 cursor-pointer"
           onClick={() => navigate("/")}
         >
-          <img src="/images/logo/logo.svg" alt="logo" className="h-8" />
+          <img src="/images/logo/cup.png" alt="logo" className="h-8" />
         </div>
 
         <div className="sm:hidden md:flex items-center gap-2">
@@ -344,34 +353,57 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`${
-          open ? "flex" : "hidden"
-        } absolute top-15 left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
-      >
-        <NavLink to={"/"}>Home</NavLink>
-        {authUser && <NavLink to={"/user"}>User Profile</NavLink>}
-        <NavLink to={"/contact"}>Contact</NavLink>
+      <Drawer isOpen={isOpen} placement="top" onOpenChange={onOpenChange}>
+        <DrawerContent>
+          {(onClose) => (
+            <div className="mt-5">
+              <DrawerBody>
+                <NavLink onClick={onClose} to={"/"}>
+                  <div className="flex gap-1.5">
+                    <HugeiconsIcon icon={Home01Icon} fill="#fdd22c" /> Home
+                  </div>
+                </NavLink>
 
-        {authUser ? (
-          <button
-            onClick={() => logout()}
-            className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
-          >
-            Logout
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              console.log("clicked ");
-              setShowUserLogin(true);
-            }}
-            className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
-          >
-            Login
-          </button>
-        )}
-      </div>
+                {authUser && (
+                  <NavLink onClick={onClose} to={"/user"}>
+                    <div className="flex gap-1.5">
+                      <HugeiconsIcon icon={UserAccountIcon} fill="#fdd22c" />
+                      User Profile
+                    </div>
+                  </NavLink>
+                )}
+                <NavLink onClick={onClose} to={"/products"}>
+                  <div className="flex gap-1.5 text-main-text ">
+                    <HugeiconsIcon icon={ProductLoadingIcon} fill="#fdd22c" />{" "}
+                    See all products
+                  </div>
+                </NavLink>
+              </DrawerBody>
+              <DrawerFooter>
+                {authUser ? (
+                  <button
+                    onClick={() => logout()}
+                    className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      console.log("clicked ");
+                      onClose();
+                      setShowUserLogin(true);
+                    }}
+                    className="cursor-pointer px-6 py-2 mt-2 bg-main hover:bg-main-dull transition text-main-text rounded-full text-sm"
+                  >
+                    Login
+                  </button>
+                )}
+              </DrawerFooter>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
     </nav>
   );
 };

@@ -8,11 +8,12 @@ import "swiper/css/pagination";
 
 // Dummy data
 const heroImages = [
-  "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800",
-  "https://images.unsplash.com/photo-1584949091598-c31daaaa4aa9?w=800",
-  "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800",
-  "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=800",
-  "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-public-domain-pictures-41199_bbcusv.jpg",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-userpascal-32488208_j8nrul.jpg",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-andrew-4264047_kdmvqj.jpg",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-gu-ko-2150570603-31767942_s1ygyz.jpg",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-eldisculpe-34083022_p5hwel.jpg",
+  "https://res.cloudinary.com/dmenptrzv/image/upload/v1768753764/pexels-public-domain-pictures-41199_bbcusv.jpg",
 ];
 
 const HeroSection = () => {

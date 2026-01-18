@@ -7,7 +7,6 @@ import ContextProvider from "./app/context/ContextProvider.tsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import { HeroUIProvider } from "@heroui/react";
-import { APIProvider } from "@vis.gl/react-google-maps";
 import { HelmetProvider } from "@dr.pogodin/react-helmet";
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>
@@ -16,9 +15,7 @@ createRoot(document.getElementById("root")!).render(
         <StrictMode>
           <HeroUIProvider>
             <ContextProvider>
-              <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                <App />
-              </APIProvider>
+              <App />
             </ContextProvider>
           </HeroUIProvider>
         </StrictMode>

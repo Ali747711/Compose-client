@@ -125,7 +125,8 @@ const CheckoutPage = () => {
     0
   );
   const deliveryFee = itemsTotal > 25000 ? 0 : 5000;
-  const subtotal = itemsTotal + deliveryFee + selectedTip;
+  const subtotal =
+    cartItems.length > 0 ? itemsTotal + deliveryFee + selectedTip : 0;
 
   // Handle checkout
   const handleCheckout = async () => {
@@ -147,14 +148,13 @@ const CheckoutPage = () => {
     };
     await orderService.createOrder(input).then((data) => {
       console.log("Order: ", data);
+
       setTimeout(() => {
         setProcessingCheckout(false);
         localStorage.removeItem("cartData");
         setCartItems([]);
         navigate(`/order/${data?._id}`);
       }, 2000);
-      localStorage.removeItem("cartData");
-      setCartItems([]);
     });
   };
 
@@ -524,10 +524,10 @@ const CheckoutPage = () => {
                             </div>
                             <div className="text-right">
                               <p className="font-bold text-main-text">
-                                {currency}
                                 {(
                                   (item?.price ?? 0) * getItemQuantity(item._id)
                                 ).toLocaleString()}
+                                {currency}
                               </p>
                             </div>
                           </div>
@@ -550,16 +550,16 @@ const CheckoutPage = () => {
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>Delivery fee</span>
                     <span className="font-medium">
-                      {currency}
                       {deliveryFee.toLocaleString()}
+                      {currency}
                     </span>
                   </div>
 
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>Items total</span>
                     <span className="font-medium">
-                      {currency}
                       {itemsTotal.toLocaleString()}
+                      {currency}
                     </span>
                   </div>
                 </div>
@@ -583,7 +583,8 @@ const CheckoutPage = () => {
                             : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                         }`}
                       >
-                        ${tip}
+                        {tip}
+                        {currency}
                       </button>
                     ))}
                   </div>
@@ -607,8 +608,8 @@ const CheckoutPage = () => {
                       Total
                     </span>
                     <span className="text-2xl font-bold text-main-text">
-                      {currency}
                       {subtotal.toLocaleString()}
+                      {currency}
                     </span>
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
@@ -649,16 +650,16 @@ const CheckoutPage = () => {
               <div className="flex justify-between text-gray-600">
                 <span>Delivery fee</span>
                 <span className="font-medium">
-                  {currency}
                   {deliveryFee.toLocaleString()}
+                  {currency}
                 </span>
               </div>
 
               <div className="flex justify-between text-gray-600">
                 <span>Items total</span>
                 <span className="font-medium">
-                  {currency}
                   {itemsTotal.toLocaleString()}
+                  {currency}
                 </span>
               </div>
             </div>
@@ -682,7 +683,8 @@ const CheckoutPage = () => {
                         : "bg-gray-100 text-gray-700"
                     }`}
                   >
-                    ${tip}
+                    {tip}
+                    {currency}
                   </button>
                 ))}
               </div>
@@ -700,8 +702,8 @@ const CheckoutPage = () => {
             <div className="pt-3 border-t border-gray-200 flex justify-between mb-4">
               <span className="font-bold text-main-text">Total</span>
               <span className="text-lg font-bold text-main-text">
-                {currency}
                 {subtotal.toLocaleString()}
+                {currency}
               </span>
             </div>
             <p className="text-xs text-gray-500 mb-4">
