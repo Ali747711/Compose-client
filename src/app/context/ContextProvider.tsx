@@ -19,7 +19,6 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       ? JSON.parse(localStorage.getItem("userData") as string)
       : null
   );
-  console.log(authUser);
 
   const currency: string = import.meta.env.VITE_CURRENCY;
 
@@ -108,14 +107,12 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const [deliveryDate, setDeliveryDate] = useState<CalendarDate | null>(null);
-  console.log(deliveryDate);
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");
-  console.log(currency);
   return (
     <GlobalContext.Provider
       value={{
@@ -137,6 +134,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         currency,
         searchQuery,
         setSearchQuery,
+        setCartItems,
       }}
     >
       {children}

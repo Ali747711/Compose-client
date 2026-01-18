@@ -1,12 +1,19 @@
 import type { OrderStatus } from "../../enums/order.enum";
+import { Address } from "./address";
+import { Payment } from "./payment";
 import type { Product } from "./product";
+import { CartItem } from "./search";
 
 export interface Order {
   _id: string;
   orderTotal: number;
-  // orderDelivery: number;
   orderStatus: OrderStatus;
   userId: string;
+  deliveryDate: string;
+  deliveryFee: number;
+  tip: number;
+  orderAddress: string | Address;
+  orderPayment: string | Payment;
   createdAt: Date;
   updatedAt: Date;
 
@@ -25,9 +32,18 @@ export interface OrderItem {
   updatedAt: Date;
 }
 
+export interface OrderInput {
+  deliveryFee: number;
+  tip: number;
+  orderAddress: Address;
+  orderPayment: Payment;
+  deliveryDate: string;
+  orderItemInput: CartItem[];
+}
+
 export interface OrderItemInput {
-  itemQuantity: number;
-  itemPrice: number;
+  itemQuantity: number | undefined;
+  itemPrice: number | undefined;
   productId: string;
   orderId?: string;
 }

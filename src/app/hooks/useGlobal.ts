@@ -17,6 +17,7 @@ interface GlobalInterface {
   getCartCount: () => number;
   getItemQuantity: (input: string) => number;
   cartItems: CartItem[];
+  setCartItems: (input: CartItem[]) => void;
   currency: string;
   searchQuery: string;
   setSearchQuery: (input: string) => void;

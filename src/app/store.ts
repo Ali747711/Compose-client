@@ -9,6 +9,7 @@ import ProductPageReducer from "./screens/productPage/slice";
 import UserProfilePageReducer from "./screens/userProfile/slice";
 import CheckoutPageReducer from "./screens/checkoutPage/slice";
 import CartPageReducer from "./screens/cart/slice";
+import OrderPageReducer from "./screens/orderPage/slice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     userProfilePage: UserProfilePageReducer,
     checkoutPage: CheckoutPageReducer,
     cartPage: CartPageReducer,
+    orderPape: OrderPageReducer,
   },
 });
 

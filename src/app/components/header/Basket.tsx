@@ -151,7 +151,10 @@ const Basket = () => {
 
             {/* View Cart Button */}
             <button
-              onClick={() => navigate("/cart")}
+              onClick={() => {
+                navigate("/cart");
+                scrollTo(0, 0);
+              }}
               className="w-full bg-main hover:bg-main-dull text-gray-900 font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md active:scale-98 flex items-center justify-center gap-2"
             >
               <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />

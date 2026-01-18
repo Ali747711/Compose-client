@@ -11,6 +11,7 @@ export interface AppRootState {
   userProfilePage: UserProfilePageState;
   checkoutPage: CheckoutPageState;
   cartPage: CartPageState;
+  orderPage: OrderPageState;
 }
 
 export interface HomePageState {
@@ -53,4 +54,10 @@ export interface CheckoutPageState {
 
 export interface CartPageState {
   products: Product[];
+}
+
+export interface OrderPageState {
+  pauseOrders: Product[];
+  processOrders: Product[];
+  finishOrders: Product[];
 }
