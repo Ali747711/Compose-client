@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -8,8 +8,6 @@ import {
   Location01Icon,
   CreditCardIcon,
   Cancel01Icon,
-  ArrowRight01Icon,
-  ArrowLeft02Icon,
 } from "@hugeicons/core-free-icons";
 import OrderService from "../../services/order.service";
 import { useGlobals } from "../../hooks/useGlobal";
@@ -38,8 +36,12 @@ const OrderPage = () => {
         const orderService = new OrderService();
         const data = await orderService.getOrder(id);
         setOrder(data);
-        setAddress(Array.isArray(data?.orderAddress) ? data.orderAddress[0] : null);
-        setPayment(Array.isArray(data?.orderPayment) ? data.orderPayment[0] : null);
+        setAddress(
+          Array.isArray(data?.orderAddress) ? data.orderAddress[0] : null
+        );
+        setPayment(
+          Array.isArray(data?.orderPayment) ? data.orderPayment[0] : null
+        );
       } catch (error) {
         console.error("Error fetching order:", error);
       } finally {
