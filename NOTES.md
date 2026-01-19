@@ -1,146 +1,28 @@
-# GET products
+# Summary of Auth State Changes
 
-// // Fetching BEVERAGE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.BEVERAGE,
-// })
-// .then((data) => {
-// console.log("Fetching BEVERAGE products -------");
-// setBeverage(data);
-// })
-// .catch((err) => {
-// console.log("Error in BEVERAGE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching COFFEE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.COFFEE,
-// })
-// .then((data) => {
-// console.log("Fetching COFFEE products -------");
-// setCoffee(data);
-// })
-// .catch((err) => {
-// console.log("Error in COFFEE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching COLD BREW products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.COLD_BREW,
-// })
-// .then((data) => {
-// console.log("Fetching COLD BREW products -------");
-// setCold_Brew(data);
-// })
-// .catch((err) => {
-// console.log("Error in COLD BREW fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching DECAF COFFEE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.DECAF_COFFEE,
-// })
-// .then((data) => {
-// console.log("Fetching DECAF COFFEE products -------");
-// setDecaf_Coffee(data);
-// })
-// .catch((err) => {
-// console.log("Error in DECAF COFFEE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching FRAPPE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.FRAPPE,
-// })
-// .then((data) => {
-// console.log("Fetching FRAPPE products -------");
-// setFrappe(data);
-// })
-// .catch((err) => {
-// console.log("Error in FRAPPE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching JUICE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.JUICE,
-// })
-// .then((data) => {
-// console.log("Fetching JUICE products -------");
-// setJuice(data);
-// })
-// .catch((err) => {
-// console.log("Error in JUICE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching MILKSHAKE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.MILKSHAKE,
-// })
-// .then((data) => {
-// console.log("Fetching MILKSHAKE products -------");
-// setMilkshake(data);
-// })
-// .catch((err) => {
-// console.log("Error in MILKSHAKE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching SMOOTHIE products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.SMOOTHIE,
-// })
-// .then((data) => {
-// console.log("Fetching SMOOTHIE products -------");
-// setSmoothie(data);
-// })
-// .catch((err) => {
-// console.log("Error in SMOOTHIE fetching: ", err);
-// AlertError(err);
-// });
-// // Fetching TEA products:
-// productService
-// .getProducts({
-// page: 1,
-// order: "createdAt",
-// limit: 20,
-// productCollection: ProductCollection.TEA_TEA_BEVERAGE,
-// })
-// .then((data) => {
-// console.log("Fetching TEA products -------");
-// setTea_Tea_Beverage(data);
-// })
-// .catch((err) => {
-// console.log("Error in TEA fetching: ", err);
-// AlertError(err);
-// });
+1. Product Page (index.tsx)
+   Before: Blocked non-authenticated users from viewing products with a login prompt
+   After: Products are now publicly viewable (no auth required)
+   Removed unnecessary auth check and login UI block
+   Cleaned up unused imports (Swal, HugeiconsIcon, LockIcon, UserAccountIcon)
+2. Checkout Page (index.tsx)
+   Before: No auth protection - anyone could navigate to /checkout
+   After: Requires authentication
+   Added useEffect to redirect unauthenticated users to home and show login modal
+   Added render guard to prevent content flash before redirect
+3. User Profile Page (index.tsx)
+   Before: No auth protection
+   After: Requires authentication
+   Added useEffect to redirect unauthenticated users to home and show login modal
+   Added render guard to prevent content flash
+   All sub-pages (UserDetails, Address, Payment, Orders, etc.) are now protected via the parent component
+4. Cart Page (index.tsx)
+   Before: Checkout button navigated directly without auth check
+   After: Cart is viewable without login, but checkout requires authentication
+   Added handleCheckout function that shows login modal if user is not authenticated
+   Updated both desktop and mobile checkout buttons to use the new handler
+5. Order Page (index.tsx)
+   Before: No auth protection
+   After: Requires authentication
+   Added useEffect to redirect unauthenticated users to home and show login modal
+   Added render guard to prevent content flash

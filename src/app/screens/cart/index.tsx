@@ -33,7 +33,18 @@ const CartPage = () => {
     deliveryDate,
     setDeliveryDate,
     getItemQuantity,
+    authUser,
+    setShowUserLogin,
   } = useGlobals();
+
+  // Handle checkout - check auth before proceeding
+  const handleCheckout = () => {
+    if (!authUser) {
+      setShowUserLogin(true);
+      return;
+    }
+    navigate("/checkout");
+  };
 
   // Fetch products
   const fetchCartPros = async () => {
@@ -430,7 +441,7 @@ const CartPage = () => {
             </div>
 
             <button
-              onClick={() => navigate("/checkout")}
+              onClick={handleCheckout}
               className="w-full bg-main hover:bg-main-dull text-main-text font-bold py-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 border-2 border-main-dull"
             >
               <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />
@@ -444,7 +455,7 @@ const CartPage = () => {
       {/* Mobile: Sticky Bottom Checkout Button */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 z-20">
         <button
-          onClick={() => navigate("/checkout")}
+          onClick={handleCheckout}
           className="w-full bg-main hover:bg-main-dull text-main-text font-bold py-4 rounded-xl transition-all duration-200 shadow-lg flex items-center justify-center gap-2 border-2 border-main-dull"
         >
           <HugeiconsIcon icon={ShoppingCart02Icon} size={20} />

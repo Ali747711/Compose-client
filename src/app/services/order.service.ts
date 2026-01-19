@@ -3,6 +3,7 @@ import { serverURL } from "../../libs/configs";
 import {
   Order,
   OrderInput,
+  OrderInquiry,
   OrderItemInput,
   OrderUpdateInput,
 } from "../../libs/data/types/order";
@@ -47,6 +48,21 @@ class OrderService {
       return result.data[0];
     } catch (err) {
       console.log("Error getOrder:", err);
+      throw err;
+    }
+  };
+
+  public getUserOrders = async (input: OrderInquiry): Promise<Order[]> => {
+    try {
+      let url = `${this.path}/order/get-user-orders?orderStatus=${input.orderStatus}`;
+      if (input.limit) {
+        url += `&limit=${input.limit}`;
+      }
+
+      const result = await apiClient.get(url);
+      return result.data;
+    } catch (err) {
+      console.log("Error getUserOrders:", err);
       throw err;
     }
   };

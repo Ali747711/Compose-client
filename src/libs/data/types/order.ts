@@ -54,7 +54,7 @@ export interface OrderUpdateInput {
 }
 
 export interface OrderInquiry {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
   orderStatus?: OrderStatus;
 }

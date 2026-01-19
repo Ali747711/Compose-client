@@ -19,21 +19,37 @@ import { useEffect, useState } from "react";
 import ProductService from "../../services/product.service";
 import { useDispatch } from "react-redux";
 import {
+  setAllOrders,
+  setCancelOrders,
+  setFinishOrders,
+  setPauseOrders,
+  setProcessOrders,
   setProducts,
   setUserAddresses,
   setUserDetails,
-  setUserOrders,
   setUserPayments,
 } from "./slice";
 import { Avatar, Spinner } from "@heroui/react";
 import UserService from "../../services/user.service";
+import OrderService from "../../services/order.service";
+import { OrderStatus } from "../../../libs/enums/order.enum";
+import { Order } from "../../../libs/data/types/order";
 const UserProfile = () => {
+  const [sumOrders, setSumOrders] = useState<Order[] | null>(null);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
-  const { authUser, setAuthUser } = useGlobals();
+  const { authUser, setAuthUser, setShowUserLogin } = useGlobals();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Auth protection - redirect to home and show login if not authenticated
+  useEffect(() => {
+    if (!authUser) {
+      setShowUserLogin(true);
+      navigate("/");
+    }
+  }, [authUser, navigate, setShowUserLogin]);
 
   const sidebarLinks = [
     { name: "User details", path: "/user/details", icon: User02Icon },
@@ -63,59 +79,107 @@ const UserProfile = () => {
     navigate("/");
   };
 
+  // Fetching Data ===========================
+
+  const fetchOrders = async () => {
+    try {
+      setIsLoadingUser(true);
+      const orderService = new OrderService();
+
+      await orderService
+        .getUserOrders({ orderStatus: OrderStatus.PAUSE })
+        .then((data) => {
+          dispatch(setPauseOrders(data));
+          setSumOrders(data);
+          console.log("Pause Orders: ", data);
+        });
+      await orderService
+        .getUserOrders({ orderStatus: OrderStatus.PROCESS })
+        .then((data) => {
+          dispatch(setProcessOrders(data));
+          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
+          console.log("Process Orders: ", data);
+        });
+      await orderService
+        .getUserOrders({ orderStatus: OrderStatus.DELETE })
+        .then((data) => {
+          dispatch(setCancelOrders(data));
+          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
+          console.log("Cancel Orders: ", data);
+        });
+      await orderService
+        .getUserOrders({ orderStatus: OrderStatus.FINISH })
+        .then((data) => {
+          dispatch(setFinishOrders(data));
+          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
+          console.log("Finish Orders: ", data);
+        });
+      setIsLoadingUser(false);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Failed to fetch Products! Error: ", error);
+      setError(errorMessage);
+      setIsLoadingUser(false);
+    }
+  };
+
+  const fetchUserData = async () => {
+    try {
+      const userService = new UserService();
+      const data = await userService.getUserDetails();
+      // console.log("Fetched user Details: ", data?.userAddresses);
+
+      dispatch(setUserDetails(data));
+
+      if (data.userAddresses) {
+        // console.log(data?.userAddresses);
+        dispatch(setUserAddresses(data?.userAddresses));
+      }
+      if (data.userPayments) {
+        dispatch(setUserPayments(data?.userPayments));
+      }
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Failed to fetch User Details! Error: ", error);
+      setError(errorMessage);
+      setIsLoadingUser(false);
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const productService = new ProductService();
+      const data = await productService.getAllProducts();
+
+      // console.log("✅ Products fetched:", data.length);
+      dispatch(setProducts(data));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Failed to fetch Products! Error: ", error);
+      setError(errorMessage);
+    }
+  };
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setIsLoadingUser(true);
-        const userService = new UserService();
-        const data = await userService.getUserDetails();
-        // console.log("Fetched user Details: ", data?.userAddresses);
-
-        dispatch(setUserDetails(data));
-
-        if (data.userAddresses) {
-          // console.log(data?.userAddresses);
-          dispatch(setUserAddresses(data?.userAddresses));
-        }
-        if (data.userPayments) {
-          dispatch(setUserPayments(data?.userPayments));
-        }
-        if (data.userOrders) {
-          dispatch(setUserOrders(data?.userOrders));
-        }
-
-        setIsLoadingUser(false);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "Unknown error occurred";
-        console.error("Failed to fetch User Details! Error: ", error);
-        setError(errorMessage);
-        setIsLoadingUser(false);
-      }
+    const fetchData = async () => {
+      setIsLoadingUser(true);
+      await Promise.all([fetchOrders(), fetchProducts(), fetchUserData()]);
+      dispatch(setAllOrders(sumOrders));
+      setIsLoadingUser(false);
     };
-
-    const fetchProducts = async () => {
-      try {
-        const productService = new ProductService();
-        const data = await productService.getAllProducts();
-
-        // console.log("✅ Products fetched:", data.length);
-        dispatch(setProducts(data));
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "Unknown error occurred";
-        console.error("Failed to fetch Products! Error: ", error);
-        setError(errorMessage);
-        setIsLoadingUser(false);
-      }
-    };
-
-    fetchUserData();
-    fetchProducts();
-  }, [dispatch]);
+    fetchData();
+  }, []);
 
   // Check if we're on a sub-route (mobile should show content, not menu)
   const isSubRoute = location.pathname !== "/user";
+
+  // Auth guard - don't render if not authenticated
+  if (!authUser) {
+    return null;
+  }
 
   if (isLoadingUser) {
     return (

@@ -43,7 +43,16 @@ const CheckoutPage = () => {
     selectedAddress,
     setSelectedAddress,
     addressData,
+    setShowUserLogin,
   } = useGlobals();
+
+  // Auth protection - redirect to home and show login if not authenticated
+  useEffect(() => {
+    if (!authUser) {
+      setShowUserLogin(true);
+      navigate("/");
+    }
+  }, [authUser, navigate, setShowUserLogin]);
 
   // Local state
   const [loading, setLoading] = useState(true);
@@ -167,6 +176,11 @@ const CheckoutPage = () => {
     if (firstDigit === "3") return "Amex";
     return "Card";
   };
+
+  // Auth guard - don't render if not authenticated
+  if (!authUser) {
+    return null;
+  }
 
   // Loading State
   if (loading) {

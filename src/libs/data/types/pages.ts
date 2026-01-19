@@ -42,8 +42,14 @@ export interface UserProfilePageState {
   products: Product[];
   userDetails: User | null;
   addresses: Address[];
-  orders: Order[];
   payments: Payment[];
+
+  // Orders
+  pauseOrders: Order[];
+  processOrders: Order[];
+  finishOrders: Order[];
+  cancelOrders: Order[];
+  allOrders: Order[];
 }
 
 export interface CheckoutPageState {

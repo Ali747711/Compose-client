@@ -20,13 +20,21 @@ import { Payment } from "../../../libs/data/types/payment";
 const OrderPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { currency } = useGlobals();
+  const { currency, authUser, setShowUserLogin } = useGlobals();
 
   const [order, setOrder] = useState<Order | null>(null);
   const [address, setAddress] = useState<Address | null>(null);
   const [payment, setPayment] = useState<Payment | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
+
+  // Auth protection - redirect to home and show login if not authenticated
+  useEffect(() => {
+    if (!authUser) {
+      setShowUserLogin(true);
+      navigate("/");
+    }
+  }, [authUser, navigate, setShowUserLogin]);
 
   // Fetch order details
   useEffect(() => {
@@ -206,6 +214,12 @@ const OrderPage = () => {
     const digits = cardNumber.replace(/\s/g, "");
     return `•••• •••• •••• ${digits.slice(-4)}`;
   };
+
+  // Auth guard - don't render if not authenticated
+  if (!authUser) {
+    return null;
+  }
+
   // Loading state
   if (loading) {
     return (

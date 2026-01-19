@@ -164,6 +164,7 @@ const Navbar = () => {
     const userService = new UserService();
     await userService.logout();
     localStorage.removeItem("userData");
+    localStorage.removeItem("addressData");
     setAuthUser(null);
   };
 

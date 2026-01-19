@@ -5,8 +5,14 @@ const initialState: UserProfilePageState = {
   products: [],
   userDetails: null,
   addresses: [],
-  orders: [],
   payments: [],
+
+  // Orders
+  pauseOrders: [],
+  processOrders: [],
+  finishOrders: [],
+  cancelOrders: [],
+  allOrders: [],
 };
 
 const UserProfilePageSlice = createSlice({
@@ -22,11 +28,23 @@ const UserProfilePageSlice = createSlice({
     setUserAddresses: (state, action) => {
       state.addresses = action.payload;
     },
-    setUserOrders: (state, action) => {
-      state.orders = action.payload;
-    },
     setUserPayments: (state, action) => {
       state.payments = action.payload;
+    },
+    setPauseOrders: (state, action) => {
+      state.pauseOrders = action.payload;
+    },
+    setProcessOrders: (state, action) => {
+      state.processOrders = action.payload;
+    },
+    setFinishOrders: (state, action) => {
+      state.finishOrders = action.payload;
+    },
+    setCancelOrders: (state, action) => {
+      state.cancelOrders = action.payload;
+    },
+    setAllOrders: (state, action) => {
+      state.allOrders = action.payload;
     },
   },
 });
@@ -35,8 +53,12 @@ export const {
   setProducts,
   setUserDetails,
   setUserAddresses,
-  setUserOrders,
   setUserPayments,
+  setPauseOrders,
+  setProcessOrders,
+  setFinishOrders,
+  setCancelOrders,
+  setAllOrders,
 } = UserProfilePageSlice.actions;
 
 const UserProfilePageReducer = UserProfilePageSlice.reducer;
