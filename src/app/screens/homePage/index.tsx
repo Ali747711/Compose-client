@@ -11,6 +11,8 @@ import NewProducts from "./NewProducts";
 import HeroSection from "./HeroSection";
 import Categories from "./Categories";
 import Users from "./Users";
+import AddressService from "../../services/address.service";
+import { useGlobals } from "../../hooks/useGlobal";
 // import Swiped from "../../components/Swiper";
 
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -20,22 +22,23 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 const Home = () => {
-  const { setTopUsers, setNewDishes, setPopularDishes } = actionDispatch(
-    useDispatch()
-  );
+  const { saveAddress } = useGlobals();
+  const { setTopUsers, setNewDishes, setPopularDishes } =
+    actionDispatch(useDispatch());
 
   useEffect(() => {
     console.log("🏠 HomePage mounted - fetching data...");
-
-    // FETCH Top users (sorted by views)
+    const productService = new ProductService();
     const userService = new UserService();
+    const addressService = new AddressService();
+    // FETCH Top users (sorted by views)
+
     userService.getTopUsers().then((data) => {
       // console.log("✅ Top users loaded:", data);
       setTopUsers(data); // DISPATCH TO REDUX!
     });
 
     // FETCH Popular dishes (sorted by views)
-    const productService = new ProductService();
 
     productService
       .getProducts({
@@ -65,8 +68,11 @@ const Home = () => {
       .catch((err) => {
         console.log("Error in fetching NewDishes in Home page: ", err);
       });
+
+    addressService.getUserAddresses().then((data) => {
+      saveAddress(data);
+    });
   }, []);
-  // console.log("Top users: ", topUsers);
   return (
     <div className="min-h-50vh w-full">
       <HeroSection />

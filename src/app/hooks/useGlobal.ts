@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
 import { CalendarDate } from "@internationalized/date";
+import { Address } from "../../libs/data/types/address";
 
 interface GlobalInterface {
   showUserLogin: boolean;
@@ -23,10 +24,14 @@ interface GlobalInterface {
   setSearchQuery: (input: string) => void;
   deliveryDate: CalendarDate | null;
   setDeliveryDate: (date: CalendarDate | null) => void;
+  addressData: Address[];
+  saveAddress: (input: Address[]) => void;
+  selectedAddress: Address | null;
+  setSelectedAddress: (input: Address) => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>(
-  undefined
+  undefined,
 );
 
 export const useGlobals = () => {

@@ -10,7 +10,6 @@ import {
   Add01Icon,
   Calendar03Icon,
 } from "@hugeicons/core-free-icons";
-import AddressService from "../../services/address.service";
 import PaymentService from "../../services/payment.service";
 import { setAddresses, setPayments } from "./slice";
 import { useGlobals } from "../../hooks/useGlobal";
@@ -30,7 +29,6 @@ import { OrderInput } from "../../../libs/data/types/order";
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const addressService = new AddressService();
   const paymentService = new PaymentService();
   const productService = new ProductService();
   const orderService = new OrderService();
@@ -42,12 +40,15 @@ const CheckoutPage = () => {
     deliveryDate,
     authUser,
     setCartItems,
+    selectedAddress,
+    setSelectedAddress,
+    addressData,
   } = useGlobals();
 
   // Local state
   const [loading, setLoading] = useState(true);
   const [recomProds, setRecomPros] = useState<Product[] | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  // const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
   const [processingCheckout, setProcessingCheckout] = useState(false);
   // Delivery tip state
@@ -64,14 +65,14 @@ const CheckoutPage = () => {
   // Fetch data
   const getUserAddresses = async () => {
     try {
-      const data = await addressService.getUserAddresses();
-      dispatch(setAddresses(data));
+      // const data = await addressService.getUserAddresses();
+      dispatch(setAddresses(addressData));
       // Auto-select default address
-      const defaultAddr = data.find((addr: Address) => addr.isDefault);
-      if (defaultAddr) setSelectedAddress(defaultAddr);
-      else {
-        setSelectedAddress(data[0]);
-      }
+      // const defaultAddr = data.find((addr: Address) => addr.isDefault);
+      // if (defaultAddr) setSelectedAddress(defaultAddr);
+      // else {
+      //   setSelectedAddress(data[0]);
+      // }
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
@@ -122,7 +123,7 @@ const CheckoutPage = () => {
   // Calculate totals
   const itemsTotal = cartItems.reduce(
     (sum, item) => sum + (item?.price ?? 0) * getItemQuantity(item._id),
-    0
+    0,
   );
   const deliveryFee = itemsTotal > 25000 ? 0 : 5000;
   const subtotal =
@@ -147,7 +148,7 @@ const CheckoutPage = () => {
       deliveryFee,
     };
     await orderService.createOrder(input).then((data) => {
-      console.log("Order: ", data);
+      // console.log("Order: ", data);
 
       setTimeout(() => {
         setProcessingCheckout(false);

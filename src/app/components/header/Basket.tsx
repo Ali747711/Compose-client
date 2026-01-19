@@ -1,4 +1,8 @@
-import { Delete02Icon, ShoppingCart02Icon } from "@hugeicons/core-free-icons";
+import {
+  Delete02Icon,
+  GiftIcon,
+  ShoppingCart02Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Divider from "../divider";
 import { useGlobals } from "../../hooks/useGlobal";
@@ -14,7 +18,7 @@ const Basket = () => {
   const subtotal = cartItems.reduce(
     (sum, item: CartItem) =>
       sum + (item?.price ?? 0) * getItemQuantity(item._id),
-    0
+    0,
   );
 
   // Free delivery threshold
@@ -22,7 +26,7 @@ const Basket = () => {
   const savingsAmount = 2550;
   const remainingForFreeDelivery = Math.max(
     0,
-    freeDeliveryThreshold - subtotal
+    freeDeliveryThreshold - subtotal,
   );
   const progress = Math.min((subtotal / freeDeliveryThreshold) * 100, 100);
 
@@ -130,10 +134,13 @@ const Basket = () => {
             </div>
           ) : (
             <div className="px-6 py-3 bg-main/10 border-t border-main/20">
-              <p className="text-xs font-medium text-gray-700">
-                🎉 You've unlocked free delivery! Saving {currency}
-                {savingsAmount.toFixed(2)}
-              </p>
+              <div className="flex items-center gap-2">
+                <HugeiconsIcon icon={GiftIcon} fill="#fdd22c" />
+                <p className="text-xs font-medium text-gray-700 ">
+                  You've unlocked free delivery! Saving {currency}
+                  {savingsAmount.toFixed(2)}
+                </p>
+              </div>
               <div className="mt-2 w-full bg-main rounded-full h-1.5" />
             </div>
           )}

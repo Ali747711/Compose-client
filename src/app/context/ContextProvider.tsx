@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
 import { CalendarDate } from "@internationalized/date";
+import { Address } from "../../libs/data/types/address";
 
 // ✅ Add token to all requests from localStorage
 // it is already setup in axios, so commet it!
@@ -17,16 +18,25 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [authUser, setAuthUser] = useState<User | null>(
     localStorage.getItem("userData")
       ? JSON.parse(localStorage.getItem("userData") as string)
-      : null
+      : null,
   );
 
-  const currency: string = import.meta.env.VITE_CURRENCY;
+  //GET address Data in localStorage:
+  const saveAddress = (input: Address[]) => {
+    console.log("Addresses: ", input);
+    localStorage.setItem("addressData", JSON.stringify(input));
+  };
+
+  const addressData: Address[] = localStorage.getItem("addressData")
+    ? JSON.parse(localStorage.getItem("addressData") as string)
+    : [];
 
   // GET cart data from localStorage
   const getInitilCartData = (): CartItem[] => {
     const cartJson = localStorage.getItem("cartData");
     return cartJson ? JSON.parse(cartJson) : [];
   };
+
   const [cartItems, setCartItems] = useState<CartItem[]>(getInitilCartData());
 
   // ADD to cart
@@ -38,7 +48,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       cartUpdate = cartItems?.map((item) =>
         item._id === input._id
           ? { ...item, quantity: (item.quantity ?? 0) + 1 }
-          : item
+          : item,
       );
     } else {
       cartUpdate = [...cartItems, { ...input, quantity: 1 }];
@@ -69,7 +79,7 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       cartUpdate = cartItems.map((item) =>
         item._id === input._id
           ? { ...item, quantity: (item.quantity ?? 0) - 1 }
-          : item
+          : item,
       );
     }
 
@@ -105,11 +115,18 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const item = cartItems.find((item) => item._id === productId);
     return item?.quantity || 0;
   };
-
+  const currency: string = import.meta.env.VITE_CURRENCY;
   const [deliveryDate, setDeliveryDate] = useState<CalendarDate | null>(null);
   const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const defaultAddress = addressData
+    ? addressData.find((address) => address.isDefault)
+    : null;
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(
+    defaultAddress || addressData[0] || null,
+  );
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");
@@ -135,6 +152,10 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         searchQuery,
         setSearchQuery,
         setCartItems,
+        saveAddress,
+        addressData,
+        selectedAddress,
+        setSelectedAddress,
       }}
     >
       {children}

@@ -22,35 +22,6 @@ function App() {
   const { showUserLogin } = useGlobals();
   console.log("rerendering");
 
-  // // ✅ Debug mobile issues
-  // useEffect(() => {
-  //   // Log environment info on mobile
-  //   const debugInfo = {
-  //     userAgent: navigator.userAgent,
-  //     platform: navigator.platform,
-  //     apiUrl: import.meta.env.VITE_API_URL,
-  //     hasLocalStorage: typeof localStorage !== "undefined",
-  //     cookiesEnabled: navigator.cookieEnabled,
-  //     isOnline: navigator.onLine,
-  //   };
-
-  //   console.log("🔍 Debug Info:", debugInfo);
-
-  //   // Test localStorage
-  //   try {
-  //     localStorage.setItem("test", "test");
-  //     localStorage.removeItem("test");
-  //     console.log("✅ localStorage working");
-  //   } catch (e) {
-  //     console.error("❌ localStorage NOT working:", e);
-  //   }
-
-  //   // Test API connection
-  //   fetch(`${import.meta.env.VITE_API_URL}/health/health`)
-  //     .then((res) => res.json())
-  //     .then((data) => console.log("✅ API Health Check:", data))
-  //     .catch((err) => console.error("❌ API Health Check Failed:", err));
-  // }, []);
   return (
     <div className="min-h-screen text-main-text">
       {isSellerPath ? null : <Navbar />}
@@ -66,6 +37,7 @@ function App() {
           <Route path="/products/:category" element={<CategoryPage />} />
           <Route path="/products/:category/:id" element={<Product />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          {/* <Route path="/menu" element={<Menu />} /> */}
           <Route path="/cart" element={<CartPage />} />
           <Route path="/order/:id" element={<OrderPage />} />
           <Route path="/user" element={<UserProfile />}>

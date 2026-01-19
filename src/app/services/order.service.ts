@@ -24,7 +24,7 @@ class OrderService {
             itemPrice: item.price,
             productId: item._id,
           };
-        }
+        },
       );
 
       const url = `${this.path}/order/create-order`;
@@ -32,7 +32,7 @@ class OrderService {
         ...input,
         orderItemInput: cartItems,
       });
-      console.log("Created order: ", result.data);
+      // console.log("Created order: ", result.data);
       return result.data;
     } catch (err) {
       console.log("Error.createOrder:", err);
@@ -44,7 +44,6 @@ class OrderService {
     try {
       const url = `${this.path}/order/get-order/${id}`;
       const result = await apiClient.get(url);
-      console.log("Order: ", result.data[0]);
       return result.data[0];
     } catch (err) {
       console.log("Error getOrder:", err);
