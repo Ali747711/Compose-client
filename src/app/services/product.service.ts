@@ -35,7 +35,7 @@ class ProductService {
   };
 
   public getAllProducts = async (): Promise<Product[]> => {
-    const url = this.path + "/product/all-products";
+    const url = this.path + `/product/all-products`;
     const result = await apiClient.get(url);
     return result.data;
   };
