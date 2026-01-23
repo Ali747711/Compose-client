@@ -31,3 +31,6 @@ dist-ssr
 .env*.local
 
 .claude
+
+CHAT_FRONTEND_IMPLEMENTATION.md
+DESIGN_SYSTEM.md

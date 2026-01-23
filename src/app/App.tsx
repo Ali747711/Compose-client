@@ -18,6 +18,7 @@ import CheckoutPage from "./screens/checkoutPage";
 import CartPage from "./screens/cart";
 import OrderPage from "./screens/orderPage";
 import UserOrders from "./screens/userProfile/Order";
+import HelpCenter from "./screens/userProfile/HelpCenter";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
@@ -48,6 +49,7 @@ function App() {
             {/* <Route path="cart" element={<Cart />} /> */}
             <Route path="payments" element={<Payment />} />
             <Route path="addresses" element={<AddressPage />} />
+            <Route path="help" element={<HelpCenter />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
