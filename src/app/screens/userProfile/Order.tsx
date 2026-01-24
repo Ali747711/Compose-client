@@ -166,14 +166,14 @@ const UserOrders = () => {
   return (
     <div className="flex-1 min-h-screen bg-white lg:bg-gray-50">
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 bg-white border-b border-gray-200 px-3 py-4 flex items-center gap-4 z-10">
+      <div className="lg:hidden sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center gap-4 z-10">
         <button onClick={() => navigate("/user")} className="p-1">
           <HugeiconsIcon icon={Cancel01Icon} size={24} />
         </button>
         <h1 className="text-xl font-bold text-main-text">My Orders</h1>
       </div>
 
-      <div className="p-3 lg:p-8 max-w-7xl mx-auto">
+      <div className="p-4 lg:p-8 max-w-7xl mx-auto">
         {/* Desktop Header */}
         <div className="hidden lg:block mb-8">
           <h1 className="text-3xl font-bold text-main-text mb-2">My Orders</h1>

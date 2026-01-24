@@ -16,12 +16,15 @@ const ChatBox = () => {
   const [sending, setSending] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Scroll to bottom
+  // Scroll to bottom of messages container only
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
   };
 
   // Initialize conversation
@@ -152,7 +155,10 @@ const ChatBox = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+      >
         {messages.length === 0 ? (
           <div className="text-center text-gray-400 mt-20">
             <p>No messages yet. Start a conversation!</p>
@@ -202,8 +208,6 @@ const ChatBox = () => {
             </div>
           </div>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}

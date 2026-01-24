@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -10,6 +11,7 @@ import {
   Call02Icon,
   Calendar03Icon,
   Camera01Icon,
+  ArrowLeft01Icon,
 } from "@hugeicons/core-free-icons";
 import { AlertError, AlertSuccess } from "../../../libs/sweetAlert";
 import UserService from "../../services/user.service";
@@ -19,6 +21,7 @@ import { retrieveUserDetails } from "./selector";
 import { UserUpdateInput } from "../../../libs/data/types/user";
 
 const UserDetails = () => {
+  const navigate = useNavigate();
   const userDetails = useSelector(retrieveUserDetails);
   const { authUser, setAuthUser } = useGlobals();
   const [isEditing, setIsEditing] = useState(false);
@@ -97,10 +100,43 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="flex-1 min-h-screen bg-white lg:bg-gray-50 p-4 lg:p-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-6 lg:mb-8">
+    <div className="flex-1 min-h-screen bg-white lg:bg-gray-50">
+      {/* Mobile Header */}
+      <div className="lg:hidden sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between z-10">
+        <div className="flex items-center gap-4">
+          <button onClick={() => navigate("/user")} className="p-1">
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={24} />
+          </button>
+          <h1 className="text-xl font-bold text-main-text">Account Settings</h1>
+        </div>
+        {!isEditing ? (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="p-2 bg-main hover:bg-main-dull text-main-text rounded-lg"
+          >
+            <HugeiconsIcon icon={Edit02Icon} size={20} />
+          </button>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              onClick={handleCancel}
+              className="p-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg"
+            >
+              <HugeiconsIcon icon={Cancel01Icon} size={20} />
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="p-2 bg-main hover:bg-main-dull text-main-text rounded-lg"
+            >
+              <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} />
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="p-4 lg:p-8 max-w-4xl mx-auto">
+        {/* Desktop Header */}
+        <div className="hidden lg:block mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold text-main-text mb-1">
@@ -116,7 +152,7 @@ const UserDetails = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-main hover:bg-main-dull text-main-text font-semibold rounded-lg transition-all duration-200 border-2 border-main-dull"
               >
                 <HugeiconsIcon icon={Edit02Icon} size={18} />
-                <span className="hidden sm:inline">Edit Profile</span>
+                <span>Edit Profile</span>
               </button>
             ) : (
               <div className="flex gap-2">
@@ -125,14 +161,14 @@ const UserDetails = () => {
                   className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-all duration-200"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} size={18} />
-                  <span className="hidden sm:inline">Cancel</span>
+                  <span>Cancel</span>
                 </button>
                 <button
                   onClick={handleSubmit}
                   className="flex items-center gap-2 px-4 py-2 bg-main hover:bg-main-dull text-main-text font-semibold rounded-lg transition-all duration-200 border-2 border-main-dull"
                 >
                   <HugeiconsIcon icon={CheckmarkCircle02Icon} size={18} />
-                  <span className="hidden sm:inline">Save</span>
+                  <span>Save</span>
                 </button>
               </div>
             )}
