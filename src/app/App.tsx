@@ -22,7 +22,7 @@ import HelpCenter from "./screens/userProfile/HelpCenter";
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin } = useGlobals();
-  console.log("rerendering");
+  // console.log("rerendering");
 
   return (
     <div className="min-h-screen text-main-text">
