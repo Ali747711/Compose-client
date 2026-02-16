@@ -15,6 +15,7 @@ import AddressForm from "../../components/page/AddressForm";
 import AddressService from "../../services/address.service";
 import { useNavigate } from "react-router-dom";
 import { useGlobals } from "../../hooks/useGlobal";
+import Swal from "sweetalert2";
 
 const AddressPage = () => {
   const navigate = useNavigate();
@@ -48,8 +49,6 @@ const AddressPage = () => {
 
   // Save address (add or update)
   const handleSaveAddress = async (savedAddress: Address) => {
-    console.log("✅ Saved address:", savedAddress);
-
     let updatedAddresses: Address[];
 
     // Check if we're editing or adding new
@@ -81,25 +80,73 @@ const AddressPage = () => {
 
   // Delete address
   const handleDeleteAddress = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this address?")) {
-      return;
-    }
+    Swal.fire({
+      title: "Delete Address?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      customClass: {
+        popup: "rounded-2xl shadow-2xl",
+        title: "text-2xl font-bold text-gray-900",
+        htmlContainer: "text-gray-600",
+        confirmButton:
+          "bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg border-0 mx-2",
+        cancelButton:
+          "bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-xl transition-all duration-200 border-0 mx-2",
+      },
+      buttonsStyling: false,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoading(true);
+        try {
+          await addressService.deleteAddress(id);
 
-    setLoading(true);
-    try {
-      await addressService.deleteAddress(id);
+          // Remove from Redux
+          const updatedAddresses = addresses.filter((addr) => addr._id !== id);
+          dispatch(setUserAddresses(updatedAddresses));
+          saveAddress(updatedAddresses);
 
-      // Remove from Redux
-      const updatedAddresses = addresses.filter((addr) => addr._id !== id);
-      dispatch(setUserAddresses(updatedAddresses));
-      saveAddress(updatedAddresses);
-      console.log("Address deleted");
-    } catch (error) {
-      console.error("Error deleting address:", error);
-      alert("Failed to delete address");
-    } finally {
-      setLoading(false);
-    }
+          Swal.fire({
+            title: "Deleted!",
+            text: "Address has been removed.",
+            icon: "success",
+            confirmButtonText: "OK",
+            timer: 2000,
+            timerProgressBar: true,
+            customClass: {
+              popup: "rounded-2xl shadow-2xl",
+              title: "text-2xl font-bold text-gray-900",
+              htmlContainer: "text-gray-600",
+              confirmButton:
+                "bg-main hover:bg-main-dull text-main-text font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg border-2 border-main-dull",
+            },
+            buttonsStyling: false,
+          });
+        } catch (error) {
+          console.error("Error deleting address:", error);
+
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete address. Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+            customClass: {
+              popup: "rounded-2xl shadow-2xl",
+              title: "text-2xl font-bold text-gray-900",
+              htmlContainer: "text-gray-600",
+              confirmButton:
+                "bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg border-0",
+            },
+            buttonsStyling: false,
+          });
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
   };
 
   // Set default address (when clicking radio button)

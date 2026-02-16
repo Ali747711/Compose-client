@@ -24,9 +24,7 @@ class ProductService {
   public getProduct = async (productId: string): Promise<Product> => {
     try {
       const url = `${this.path}/product/product/${productId}`;
-      console.log("getProduct URL: ", url);
       const result = await apiClient.get(url);
-      console.log("Product service, [getProduct] result: ", result.data);
       return result.data;
     } catch (error) {
       console.log("Frontend, Product Service [getProduct] Error: ", error);

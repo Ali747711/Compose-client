@@ -23,7 +23,6 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   //GET address Data in localStorage:
   const saveAddress = (input: Address[]) => {
-    console.log("Addresses: ", input);
     localStorage.setItem("addressData", JSON.stringify(input));
   };
 

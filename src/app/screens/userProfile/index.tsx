@@ -28,9 +28,7 @@ import { Avatar, Spinner } from "@heroui/react";
 import UserService from "../../services/user.service";
 import OrderService from "../../services/order.service";
 import { OrderStatus } from "../../../libs/enums/order.enum";
-import { Order } from "../../../libs/data/types/order";
 const UserProfile = () => {
-  const [sumOrders, setSumOrders] = useState<Order[] | null>(null);
   const [isLoadingUser, setIsLoadingUser] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -81,39 +79,32 @@ const UserProfile = () => {
       setIsLoadingUser(true);
       const orderService = new OrderService();
 
-      await orderService
-        .getUserOrders({ orderStatus: OrderStatus.PAUSE })
-        .then((data) => {
-          dispatch(setPauseOrders(data));
-          setSumOrders(data);
-          console.log("Pause Orders: ", data);
-        });
-      await orderService
-        .getUserOrders({ orderStatus: OrderStatus.PROCESS })
-        .then((data) => {
-          dispatch(setProcessOrders(data));
-          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
-          console.log("Process Orders: ", data);
-        });
-      await orderService
-        .getUserOrders({ orderStatus: OrderStatus.DELETE })
-        .then((data) => {
-          dispatch(setCancelOrders(data));
-          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
-          console.log("Cancel Orders: ", data);
-        });
-      await orderService
-        .getUserOrders({ orderStatus: OrderStatus.FINISH })
-        .then((data) => {
-          dispatch(setFinishOrders(data));
-          setSumOrders((prev) => (prev ? [...prev, ...data] : data));
-          console.log("Finish Orders: ", data);
-        });
+      const [pauseData, processData, cancelData, finishData] =
+        await Promise.all([
+          orderService.getUserOrders({ orderStatus: OrderStatus.PAUSE }),
+          orderService.getUserOrders({ orderStatus: OrderStatus.PROCESS }),
+          orderService.getUserOrders({ orderStatus: OrderStatus.DELETE }),
+          orderService.getUserOrders({ orderStatus: OrderStatus.FINISH }),
+        ]);
+
+      dispatch(setPauseOrders(pauseData));
+      dispatch(setProcessOrders(processData));
+      dispatch(setCancelOrders(cancelData));
+      dispatch(setFinishOrders(finishData));
+      dispatch(
+        setAllOrders([
+          ...pauseData,
+          ...processData,
+          ...cancelData,
+          ...finishData,
+        ]),
+      );
+
       setIsLoadingUser(false);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
-      console.error("Failed to fetch Products! Error: ", error);
+      console.error("Failed to fetch Orders! Error: ", error);
       setError(errorMessage);
       setIsLoadingUser(false);
     }
@@ -162,7 +153,6 @@ const UserProfile = () => {
     const fetchData = async () => {
       setIsLoadingUser(true);
       await Promise.all([fetchOrders(), fetchProducts(), fetchUserData()]);
-      dispatch(setAllOrders(sumOrders));
       setIsLoadingUser(false);
     };
     fetchData();

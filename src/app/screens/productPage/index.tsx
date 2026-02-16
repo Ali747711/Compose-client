@@ -30,7 +30,7 @@ const Product = () => {
         // Fetch all products if not already loaded
         if (!products || products.length === 0) {
           const allProducts = await productService.getAllProducts();
-          console.log("Product count: ", allProducts.length);
+          // console.log("Product count: ", allProducts.length);
           dispatch(setProducts(allProducts));
         }
 
@@ -56,7 +56,7 @@ const Product = () => {
   const recommendedProducts: Product[] =
     products?.filter(
       (product) =>
-        product?.productCollection === chosenProduct?.productCollection
+        product?.productCollection === chosenProduct?.productCollection,
     ) || [];
 
   // Loading state

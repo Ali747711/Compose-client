@@ -64,7 +64,6 @@ const Login = () => {
         userNick: formData.userNick.trim(),
         userPassword: formData.userPassword,
       };
-      console.log(loginInput);
       const userService = new UserService();
       const success = await userService.login(loginInput);
       console.log(success);
@@ -81,7 +80,7 @@ const Login = () => {
         AlertSuccess("Login Successfull!");
       }
     } catch (error: any) {
-      console.log("Login page, Error: ", error);
+      // console.log("Login page, Error: ", error);
       AlertError(error);
     }
   };

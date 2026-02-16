@@ -69,7 +69,7 @@ const AddressForm = ({
     // Validate required fields
     const requiredFields = ["street", "city", "state", "zipcode", "country"];
     const missingFields = requiredFields.filter(
-      (field) => !formData[field as keyof AddressInput]
+      (field) => !formData[field as keyof AddressInput],
     );
 
     if (missingFields.length > 0) {
@@ -95,11 +95,11 @@ const AddressForm = ({
         console.log(" Address updated, isDefault:", savedAddress.isDefault);
       } else {
         // CREATE new address
-        console.log("Creating address with isDefault:", formData.isDefault);
+        // console.log("Creating address with isDefault:", formData.isDefault);
 
         savedAddress = await addressService.createAddress(formData);
 
-        console.log("Address created, isDefault:", savedAddress.isDefault);
+        // console.log("Address created, isDefault:", savedAddress.isDefault);
       }
 
       onSave(savedAddress);
