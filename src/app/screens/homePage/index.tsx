@@ -11,9 +11,6 @@ import NewProducts from "./NewProducts";
 import HeroSection from "./HeroSection";
 import Categories from "./Categories";
 import Users from "./Users";
-import AddressService from "../../services/address.service";
-import { useGlobals } from "../../hooks/useGlobal";
-// import Swiped from "../../components/Swiper";
 
 const actionDispatch = (dispatch: Dispatch) => ({
   setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
@@ -22,7 +19,6 @@ const actionDispatch = (dispatch: Dispatch) => ({
 });
 
 const Home = () => {
-  const { saveAddress } = useGlobals();
   const { setTopUsers, setNewDishes, setPopularDishes } =
     actionDispatch(useDispatch());
 
@@ -30,7 +26,6 @@ const Home = () => {
     console.log("🏠 HomePage mounted - fetching data...");
     const productService = new ProductService();
     const userService = new UserService();
-    const addressService = new AddressService();
     // FETCH Top users (sorted by views)
 
     userService.getTopUsers().then((data) => {
