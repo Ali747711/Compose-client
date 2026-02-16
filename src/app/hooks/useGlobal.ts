@@ -8,7 +8,7 @@ interface GlobalInterface {
   showUserLogin: boolean;
   setShowUserLogin: (input: boolean) => void;
   authUser: User | null;
-  setAuthUser: (user: User | null) => void;
+  setAuthUser: (user: User | null) => any;
   orderBuilder: Date;
   setOrderBuilder: (input: Date) => void;
   onAdd: (input: CartItem) => void;

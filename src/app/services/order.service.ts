@@ -72,7 +72,7 @@ class OrderService {
       const url = `${this.path}/order/update-order`;
       const result = await apiClient.put(url, input);
 
-      console.log("Order update: ", result);
+      // console.log("Order update: ", result);
       return result.data;
     } catch (err) {
       console.log("Error updateOrder:", err);

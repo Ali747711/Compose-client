@@ -43,9 +43,17 @@ apiClient.interceptors.response.use(
   (error: AxiosError) => {
     // Handle 401 - Unauthorized
     if (error.response?.status === 401) {
-      localStorage.removeItem("userData");
-      localStorage.removeItem("token"); // ✅ Also remove token
-      window.location.href = "/";
+      const requestUrl = error.config?.url || "";
+      const isAuthRequest =
+        requestUrl.includes("/user/login") ||
+        requestUrl.includes("/user/signup");
+
+      // Skip redirect for login/signup - let the component handle the error
+      if (!isAuthRequest) {
+        localStorage.removeItem("userData");
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      }
     }
 
     // Handle 403 - Forbidden

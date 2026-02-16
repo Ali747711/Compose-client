@@ -68,10 +68,6 @@ const Home = () => {
       .catch((err) => {
         console.log("Error in fetching NewDishes in Home page: ", err);
       });
-
-    addressService.getUserAddresses().then((data) => {
-      saveAddress(data);
-    });
   }, []);
   return (
     <div className="min-h-50vh w-full">

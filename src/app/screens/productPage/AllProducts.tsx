@@ -17,15 +17,15 @@ const AllProducts = () => {
 
     productService.getAllProducts().then((data) => {
       dispatch(setProducts(data));
-      console.log(data);
+      // console.log(data);
 
       if (searchQuery.length > 0) {
         setFilteredProducts(
           data.filter((product: Product) =>
             product.productName
               .toLowerCase()
-              .includes(searchQuery.toLowerCase())
-          )
+              .includes(searchQuery.toLowerCase()),
+          ),
         );
       } else {
         setFilteredProducts(data);

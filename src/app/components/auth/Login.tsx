@@ -11,10 +11,12 @@ import {
   ScanImageIcon,
 } from "@hugeicons/core-free-icons";
 import { AlertError, AlertSuccess } from "../../../libs/sweetAlert";
+import AddressService from "../../services/address.service";
 
 const Login = () => {
   const [state, setState] = useState("login");
-  const { setAuthUser, setShowUserLogin } = useGlobals();
+  const { setAuthUser, setShowUserLogin, saveAddress } = useGlobals();
+  const addressService = new AddressService();
 
   // Add profile image state
   const [profileImage, setProfileImage] = useState<File | null>(null);
@@ -62,16 +64,23 @@ const Login = () => {
         userNick: formData.userNick.trim(),
         userPassword: formData.userPassword,
       };
+      console.log(loginInput);
       const userService = new UserService();
-      await userService.login(loginInput);
-      const user = await userService.getUserDetails();
-      console.log("Details: ", user);
-      setAuthUser(user);
-      setFormData((prev) => ({ ...prev, userNick: "" }));
-      setFormData((prev) => ({ ...prev, userPassword: "" }));
-      setShowUserLogin(false);
-      AlertSuccess("Login Successfull!");
-    } catch (error) {
+      const success = await userService.login(loginInput);
+      console.log(success);
+      if (success) {
+        const user = await userService.getUserDetails();
+        // console.log("Details: ", user);
+        await setAuthUser(user);
+        const addresses = await addressService.getUserAddresses();
+        saveAddress(addresses);
+        setFormData((prev) => ({ ...prev, userNick: "" }));
+        setFormData((prev) => ({ ...prev, userPassword: "" }));
+
+        setShowUserLogin(false);
+        AlertSuccess("Login Successfull!");
+      }
+    } catch (error: any) {
       console.log("Login page, Error: ", error);
       AlertError(error);
     }

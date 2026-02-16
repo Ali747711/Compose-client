@@ -19,7 +19,7 @@ import { useGlobals } from "../../hooks/useGlobal";
 const AddressPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { authUser } = useGlobals();
+  const { authUser, saveAddress } = useGlobals();
 
   // Get addresses from Redux
   const addresses: Address[] = useSelector(retrieveUserAddresses);
@@ -58,7 +58,7 @@ const AddressPage = () => {
     if (isEditing) {
       // UPDATE: Replace the edited address
       updatedAddresses = addresses.map((addr) =>
-        addr._id === savedAddress._id ? savedAddress : addr
+        addr._id === savedAddress._id ? savedAddress : addr,
       );
     } else {
       // ADD: Add new address to array
@@ -72,6 +72,7 @@ const AddressPage = () => {
 
     // Update Redux
     dispatch(setUserAddresses(updatedAddresses));
+    saveAddress(updatedAddresses);
 
     // Close form
     setShowForm(false);
@@ -91,7 +92,7 @@ const AddressPage = () => {
       // Remove from Redux
       const updatedAddresses = addresses.filter((addr) => addr._id !== id);
       dispatch(setUserAddresses(updatedAddresses));
-
+      saveAddress(updatedAddresses);
       console.log("Address deleted");
     } catch (error) {
       console.error("Error deleting address:", error);
