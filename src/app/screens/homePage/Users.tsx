@@ -29,7 +29,7 @@ const Users = () => {
           {topUsers.slice(0, 12).map((user: User) => (
             <div
               key={user._id}
-              onClick={() => navigate(`/user/${user._id}`)}
+              onClick={() => navigate(`/member/${user._id}`)}
               className="bg-white rounded-xl border border-gray-200 p-4 hover:border-main hover:shadow-md transition-all duration-200 cursor-pointer group"
             >
               {/* Avatar */}

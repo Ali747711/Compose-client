@@ -71,6 +71,17 @@ class UserService {
     }
   };
 
+  public getMember = async (id: string): Promise<User> => {
+    try {
+      const url = `${this.path}/user/member/${id}`;
+      const result = await apiClient.get(url);
+      return result.data.user;
+    } catch (error) {
+      console.log("User Service, [getMember] Error: ", error);
+      throw error;
+    }
+  };
+
   public getUserDetails = async (): Promise<User> => {
     try {
       const url = `${this.path}/user/user-details`;

@@ -1,5 +1,5 @@
 import { GlobalContext } from "../hooks/useGlobal";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { User } from "../../libs/data/types/user";
 import type { CartItem } from "../../libs/data/types/search";
 import { CalendarDate } from "@internationalized/date";
@@ -21,14 +21,17 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       : null,
   );
 
-  //GET address Data in localStorage:
+  // Address data as reactive state
+  const [addressData, setAddressData] = useState<Address[]>(
+    localStorage.getItem("addressData")
+      ? JSON.parse(localStorage.getItem("addressData") as string)
+      : [],
+  );
+
   const saveAddress = (input: Address[]) => {
     localStorage.setItem("addressData", JSON.stringify(input));
+    setAddressData(input);
   };
-
-  const addressData: Address[] = localStorage.getItem("addressData")
-    ? JSON.parse(localStorage.getItem("addressData") as string)
-    : [];
 
   // GET cart data from localStorage
   const getInitilCartData = (): CartItem[] => {
@@ -120,12 +123,24 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [showUserLogin, setShowUserLogin] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const defaultAddress = addressData
-    ? addressData.find((address) => address.isDefault)
-    : null;
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(
-    defaultAddress || addressData[0] || null,
+    addressData.find((a) => a.isDefault) || addressData[0] || null,
   );
+
+  // Keep selectedAddress in sync when addressData changes
+  useEffect(() => {
+    if (addressData.length === 0) {
+      setSelectedAddress(null);
+      return;
+    }
+    // If current selection was deleted, pick new default
+    const stillExists = addressData.find((a) => a._id === selectedAddress?._id);
+    if (!stillExists) {
+      setSelectedAddress(
+        addressData.find((a) => a.isDefault) || addressData[0],
+      );
+    }
+  }, [addressData]);
 
   console.log("========== Context Provider Initialized =========");
   console.log("Authenticated User:", authUser?.userNick || "None");

@@ -26,7 +26,6 @@ import { useEffect, useRef, useState } from "react";
 import Basket from "./Basket";
 import { Drawer, DrawerBody, DrawerContent, DrawerFooter } from "@heroui/react";
 import { Address } from "../../../libs/data/types/address";
-import AddressService from "../../services/address.service";
 
 const Navbar = () => {
   // Global context
@@ -47,9 +46,6 @@ const Navbar = () => {
   const [openBasket, setOpenBasket] = useState<boolean>(false);
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [addressDrawerOpen, setAddressDrawerOpen] = useState(false);
-  const [addresses, setAddresses] = useState<Address[]>(addressData);
-
-  const addressService = new AddressService();
 
   const navbarRef = useRef<HTMLDivElement>(null);
 
@@ -119,17 +115,6 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open, openBasket]);
-
-  const updateAddressData = async () => {
-    return await addressService.getUserAddresses();
-  };
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      const data = await updateAddressData();
-      setAddresses(data);
-    };
-    if (authUser) fetchAddresses();
-  }, [addressData]);
 
   // Handle scroll effect
   useEffect(() => {
@@ -216,7 +201,7 @@ const Navbar = () => {
           <>
             <DrawerBody>
               <div className="border-t border-gray-200 p-4 lg:p-5">
-                {addresses.length === 0 ? (
+                {addressData.length === 0 ? (
                   <div className="text-center py-6">
                     <p className="text-gray-500 mb-3">No saved addresses</p>
                     <button
@@ -231,7 +216,7 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {addresses.map((address: Address) => (
+                    {addressData.map((address: Address) => (
                       <div
                         key={address._id}
                         onClick={() => handleAddressSelect(address)}
