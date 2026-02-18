@@ -1,0 +1,9 @@
+services:
+  compose-frontend:
+    container_name: compose-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:80"

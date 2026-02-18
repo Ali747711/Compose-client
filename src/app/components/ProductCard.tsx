@@ -8,17 +8,17 @@ import {
 import type { Product } from "../../libs/data/types/product";
 import { useGlobals } from "../hooks/useGlobal";
 import type { CartItem } from "../../libs/data/types/search";
-import { useNavigate } from "react-router-dom";
+
 
 interface CardProps {
   product: Product;
 }
 
 const ProductCard = (props: CardProps) => {
-  const { onAdd, onRemove, getItemQuantity } = useGlobals();
+  const { onAdd, onRemove, getItemQuantity, authUser, setShowUserLogin } =
+    useGlobals();
   const { product } = props;
   const quantity = getItemQuantity(product._id);
-  const navigate = useNavigate();
 
   // CREATE cart item from product
   const createCartItem = (): CartItem => ({
@@ -31,9 +31,10 @@ const ProductCard = (props: CardProps) => {
   return (
     <div
       onClick={() => {
-        navigate(
-          `/products/${product.productCollection.toLowerCase()}/${product._id}`
-        );
+        if (!authUser) {
+          setShowUserLogin(true);
+          return;
+        }
         scrollTo(0, 0);
       }}
       className=" mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 w-80 md:w-full max-w-90  min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300"
@@ -80,7 +81,7 @@ const ProductCard = (props: CardProps) => {
                   size={14}
                   color="#e5e7eb"
                 />
-              )
+              ),
             )}
           <p className="text-sm text-gray-600 ml-1">
             ({product.ratingsSummary?.average})
