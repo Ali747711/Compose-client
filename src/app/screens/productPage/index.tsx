@@ -9,10 +9,12 @@ import type { Product } from "../../../libs/data/types/product";
 import { AlertError } from "../../../libs/sweetAlert";
 import Review from "./Review";
 import Recommended from "./Recommended";
+import { useGlobals } from "../../hooks/useGlobal";
 
 const Product = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { authUser } = useGlobals();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,18 +29,23 @@ const Product = () => {
       const productService = new ProductService();
 
       try {
-        // Fetch all products if not already loaded
-        if (!products || products.length === 0) {
-          const allProducts = await productService.getAllProducts();
-          // console.log("Product count: ", allProducts.length);
+        // Fetch all products (public endpoint — works for guests too)
+        let allProducts = products;
+        if (!allProducts || allProducts.length === 0) {
+          allProducts = await productService.getAllProducts();
           dispatch(setProducts(allProducts));
         }
 
-        // Always fetch the chosen product when ID changes
         if (id) {
-          const productData = await productService.getProduct(id);
-          // console.log("Chosen Product Component, data: ", productData);
-          dispatch(setChosenProduct(productData));
+          if (authUser) {
+            // Logged in — use full endpoint (records views, etc.)
+            const productData = await productService.getProduct(id);
+            dispatch(setChosenProduct(productData));
+          } else {
+            // Guest — find from the public products list
+            const productData = allProducts.find((p) => p._id === id) ?? null;
+            dispatch(setChosenProduct(productData));
+          }
         }
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));
