@@ -8,15 +8,14 @@ import {
 import type { Product } from "../../libs/data/types/product";
 import { useGlobals } from "../hooks/useGlobal";
 import type { CartItem } from "../../libs/data/types/search";
-
+import { Link } from "react-router-dom";
 
 interface CardProps {
   product: Product;
 }
 
 const ProductCard = (props: CardProps) => {
-  const { onAdd, onRemove, getItemQuantity, authUser, setShowUserLogin } =
-    useGlobals();
+  const { onAdd, onRemove, getItemQuantity } = useGlobals();
   const { product } = props;
   const quantity = getItemQuantity(product._id);
 
@@ -28,16 +27,12 @@ const ProductCard = (props: CardProps) => {
     image: product.productImages[0],
     quantity: 1,
   });
+
   return (
-    <div
-      onClick={() => {
-        if (!authUser) {
-          setShowUserLogin(true);
-          return;
-        }
-        scrollTo(0, 0);
-      }}
-      className=" mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 w-80 md:w-full max-w-90  min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300"
+    <Link
+      to={`/products/${product.productCollection?.toLowerCase()}/${product._id}`}
+      onClick={() => scrollTo(0, 0)}
+      className="mt-3 md:mt-10 border border-gray-200 rounded-xl md:px-5 px-4 py-3 bg-white min-w-40 w-80 md:w-full max-w-90 min-h-80 m-auto shadow-sm hover:shadow-lg hover:border-main/30 transition-all duration-300 block"
     >
       {/* Image Container with Yellow Accent */}
       <div className="group cursor-pointer flex items-center justify-center px-2 py-3 bg-white rounded-lg mb-3 relative overflow-hidden">
@@ -113,7 +108,7 @@ const ProductCard = (props: CardProps) => {
           </div>
 
           {/* Add to Cart Button */}
-          <div onClick={(e) => e.stopPropagation()}>
+          <div onClick={(e) => e.preventDefault()}>
             {quantity === 0 ? (
               <button
                 className="flex items-center justify-center gap-1.5 bg-main hover:bg-main-dull border-2 border-main hover:border-main-dull md:px-5 px-4 h-10 rounded-lg text-gray-900 font-semibold transition-all duration-200 shadow-sm hover:shadow-md active:scale-95"
@@ -144,7 +139,7 @@ const ProductCard = (props: CardProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

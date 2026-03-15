@@ -142,8 +142,6 @@ const ContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, [addressData]);
 
-  console.log("========== Context Provider Initialized =========");
-  console.log("Authenticated User:", authUser?.userNick || "None");
   return (
     <GlobalContext.Provider
       value={{

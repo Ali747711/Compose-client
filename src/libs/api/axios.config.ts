@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
+import Swal from "sweetalert2";
 
 // Create axios instance
 export const apiClient = axios.create({
@@ -52,18 +53,36 @@ apiClient.interceptors.response.use(
       if (!isAuthRequest) {
         localStorage.removeItem("userData");
         localStorage.removeItem("token");
-        window.location.href = "/";
+        Swal.fire({
+          icon: "warning",
+          title: "Session Expired",
+          text: "Your session has expired. Please log in again.",
+          timer: 2500,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = "/";
+        });
       }
     }
 
     // Handle 403 - Forbidden
     if (error.response?.status === 403) {
-      console.error("Access forbidden");
+      Swal.fire({
+        icon: "error",
+        text: "Access denied. You don't have permission to perform this action.",
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
 
     // Handle 500 - Server Error
     if (error.response?.status === 500) {
-      console.error("Server error");
+      Swal.fire({
+        icon: "error",
+        text: "Server error. Please try again later.",
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
 
     return Promise.reject(error);
